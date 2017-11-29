@@ -118,6 +118,20 @@ class Utility
 
         return new static($value);
     }
+    /**
+     * Multiply a number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     */
+    public function multiply($number)
+    {
+        $value = $this->number * (new static($number))->value();
+
+        return new static($value);
+    }
 
     /**
      * Return the value when casting to string
