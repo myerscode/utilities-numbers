@@ -106,6 +106,18 @@ class Utility
     }
 
     /**
+     * Create a new instance of the number utility
+     *
+     * @param $number
+     *
+     * @return static
+     */
+    public static function make($number)
+    {
+        return new static($number);
+    }
+
+    /**
      * Minus a number
      *
      * @param $number
