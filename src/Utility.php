@@ -2,6 +2,7 @@
 
 namespace Myerscode\Utilities\Numbers;
 
+use DivisionByZeroError;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 
 /**
@@ -64,9 +65,31 @@ class Utility
      */
     public function ceil()
     {
-        $number = ceil($this->number);
+        $value = ceil($this->number);
 
-        return new static($number);
+        return new static($value);
+    }
+
+    /**
+     * Divide the number by the number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     * @throws \DivisionByZeroError
+     */
+    public function divide($number)
+    {
+        $divisible = new static($number);
+
+        if ($divisible->value() == 0 || $this->number == 0) {
+            throw new DivisionByZeroError();
+        }
+
+        $value = $this->number / $divisible->value();
+
+        return new static($value);
     }
 
     /**
