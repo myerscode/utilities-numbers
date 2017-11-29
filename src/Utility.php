@@ -3,6 +3,7 @@
 namespace Myerscode\Utilities\Numbers;
 
 use DivisionByZeroError;
+use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 
 /**
@@ -169,6 +170,52 @@ class Utility
     public function padRight($padding = 1)
     {
         return $this->pad($padding, STR_PAD_RIGHT);
+    }
+
+    /**
+     * Round a number
+     *
+     * @param int $precision
+     * @param int $mode
+     *
+     * @return Utility
+     * @throws InvalidNumberException
+     */
+    private function round($number, $precision, int $mode)
+    {
+        if ($precision < 0) {
+            throw new InvalidNumberException('Precision value should be greater or equal to zero');
+        }
+
+        $value = round($number, $precision, $mode);
+
+        return new static($value);
+    }
+
+    /**
+     * Round down the number
+     *
+     * @param int $precision
+     *
+     * @return Utility
+     * @throws InvalidNumberException
+     */
+    public function roundDown(int $precision = 0)
+    {
+        return $this->round($this->number, $precision, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Round up the number
+     *
+     * @param int $precision
+     *
+     * @return Utility
+     * @throws InvalidNumberException
+     */
+    public function roundUp(int $precision = 0)
+    {
+        return $this->round($this->number, $precision, PHP_ROUND_HALF_UP);
     }
 
     /**
