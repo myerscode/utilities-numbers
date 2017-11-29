@@ -193,6 +193,22 @@ class Utility
     }
 
     /**
+     * The numbers type
+     *
+     * @return string
+     */
+    public function type()
+    {
+        $type = gettype($this->number);
+
+        if ('double' == $type) {
+            return 'float';
+        }
+
+        return 'int';
+    }
+
+    /**
      * Round down the number
      *
      * @param int $precision
