@@ -45,6 +45,16 @@ class Utility
     }
 
     /**
+     * Return the value when casting to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->value();
+    }
+
+    /**
      * Add a number to current number
      *
      * @param $number
@@ -175,18 +185,6 @@ class Utility
     }
 
     /**
-     * Returns the ordinal version of a number (appends th, st, nd, rd).
-     *
-     * @param string $spacer
-     *
-     * @return string
-     */
-    public function withOrdinal($spacer = '')
-    {
-        return $this->number . $spacer . $this->ordinal();
-    }
-
-    /**
      * Add padding to the number
      *
      * @param int $padding
@@ -244,22 +242,6 @@ class Utility
     }
 
     /**
-     * The numbers type
-     *
-     * @return string
-     */
-    public function type()
-    {
-        $type = gettype($this->number);
-
-        if ('double' == $type) {
-            return 'float';
-        }
-
-        return 'int';
-    }
-
-    /**
      * Round down the number
      *
      * @param int $precision
@@ -286,13 +268,19 @@ class Utility
     }
 
     /**
-     * Return the value when casting to string
+     * The numbers type
      *
      * @return string
      */
-    public function __toString()
+    public function type()
     {
-        return (string)$this->value();
+        $type = gettype($this->number);
+
+        if ('double' == $type) {
+            return 'float';
+        }
+
+        return 'int';
     }
 
     /**
@@ -303,5 +291,17 @@ class Utility
     public function value()
     {
         return $this->number;
+    }
+
+    /**
+     * Returns the ordinal version of a number (appends th, st, nd, rd).
+     *
+     * @param string $spacer
+     *
+     * @return string
+     */
+    public function withOrdinal($spacer = '')
+    {
+        return $this->number . $spacer . $this->ordinal();
     }
 }
