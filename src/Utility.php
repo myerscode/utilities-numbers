@@ -58,6 +58,18 @@ class Utility
     }
 
     /**
+     * Ceil the number
+     *
+     * @return Utility
+     */
+    public function ceil()
+    {
+        $number = ceil($this->number);
+
+        return new static($number);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
