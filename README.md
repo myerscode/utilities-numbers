@@ -1,26 +1,28 @@
 # Numbers Utilities
-a helper class for the fluent use and manipulation of number values
+a helper class for the immutable, fluent use and manipulation of number values
 
 ## Install
 
 You can install this package via composer:
 
 ``` bash
-    composer require myerscode/utilities-numbers
+composer require myerscode/utilities-numbers
 ```
 
 ## Usage
 Create a new instance of the utility class, passing in an initial value
 ```php
 $u = new Utility(123);
-$n->add(7)->minus(30)->divide(10);
-echo $n;
+echo $n->add(7)->minus(30)->divide(10);
 // 10
+echo $n;
+// 123
 
 $n = Utility::make(123);
-$n->add(7)->minus(30)->divide(10);
-echo $n;
+echo $n->add(7)->minus(30)->divide(10);
 // 10
+echo $n;
+// 123
 ```
 
 ### Add
@@ -38,8 +40,7 @@ $n->add(10);
 round up the number using ceil
 ```php
 $n = new Utility(4.3);
-$n->ceil();
-echo $n; 
+echo $n->ceil();
 // 5
 ```
 
@@ -47,8 +48,7 @@ echo $n;
 divide the original by the passed value
 ```php
 $n = new Utility(25);
-$n->divide(5);
-echo $n; 
+echo $n->divide(5);
 // 1
 ```
 
@@ -56,17 +56,23 @@ echo $n;
 round down the value using floor
 ```php
 $n = new Utility(4.3);
-$n->floor();
-echo $n; 
+echo $n->floor();
 // 4
+```
+
+### Magnitude
+get the order of magnitude of the number
+```php
+$n = new Utility(1000);
+echo $n->magnitude();
+// 3
 ```
 
 ### Minus
 minus a value
 ```php
 $n = new Utility(14);
-$n->minus(7);
-echo $n; 
+echo $n->minus(7);
 // 7
 ```
 
@@ -74,8 +80,7 @@ echo $n;
 multiply the value
 ```php
 $n = new Utility(7);
-$n->multiply(7);
-echo $n; 
+echo $n->multiply(7);
 // 49
 ```
 
@@ -85,8 +90,6 @@ get the ordinal version of a number (st, nd, nd, th)
 $n = new Utility(1);
 echo $n->ordinal(); 
 // st
-echo $n->ordinal(true); 
-// 1st
 ```
 
 ### Round Down
