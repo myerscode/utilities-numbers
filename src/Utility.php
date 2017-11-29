@@ -2,6 +2,8 @@
 
 namespace Myerscode\Utilities\Numbers;
 
+use DivisionByZeroError;
+use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 
 /**
@@ -40,6 +42,247 @@ class Utility
         }
 
         $this->number = $number;
+    }
+
+    /**
+     * Add a number to current number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     */
+    public function add($number)
+    {
+        $number = $this->number + (new static($number))->value();
+
+        return new static($number);
+    }
+
+    /**
+     * Ceil the number
+     *
+     * @return Utility
+     */
+    public function ceil()
+    {
+        $value = ceil($this->number);
+
+        return new static($value);
+    }
+
+    /**
+     * Divide the number by the number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     * @throws \DivisionByZeroError
+     */
+    public function divide($number)
+    {
+        $divisible = new static($number);
+
+        if ($divisible->value() == 0 || $this->number == 0) {
+            throw new DivisionByZeroError();
+        }
+
+        $value = $this->number / $divisible->value();
+
+        return new static($value);
+    }
+
+    /**
+     * Floor the number
+     *
+     * @return Utility
+     */
+    public function floor()
+    {
+        $value = floor($this->number);
+
+        return new static($value);
+    }
+
+    /**
+     * Create a new instance of the number utility
+     *
+     * @param $number
+     *
+     * @return static
+     */
+    public static function make($number)
+    {
+        return new static($number);
+    }
+
+    /**
+     * Minus a number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     */
+    public function minus($number)
+    {
+        $value = $this->number - (new static($number))->value();
+
+        return new static($value);
+    }
+
+    /**
+     * Multiply a number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     */
+    public function multiply($number)
+    {
+        $value = $this->number * (new static($number))->value();
+
+        return new static($value);
+    }
+
+    /**
+     * Returns the ordinal version of a number (appends th, st, nd, rd).
+     *
+     * @return string
+     */
+    public function ordinal()
+    {
+        $abs = abs($this->number);
+
+        switch ($abs % 10) {
+            case 1:
+                $ordinal = ($abs % 100 === 11) ? 'th' : 'st';
+                break;
+            case 2:
+                $ordinal = ($abs % 100 === 12) ? 'th' : 'nd';
+                break;
+            case 3:
+                $ordinal = ($abs % 100 === 13) ? 'th' : 'rd';
+                break;
+            default:
+                $ordinal = 'th';
+                break;
+        }
+
+        return $ordinal;
+    }
+
+    /**
+     * Returns the ordinal version of a number (appends th, st, nd, rd).
+     *
+     * @param string $spacer
+     *
+     * @return string
+     */
+    public function withOrdinal($spacer = '')
+    {
+        return $this->number . $spacer . $this->ordinal();
+    }
+
+    /**
+     * Add padding to the number
+     *
+     * @param int $padding
+     * @param int $direction
+     *
+     * @return string
+     */
+    private function pad($padding = 1, $direction = STR_PAD_BOTH)
+    {
+        return str_pad($this->number, $padding, 0, $direction);
+    }
+
+    /**
+     * Add padding on the left of an the number.
+     *
+     * @param int $padding
+     *
+     * @return string
+     */
+    public function padLeft($padding = 1)
+    {
+        return $this->pad($padding, STR_PAD_LEFT);
+    }
+
+    /**
+     * Add padding on the right of an the number.
+     *
+     * @param int $padding
+     *
+     * @return string
+     */
+    public function padRight($padding = 1)
+    {
+        return $this->pad($padding, STR_PAD_RIGHT);
+    }
+
+    /**
+     * Round a number
+     *
+     * @param int $precision
+     * @param int $mode
+     *
+     * @return Utility
+     * @throws InvalidNumberException
+     */
+    private function round($number, $precision, int $mode)
+    {
+        if ($precision < 0) {
+            throw new InvalidNumberException('Precision value should be greater or equal to zero');
+        }
+
+        $value = round($number, $precision, $mode);
+
+        return new static($value);
+    }
+
+    /**
+     * The numbers type
+     *
+     * @return string
+     */
+    public function type()
+    {
+        $type = gettype($this->number);
+
+        if ('double' == $type) {
+            return 'float';
+        }
+
+        return 'int';
+    }
+
+    /**
+     * Round down the number
+     *
+     * @param int $precision
+     *
+     * @return Utility
+     * @throws InvalidNumberException
+     */
+    public function roundDown(int $precision = 0)
+    {
+        return $this->round($this->number, $precision, PHP_ROUND_HALF_DOWN);
+    }
+
+    /**
+     * Round up the number
+     *
+     * @param int $precision
+     *
+     * @return Utility
+     * @throws InvalidNumberException
+     */
+    public function roundUp(int $precision = 0)
+    {
+        return $this->round($this->number, $precision, PHP_ROUND_HALF_UP);
     }
 
     /**
