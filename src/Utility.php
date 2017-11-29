@@ -148,6 +148,45 @@ class Utility
     }
 
     /**
+     * Returns the ordinal version of a number (appends th, st, nd, rd).
+     *
+     * @return string
+     */
+    public function ordinal()
+    {
+        $abs = abs($this->number);
+
+        switch ($abs % 10) {
+            case 1:
+                $ordinal = ($abs % 100 === 11) ? 'th' : 'st';
+                break;
+            case 2:
+                $ordinal = ($abs % 100 === 12) ? 'th' : 'nd';
+                break;
+            case 3:
+                $ordinal = ($abs % 100 === 13) ? 'th' : 'rd';
+                break;
+            default:
+                $ordinal = 'th';
+                break;
+        }
+
+        return $ordinal;
+    }
+
+    /**
+     * Returns the ordinal version of a number (appends th, st, nd, rd).
+     *
+     * @param string $spacer
+     *
+     * @return string
+     */
+    public function withOrdinal($spacer = '')
+    {
+        return $this->number . $spacer . $this->ordinal();
+    }
+
+    /**
      * Add padding to the number
      *
      * @param int $padding
