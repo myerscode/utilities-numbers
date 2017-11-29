@@ -63,6 +63,14 @@ echo $n;
 // 4
 ```
 
+### Magnitude
+get the order of magnitude of the number
+```php
+$n = new Utility(1000);
+echo $n->magnitude();
+// 3
+```
+
 ### Minus
 minus a value
 ```php

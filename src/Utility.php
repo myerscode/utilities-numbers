@@ -128,6 +128,22 @@ class Utility
     }
 
     /**
+     * Get the order of magnitude of the number
+     *
+     * @return Utility
+     */
+    public function magnitude()
+    {
+        if ($this->number == 0) {
+            $magnitude = 0;
+        } else {
+            $magnitude = floor(log10(abs($this->number)));
+        }
+
+        return new static($magnitude);
+    }
+
+    /**
      * Minus a number
      *
      * @param $number
