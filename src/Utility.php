@@ -43,6 +43,21 @@ class Utility
     }
 
     /**
+     * Add a number to current number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     */
+    public function add($number)
+    {
+        $number = $this->number + (new static($number))->value();
+
+        return new static($number);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
