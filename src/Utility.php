@@ -93,6 +93,18 @@ class Utility
     }
 
     /**
+     * Floor the number
+     *
+     * @return Utility
+     */
+    public function floor()
+    {
+        $value = floor($this->number);
+
+        return new static($value);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
