@@ -1,5 +1,5 @@
 # Numbers Utilities
-a helper class for the fluent use and manipulation of number values
+a helper class for the immutable, fluent use and manipulation of number values
 
 ## Install
 
@@ -13,14 +13,16 @@ You can install this package via composer:
 Create a new instance of the utility class, passing in an initial value
 ```php
 $u = new Utility(123);
-$n->add(7)->minus(30)->divide(10);
-echo $n;
+echo $n->add(7)->minus(30)->divide(10);
 // 10
+echo $n;
+// 123
 
 $n = Utility::make(123);
-$n->add(7)->minus(30)->divide(10);
-echo $n;
+echo $n->add(7)->minus(30)->divide(10);
 // 10
+echo $n;
+// 123
 ```
 
 ### Add
@@ -85,8 +87,6 @@ get the ordinal version of a number (st, nd, nd, th)
 $n = new Utility(1);
 echo $n->ordinal(); 
 // st
-echo $n->ordinal(true); 
-// 1st
 ```
 
 ### Round Down
