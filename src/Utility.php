@@ -105,6 +105,21 @@ class Utility
     }
 
     /**
+     * Minus a number
+     *
+     * @param $number
+     *
+     * @return Utility
+     * @throws NonNumericValueException
+     */
+    public function minus($number)
+    {
+        $value = $this->number - (new static($number))->value();
+
+        return new static($value);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
