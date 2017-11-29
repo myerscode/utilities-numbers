@@ -118,6 +118,7 @@ class Utility
 
         return new static($value);
     }
+
     /**
      * Multiply a number
      *
@@ -131,6 +132,43 @@ class Utility
         $value = $this->number * (new static($number))->value();
 
         return new static($value);
+    }
+
+    /**
+     * Add padding to the number
+     *
+     * @param int $padding
+     * @param int $direction
+     *
+     * @return string
+     */
+    private function pad($padding = 1, $direction = STR_PAD_BOTH)
+    {
+        return str_pad($this->number, $padding, 0, $direction);
+    }
+
+    /**
+     * Add padding on the left of an the number.
+     *
+     * @param int $padding
+     *
+     * @return string
+     */
+    public function padLeft($padding = 1)
+    {
+        return $this->pad($padding, STR_PAD_LEFT);
+    }
+
+    /**
+     * Add padding on the right of an the number.
+     *
+     * @param int $padding
+     *
+     * @return string
+     */
+    public function padRight($padding = 1)
+    {
+        return $this->pad($padding, STR_PAD_RIGHT);
     }
 
     /**
