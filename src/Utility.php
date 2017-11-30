@@ -238,8 +238,19 @@ class Utility
     }
 
     /**
+     * @param int $exponent
+     *
+     * @return Utility
+     */
+    public function power(int $exponent)
+    {
+        return new static(pow($this->number, $exponent));
+    }
+
+    /**
      * Round a number
      *
+     * @param $number
      * @param int $precision
      * @param int $mode
      *
