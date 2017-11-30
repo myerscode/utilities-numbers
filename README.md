@@ -26,74 +26,63 @@ echo $n;
 ```
 
 ### Add
-add a number
+Add a number
 ```php
-$n = new Utility(5);
-$n->add(5);
-echo $n; 
-// 10
-$n->add(10);
+echo (new Utility(5))->add(10);
 // 20
 ```
 
 ### Ceil
-round up the number using ceil
+Round up the number using ceil
 ```php
-$n = new Utility(4.3);
-echo $n->ceil();
+echo (new Utility(4.3))->ceil();
 // 5
 ```
 
 ### Divide
-divide the original by the passed value
+Divide the original by the passed value
 ```php
-$n = new Utility(25);
-echo $n->divide(5);
+echo (new Utility(25))->divide(5);
 // 1
 ```
 
 ### Floor
-round down the value using floor
+Round down the value using floor
 ```php
-$n = new Utility(4.3);
-echo $n->floor();
+echo (new Utility(4.3))->floor();
 // 4
 ```
 
 ### Magnitude
-get the order of magnitude of the number
+Get the order of magnitude of the number
 ```php
-$n = new Utility(1000);
-echo $n->magnitude();
+echo (new Utility(1000))->magnitude();
 // 3
 ```
 
 ### Minus
-minus a value
+Minus a value from the number
 ```php
-$n = new Utility(14);
-echo $n->minus(7);
+echo (new Utility(14))->minus(7);
 // 7
 ```
 
 ### Multiply
-multiply the value
+Multiply the number
 ```php
-$n = new Utility(7);
-echo $n->multiply(7);
+echo (new Utility(7))->multiply(7);
 // 49
 ```
 
 ### Ordinal
-get the ordinal version of a number (st, nd, nd, th)
+Get the ordinal version of a number (st, nd, nd, th)
 ```php
-$n = new Utility(1);
-echo $n->ordinal(); 
+echo (new Utility(1))->ordinal(); 
 // st
 ```
 
 ### Round Down
-round down the number to a given precision
+Round down the number to a given precision
 ```php
 $n = new Utility(4.3);
 echo $n->roundDown(); 
@@ -123,15 +112,14 @@ echo $n->roundUp(3);
 ### Type
 Get the type name of the current value
 ```php
-$n = new Utility(7);
-echo $n->roundUp(); 
+echo (new Utility(7))->type(); 
 // int
-$n = new Utility(4.9);
-echo $n->roundUp(); 
+echo (new Utility(4.9))->type(); 
 // float
 ```
+
 ### With Ordinal
-get the ordinal version of a number (st, nd, nd, th)
+Get the number with its ordinal (st, nd, nd, th)
 ```php
 $n = new Utility(1);
 echo $n->withOrdinal(); 
