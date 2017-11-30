@@ -81,6 +81,13 @@ echo (new Utility(1))->ordinal();
 // st
 ```
 
+### Power
+Power the number by a given exponent
+```php
+echo (new Utility(125))->ordinal(3); 
+// 125
+```
+
 ### Round Down
 Round down the number to a given precision
 ```php
