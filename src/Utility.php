@@ -4,6 +4,7 @@ namespace Myerscode\Utilities\Numbers;
 
 use DivisionByZeroError;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
+use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 
 /**
@@ -113,6 +114,20 @@ class Utility
         $value = floor($this->number);
 
         return new static($value);
+    }
+
+    /**
+     * Is the number negative
+     *
+     * @return bool
+     * @throws IsZeroException
+     */
+    public function isNegative(): bool
+    {
+        if ($this->number === 0 ){
+            throw new IsZeroException('0 is neither positive or negative');
+        }
+        return (!is_int($this->number) && $this->number < 0 || $this->number < 0);
     }
 
     /**
