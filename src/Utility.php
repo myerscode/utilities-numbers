@@ -50,7 +50,7 @@ class Utility
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->value();
     }
@@ -63,7 +63,7 @@ class Utility
      * @return Utility
      * @throws NonNumericValueException
      */
-    public function add($number)
+    public function add($number): Utility
     {
         $number = $this->number + (new static($number))->value();
 
@@ -74,8 +74,9 @@ class Utility
      * Ceil the number
      *
      * @return Utility
+     * @throws NonNumericValueException
      */
-    public function ceil()
+    public function ceil(): Utility
     {
         $value = ceil($this->number);
 
@@ -91,7 +92,7 @@ class Utility
      * @throws NonNumericValueException
      * @throws \DivisionByZeroError
      */
-    public function divide($number)
+    public function divide($number): Utility
     {
         $divisible = new static($number);
 
@@ -108,8 +109,9 @@ class Utility
      * Floor the number
      *
      * @return Utility
+     * @throws NonNumericValueException
      */
-    public function floor()
+    public function floor(): Utility
     {
         $value = floor($this->number);
 
@@ -135,9 +137,10 @@ class Utility
      *
      * @param $number
      *
-     * @return static
+     * @return Utility
+     * @throws NonNumericValueException
      */
-    public static function make($number)
+    public static function make($number): Utility
     {
         return new static($number);
     }
@@ -146,8 +149,9 @@ class Utility
      * Get the order of magnitude of the number
      *
      * @return Utility
+     * @throws NonNumericValueException
      */
-    public function magnitude()
+    public function magnitude(): Utility
     {
         if ($this->number == 0) {
             $magnitude = 0;
@@ -166,7 +170,7 @@ class Utility
      * @return Utility
      * @throws NonNumericValueException
      */
-    public function minus($number)
+    public function minus($number): Utility
     {
         $value = $this->number - (new static($number))->value();
 
@@ -181,7 +185,7 @@ class Utility
      * @return Utility
      * @throws NonNumericValueException
      */
-    public function multiply($number)
+    public function multiply($number): Utility
     {
         $value = $this->number * (new static($number))->value();
 
@@ -193,7 +197,7 @@ class Utility
      *
      * @return string
      */
-    public function ordinal()
+    public function ordinal(): string
     {
         $abs = abs($this->number);
 
@@ -223,7 +227,7 @@ class Utility
      *
      * @return string
      */
-    private function pad($padding = 1, $direction = STR_PAD_BOTH)
+    private function pad($padding = 1, $direction = STR_PAD_BOTH): string
     {
         return str_pad($this->number, $padding, 0, $direction);
     }
@@ -235,7 +239,7 @@ class Utility
      *
      * @return string
      */
-    public function padLeft($padding = 1)
+    public function padLeft($padding = 1): string
     {
         return $this->pad($padding, STR_PAD_LEFT);
     }
@@ -247,7 +251,7 @@ class Utility
      *
      * @return string
      */
-    public function padRight($padding = 1)
+    public function padRight($padding = 1): string
     {
         return $this->pad($padding, STR_PAD_RIGHT);
     }
@@ -256,8 +260,9 @@ class Utility
      * @param int $exponent
      *
      * @return Utility
+     * @throws NonNumericValueException
      */
-    public function power(int $exponent)
+    public function power(int $exponent): Utility
     {
         return new static(pow($this->number, $exponent));
     }
@@ -271,8 +276,9 @@ class Utility
      *
      * @return Utility
      * @throws InvalidNumberException
+     * @throws NonNumericValueException
      */
-    private function round($number, $precision, int $mode)
+    private function round($number, $precision, int $mode): Utility
     {
         if ($precision < 0) {
             throw new InvalidNumberException('Precision value should be greater or equal to zero');
@@ -290,8 +296,9 @@ class Utility
      *
      * @return Utility
      * @throws InvalidNumberException
+     * @throws NonNumericValueException
      */
-    public function roundDown(int $precision = 0)
+    public function roundDown(int $precision = 0): Utility
     {
         return $this->round($this->number, $precision, PHP_ROUND_HALF_DOWN);
     }
@@ -303,8 +310,9 @@ class Utility
      *
      * @return Utility
      * @throws InvalidNumberException
+     * @throws NonNumericValueException
      */
-    public function roundUp(int $precision = 0)
+    public function roundUp(int $precision = 0): Utility
     {
         return $this->round($this->number, $precision, PHP_ROUND_HALF_UP);
     }
@@ -314,7 +322,7 @@ class Utility
      *
      * @return string
      */
-    public function type()
+    public function type(): string
     {
         $type = gettype($this->number);
 
@@ -342,7 +350,7 @@ class Utility
      *
      * @return string
      */
-    public function withOrdinal($spacer = '')
+    public function withOrdinal($spacer = ''): string
     {
         return $this->number . $spacer . $this->ordinal();
     }
