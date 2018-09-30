@@ -1,5 +1,10 @@
 # Numbers Utilities
-a helper class for the immutable, fluent use and manipulation of number values
+> A PHP helper utility class for the immutable, fluent use and manipulation of numeric values
+
+[![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-numbers/v/stable)](https://packagist.org/packages/myerscode/utilities-numbers)
+[![Total Downloads](https://poser.pugx.org/myerscode/utilities-numbers/downloads)](https://packagist.org/packages/myerscode/utilities-numbers)
+[![License](https://poser.pugx.org/myerscode/utilities-numbers/license)](https://packagist.org/packages/myerscode/utilities-numbers)
+
 
 ## Install
 
