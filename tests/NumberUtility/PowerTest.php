@@ -26,6 +26,7 @@ class PowerTest extends BaseNumberSuite
      *
      * @param number $expected The value expected to be returned
      * @param number $number The value to pass to the utility
+     * @param number $exponent The number to power by
      *
      * @dataProvider dataProvider
      * @covers ::power

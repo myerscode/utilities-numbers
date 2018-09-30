@@ -1,5 +1,10 @@
 # Numbers Utilities
-a helper class for the immutable, fluent use and manipulation of number values
+> A PHP helper utility class for the immutable, fluent use and manipulation of numeric values
+
+[![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-numbers/v/stable)](https://packagist.org/packages/myerscode/utilities-numbers)
+[![Total Downloads](https://poser.pugx.org/myerscode/utilities-numbers/downloads)](https://packagist.org/packages/myerscode/utilities-numbers)
+[![License](https://poser.pugx.org/myerscode/utilities-numbers/license)](https://packagist.org/packages/myerscode/utilities-numbers)
+
 
 ## Install
 
@@ -53,6 +58,13 @@ echo (new Utility(4.3))->floor();
 // 4
 ```
 
+### Factors
+Get the factors that make up the current number
+```php
+echo (new Utility(12))->factors();
+// [1, 2, 3, 4, 6, 12]
+```
+
 ### Magnitude
 Get the order of magnitude of the number
 ```php
@@ -79,6 +91,13 @@ Get the ordinal version of a number (st, nd, nd, th)
 ```php
 echo (new Utility(1))->ordinal(); 
 // st
+```
+
+### Power
+Power the number by a given exponent
+```php
+echo (new Utility(125))->ordinal(3); 
+// 125
 ```
 
 ### Round Down
