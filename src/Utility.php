@@ -106,6 +106,35 @@ class Utility
     }
 
     /**
+     * Get the factors for the number
+     *
+     * @return array
+     * @throws InvalidNumberException
+     */
+    public function factors(): array
+    {
+        // 0 has infinite factors
+        if ($this->number === 0 || !is_int($this->number)) {
+            throw new InvalidNumberException();
+        }
+
+        $x = abs($this->number);
+        $sqrx = floor(sqrt($x));
+
+        $factors = [];
+        for ($i = 1; $i <= $sqrx; $i++) {
+            if ($x % $i === 0) {
+                $factors[] = $i;
+                if ($i !== $sqrx) {
+                    $factors[] = $x / $i;
+                }
+            }
+        }
+        sort($factors);
+        return $factors;
+    }
+
+    /**
      * Floor the number
      *
      * @return Utility

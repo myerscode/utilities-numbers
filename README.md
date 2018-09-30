@@ -58,6 +58,13 @@ echo (new Utility(4.3))->floor();
 // 4
 ```
 
+### Factors
+Get the factors that make up the current number
+```php
+echo (new Utility(12))->factors();
+// [1, 2, 3, 4, 6, 12]
+```
+
 ### Magnitude
 Get the order of magnitude of the number
 ```php
