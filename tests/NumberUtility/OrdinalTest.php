@@ -4,13 +4,10 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
+
 class OrdinalTest extends BaseNumberSuite
 {
-
-    public function ordinalValueProvider()
+    public function __validData(): array
     {
         return [
             ['st', 1],
@@ -25,14 +22,9 @@ class OrdinalTest extends BaseNumberSuite
     }
 
     /**
-     * Get the ordinal of the number
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider ordinalValueProvider
-     * @covers ::ordinal
+     * @dataProvider __validData
      */
-    public function testGetNumbersOrdinalValue($expected, $number)
+    public function testGetNumbersOrdinalValue($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->ordinal());
     }

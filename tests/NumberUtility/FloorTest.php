@@ -4,13 +4,10 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class FloorTest extends BaseNumberSuite
 {
 
-    public function floorValueProvider()
+    public function __validData(): array
     {
         return [
             [4, 4.3],
@@ -22,14 +19,9 @@ class FloorTest extends BaseNumberSuite
     }
 
     /**
-     * Check the number is rounded down correctly
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider floorValueProvider
-     * @covers ::floor
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number)
+    public function testExpectedResults($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->floor()->value());
     }

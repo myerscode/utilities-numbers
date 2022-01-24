@@ -4,12 +4,10 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
+
 class PowerTest extends BaseNumberSuite
 {
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [0, 0, 9],
@@ -22,16 +20,9 @@ class PowerTest extends BaseNumberSuite
     }
 
     /**
-     * Test utility can multiply the number by an exponent correctly
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $number The value to pass to the utility
-     * @param number $exponent The number to power by
-     *
-     * @dataProvider dataProvider
-     * @covers ::power
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number, $exponent)
+    public function testExpectedResults($expected, $number, $exponent): void
     {
         $this->assertEquals($expected, $this->utility($number)->power($exponent)->value());
     }
