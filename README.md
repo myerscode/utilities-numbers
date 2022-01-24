@@ -4,6 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-numbers/v/stable)](https://packagist.org/packages/myerscode/utilities-numbers)
 [![Total Downloads](https://poser.pugx.org/myerscode/utilities-numbers/downloads)](https://packagist.org/packages/myerscode/utilities-numbers)
 [![License](https://poser.pugx.org/myerscode/utilities-numbers/license)](https://packagist.org/packages/myerscode/utilities-numbers)
+![Tests](https://github.com/myerscode/utilities-numbers/workflows/tests/badge.svg?branch=1.x)
 
 
 ## Install
