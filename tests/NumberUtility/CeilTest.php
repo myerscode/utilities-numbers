@@ -4,13 +4,10 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class CeilTest extends BaseNumberSuite
 {
 
-    public function ceilValueProvider()
+    public function __validData(): array
     {
         return [
             [5, 4.3],
@@ -22,14 +19,9 @@ class CeilTest extends BaseNumberSuite
     }
 
     /**
-     * Check the number is rounded up correctly
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider ceilValueProvider
-     * @covers ::ceil
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number)
+    public function testExpectedResults($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->ceil()->value());
     }

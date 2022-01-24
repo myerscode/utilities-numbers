@@ -4,13 +4,9 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class PadLeftTest extends BaseNumberSuite
 {
-
-    public function _valueProvider()
+    public function __validData(): array
     {
         return [
             [001, 3, 1],
@@ -19,14 +15,9 @@ class PadLeftTest extends BaseNumberSuite
     }
 
     /**
-     * Pad a number left
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $number The value to pass to the utility
-     * @dataProvider _valueProvider
-     * @covers ::padLeft
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $pad, $number)
+    public function testExpectedResults($expected, $pad, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->padLeft($pad));
     }

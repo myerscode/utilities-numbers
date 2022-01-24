@@ -4,13 +4,9 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class ValueTest extends BaseNumberSuite
 {
-
-    public function valueProvider()
+    public function __validData(): array
     {
         return [
             ['7', 7],
@@ -23,28 +19,18 @@ class ValueTest extends BaseNumberSuite
     }
 
     /**
-     * Check the value is converted to a string correctly
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider valueProvider
-     * @covers ::__toString
+     * @dataProvider __validData
      */
-    public function testNumberConvertedToString($expected, $number)
+    public function testGetUtilityValue($expected, $number): void
     {
-        $this->assertEquals($expected, $this->utility($number)->__toString());
+        $this->assertEquals($expected, (string)$this->utility($number)->value());
     }
 
     /**
-     * Check the value is converted back to an string correctly
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider valueProvider
-     * @covers ::value
+     * @dataProvider __validData
      */
-    public function testGetUtilityValue($expected, $number)
+    public function testNumberConvertedToString(string $expected, float|int|string $number): void
     {
-        $this->assertEquals($expected, (string)$this->utility($number)->value());
+        $this->assertEquals($expected, $this->utility($number)->__toString());
     }
 }

@@ -4,13 +4,9 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class TypeTest extends BaseNumberSuite
 {
-
-    public function typeValueProvider()
+    public function __validData(): array
     {
         return [
             ['int', 1],
@@ -19,14 +15,9 @@ class TypeTest extends BaseNumberSuite
     }
 
     /**
-     * Get the type of the number
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider typeValueProvider
-     * @covers ::type
+     * @dataProvider __validData
      */
-    public function testValidValueSetViaConstructor($expected, $number)
+    public function testValidValueSetViaConstructor($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->type());
     }

@@ -4,18 +4,15 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class MagnitudeTest extends BaseNumberSuite
 {
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [0, 0],
             [1, 11.235523],
             [-5, -0.000011235523],
-            [13, -12315639128398.232],
+            [13, -12_315_639_128_398.0],
             [3, 1000],
             [2, 999.999999],
             [-2, 0.01],
@@ -23,15 +20,9 @@ class MagnitudeTest extends BaseNumberSuite
     }
 
     /**
-     * Test utility returns correct order of magnitude
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $number The value to pass to the utility
-     *
-     * @dataProvider dataProvider
-     * @covers ::magnitude
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number)
+    public function testExpectedResults($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->magnitude()->value());
     }

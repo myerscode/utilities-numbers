@@ -5,13 +5,18 @@ namespace Tests\NumberUtility;
 use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass \Myerscode\Utilities\Numbers\Utility
- */
 class IsNegativeTest extends BaseNumberSuite
 {
 
-    public function dataProvider()
+    public function __invalidData(): array
+    {
+        return [
+            'minus zero' => [-0],
+            'zero' => [0],
+        ];
+    }
+
+    public function __validData(): array
     {
         return [
             'negative zero decimal' => [true, -0.123],
@@ -22,36 +27,21 @@ class IsNegativeTest extends BaseNumberSuite
         ];
     }
 
-    public function zeroProvider()
-    {
-        return [
-            'minus zero' => [-0],
-            'zero' => [0],
-        ];
-    }
-
     /**
-     * Check that a number is correctly identified a negative number
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $number The value to pass to the utility
-     * @dataProvider dataProvider
-     * @covers ::isNegative
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number)
+    public function testExpectedResults($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->isNegative());
     }
 
     /**
-     * Check that a IsZeroException is thrown if number is 0
-     *
-     * @dataProvider zeroProvider
-     * @covers ::isNegative
+     * @dataProvider __invalidData
      */
-    public function testIsZeroExceptionIsThrownWithZeroValue($zero)
+    public function testIsZeroExceptionIsThrownWithZeroValue($zero): void
     {
         $this->expectException(IsZeroException::class);
         $this->utility($zero)->isNegative();
     }
+
 }

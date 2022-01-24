@@ -2,15 +2,12 @@
 
 namespace Tests\NumberUtility;
 
+use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class RoundDownTest extends BaseNumberSuite
 {
-
-    public function roundDownValueProvider()
+    public function __validData(): array
     {
         return [
             [4, 4.3],
@@ -21,7 +18,7 @@ class RoundDownTest extends BaseNumberSuite
         ];
     }
 
-    public function roundDownPrecisionValueProvider()
+    public function __validPrecisionData(): array
     {
         return [
             [4, 4.2345, 0],
@@ -33,41 +30,25 @@ class RoundDownTest extends BaseNumberSuite
         ];
     }
 
+    public function testExpectedInvalidPrecision(): void
+    {
+        $this->expectException(InvalidNumberException::class);
+        $this->utility(12.3456)->roundDown(-1)->value();
+    }
+
     /**
-     * Check that the number is rounded down correctly
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @dataProvider roundDownValueProvider
-     * @covers ::roundDown
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number)
+    public function testExpectedResults($expected, $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundDown()->value());
     }
 
     /**
-     * Check the number is rounded down with precision
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $number The value to pass to the utility
-     * @param string $precision The precision to goto for rounding up
-     * @dataProvider roundDownPrecisionValueProvider
-     * @covers ::roundDown
+     * @dataProvider __validPrecisionData
      */
-    public function testPrecisionExpectedResults($expected, $number, $precision)
+    public function testPrecisionExpectedResults($expected, $number, $precision): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundDown($precision)->value());
-    }
-
-    /**
-     * Check the number is rounded down with precision
-     *
-     * @expectedException \Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException
-     * @covers ::roundDown
-     */
-    public function testExpectedInvalidPrecision()
-    {
-        $this->utility(12.3456)->roundDown(-1)->value();
     }
 }

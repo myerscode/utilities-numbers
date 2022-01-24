@@ -4,16 +4,9 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class ImmutableTest extends BaseNumberSuite
 {
-
-    /**
-     * Check the number is immutable
-     */
-    public function testExpectedResults()
+    public function testExpectedResults(): void
     {
         $utility = $this->utility(123);
 
