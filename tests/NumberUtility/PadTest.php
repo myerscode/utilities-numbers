@@ -2,15 +2,13 @@
 
 namespace Tests\NumberUtility;
 
+use ReflectionClass;
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
+
 class PadTest extends BaseNumberSuite
 {
-
-    public function roundValueProvider()
+    public function __validData(): array
     {
         return [
             [001, 3, 1, STR_PAD_LEFT],
@@ -20,23 +18,15 @@ class PadTest extends BaseNumberSuite
         ];
     }
 
-
     /**
-     * Check that the number is rounded correctly
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $padding How many numbers to pad
-     * @param string $number The value to pass to the utility
-     * @param string $mode Round mode
-     * @dataProvider roundValueProvider
-     * @covers ::pad
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $padding, $number, $mode)
+    public function testExpectedResults($expected, $padding, $number, $mode): void
     {
-        $class = $this->utility($number);
-        $reflection = new \ReflectionClass(get_class($class));
-        $method = $reflection->getMethod('pad');
-        $method->setAccessible(true);
-        $this->assertEquals($expected, $method->invokeArgs($class, [$padding, $mode]));
+        $utility = $this->utility($number);
+        $reflectionClass = new ReflectionClass($utility::class);
+        $reflectionMethod = $reflectionClass->getMethod('pad');
+        $reflectionMethod->setAccessible(true);
+        $this->assertEquals($expected, $reflectionMethod->invokeArgs($utility, [$padding, $mode]));
     }
 }

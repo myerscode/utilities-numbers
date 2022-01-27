@@ -4,13 +4,9 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class MinusTest extends BaseNumberSuite
 {
-
-    public function minusValueProvider()
+    public function __validData(): array
     {
         return [
             [0, 5, 5],
@@ -22,15 +18,9 @@ class MinusTest extends BaseNumberSuite
     }
 
     /**
-     * Check that a number is subtracted correctly
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $number The value to pass to the utility
-     * @param number $minus The number to add
-     * @dataProvider minusValueProvider
-     * @covers ::minus
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number, $minus)
+    public function testExpectedResults($expected, $number, $minus): void
     {
         $this->assertEquals($expected, $this->utility($number)->minus($minus)->value());
     }

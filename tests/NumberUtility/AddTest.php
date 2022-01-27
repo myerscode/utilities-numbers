@@ -4,13 +4,10 @@ namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Numbers\Utility
- */
 class AddTest extends BaseNumberSuite
 {
 
-    public function addValueProvider()
+    public function __validData(): array
     {
         return [
             [10, 5, 5],
@@ -21,15 +18,9 @@ class AddTest extends BaseNumberSuite
     }
 
     /**
-     * Check that a number is added correctly
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $number The value to pass to the utility
-     * @param number $addition The number to add
-     * @dataProvider addValueProvider
-     * @covers ::add
+     * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number, $addition)
+    public function testExpectedResults($expected, $number, $addition): void
     {
         $this->assertEquals($expected, $this->utility($number)->add($addition)->value());
     }
