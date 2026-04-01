@@ -20,14 +20,16 @@ class Utility implements Stringable
      */
     public function __construct(int|float|string|Utility $number)
     {
-        if (is_numeric($number)) {
-            // set the value to a numeric format
+        if ($number instanceof self) {
+            $number = $number->value();
+        } elseif (is_numeric($number)) {
             $number += 0;
-        } elseif (empty($number)) {
+        } elseif ($number === '') {
             $number = 0;
         } else {
-            $message = gettype($number).' cannot be cast to a valid number';
-            throw new NonNumericValueException($message);
+            throw new NonNumericValueException(
+                gettype($number) . ' cannot be cast to a valid number',
+            );
         }
 
         $this->number = $number;
@@ -38,7 +40,7 @@ class Utility implements Stringable
      */
     public function __toString(): string
     {
-        return (string)$this->value();
+        return (string) $this->number;
     }
 
     /**
@@ -46,9 +48,9 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public static function make(int|float|string|Utility $number): Utility
+    public static function make(int|float|string|Utility $number): self
     {
-        return new Utility($number);
+        return new self($number);
     }
 
     /**
@@ -56,11 +58,9 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function add(int|float|string|Utility $number): Utility
+    public function add(int|float|string|Utility $number): self
     {
-        $number = $this->number + (new self($number))->value();
-
-        return static::make($number);
+        return new self($this->number + $this->resolve($number));
     }
 
     /**
@@ -68,52 +68,51 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function ceil(): Utility
+    public function ceil(): self
     {
-        $value = ceil($this->number);
-
-        return static::make($value);
+        return new self(ceil($this->number));
     }
 
     /**
-     * Divide the number by the number
+     * Divide the number by the given value
      *
+     * @throws DivisionByZeroError
      * @throws NonNumericValueException
      */
-    public function divide(int|float|string|Utility $number): Utility
+    public function divide(int|float|string|Utility $number): self
     {
-        $utility = static::make($number);
+        $divisor = $this->resolve($number);
 
-        if ($utility->value() == 0 || $this->number == 0) {
+        if ($divisor == 0 || $this->number == 0) {
             throw new DivisionByZeroError();
         }
 
-        $value = $this->number / $utility->value();
-
-        return static::make($value);
+        return new self($this->number / $divisor);
     }
 
     /**
      * Get the factors for the number
      *
      * @throws InvalidNumberException
-     * @return float[]|int[]
+     * @return int[]
      */
     public function factors(): array
     {
-        // 0 has infinite factors
         if ($this->number === 0 || !is_int($this->number)) {
             throw new InvalidNumberException();
         }
 
         $x = abs($this->number);
-        $sqrx = floor(sqrt($x));
+        $sqrx = (int) floor(sqrt($x));
 
         $factors = [];
         for ($i = 1; $i <= $sqrx; ++$i) {
             if ($x % $i === 0) {
                 $factors[] = $i;
-                $factors[] = $x / $i;
+                $pair = intdiv($x, $i);
+                if ($pair !== $i) {
+                    $factors[] = $pair;
+                }
             }
         }
 
@@ -127,11 +126,9 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function floor(): Utility
+    public function floor(): self
     {
-        $value = floor($this->number);
-
-        return static::make($value);
+        return new self(floor($this->number));
     }
 
     /**
@@ -153,11 +150,11 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function magnitude(): Utility
+    public function magnitude(): self
     {
         $magnitude = $this->number == 0 ? 0 : floor(log10(abs($this->number)));
 
-        return static::make($magnitude);
+        return new self($magnitude);
     }
 
     /**
@@ -165,11 +162,9 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function minus(int|float|string|Utility $number): Utility
+    public function minus(int|float|string|Utility $number): self
     {
-        $value = $this->number - (static::make($number))->value();
-
-        return static::make($value);
+        return new self($this->number - $this->resolve($number));
     }
 
     /**
@@ -177,11 +172,9 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function multiply(int|float|string|Utility $number): Utility
+    public function multiply(int|float|string|Utility $number): self
     {
-        $value = $this->number * (static::make($number))->value();
-
-        return static::make($value);
+        return new self($this->number * $this->resolve($number));
     }
 
     /**
@@ -200,7 +193,7 @@ class Utility implements Stringable
     }
 
     /**
-     * Add padding on the right of the number, with a given padding value
+     * Pad the number on the left
      */
     public function padLeft(int $padding = 1): string
     {
@@ -208,7 +201,7 @@ class Utility implements Stringable
     }
 
     /**
-     * Add padding on the right of the number, with a given padding value
+     * Pad the number on the right
      */
     public function padRight(int $padding = 1): string
     {
@@ -220,9 +213,9 @@ class Utility implements Stringable
      *
      * @throws NonNumericValueException
      */
-    public function power(int $exponent): Utility
+    public function power(int $exponent): self
     {
-        return static::make($this->number ** $exponent);
+        return new self($this->number ** $exponent);
     }
 
     /**
@@ -231,9 +224,9 @@ class Utility implements Stringable
      * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
-    public function roundDown(int $precision = 0): Utility
+    public function roundDown(int $precision = 0): self
     {
-        return $this->round($this->number, $precision, RoundingMode::HalfTowardsZero);
+        return $this->round($precision, RoundingMode::HalfTowardsZero);
     }
 
     /**
@@ -242,9 +235,9 @@ class Utility implements Stringable
      * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
-    public function roundUp(int $precision = 0): Utility
+    public function roundUp(int $precision = 0): self
     {
-        return $this->round($this->number, $precision, RoundingMode::HalfAwayFromZero);
+        return $this->round($precision, RoundingMode::HalfAwayFromZero);
     }
 
     /**
@@ -252,26 +245,23 @@ class Utility implements Stringable
      */
     public function type(): string
     {
-        $type = gettype($this->number);
-
-        if ('double' === $type) {
-            return 'float';
-        }
-
-        return 'int';
+        return is_int($this->number) ? 'int' : 'float';
     }
 
+    /**
+     * Get the current value of the number
+     */
     public function value(): int|float
     {
         return $this->number;
     }
 
     /**
-     * Returns the ordinal version of a number (appends th, st, nd, rd).
+     * Returns the number with its ordinal suffix
      */
     public function withOrdinal(string $spacer = ''): string
     {
-        return $this->number.$spacer.$this->ordinal();
+        return $this->number . $spacer . $this->ordinal();
     }
 
     /**
@@ -283,19 +273,31 @@ class Utility implements Stringable
     }
 
     /**
+     * Resolve a value to its numeric form
+     *
+     * @throws NonNumericValueException
+     */
+    private function resolve(int|float|string|Utility $number): int|float
+    {
+        if ($number instanceof self) {
+            return $number->value();
+        }
+
+        return (new self($number))->value();
+    }
+
+    /**
      * Round a number
      *
      * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
-    private function round(float|int $number, int $precision, RoundingMode $mode): Utility
+    private function round(int $precision, RoundingMode $mode): self
     {
         if ($precision < 0) {
             throw new InvalidNumberException('Precision value should be greater or equal to zero');
         }
 
-        $value = round($number, $precision, $mode);
-
-        return static::make($value);
+        return new self(round($this->number, $precision, $mode));
     }
 }

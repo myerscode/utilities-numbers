@@ -37,7 +37,7 @@ final class RoundTest extends BaseNumberSuite
         $utility = $this->utility($number);
         $reflectionClass = new ReflectionClass($utility::class);
         $reflectionMethod = $reflectionClass->getMethod('round');
-        $reflectionMethod->invokeArgs($utility, [$number, $precision, $mode]);
+        $reflectionMethod->invokeArgs($utility, [$precision, $mode]);
         $this->assertEquals($expected, $utility->value());
     }
 
@@ -48,7 +48,7 @@ final class RoundTest extends BaseNumberSuite
         $reflectionClass = new ReflectionClass($utility::class);
         $reflectionMethod = $reflectionClass->getMethod('round');
 
-        $newNumber = $reflectionMethod->invokeArgs($utility, [$number, $precision, $mode]);
+        $newNumber = $reflectionMethod->invokeArgs($utility, [$precision, $mode]);
 
         $this->assertEquals($expected, $newNumber->value());
     }
