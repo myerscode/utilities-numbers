@@ -9,10 +9,10 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [abs](#abs) | [isBetween](#isbetween) | [make](#make) | [power](#power) |
 | [add](#add) | [isEven](#iseven) | [minus](#minus) | [roundDown](#rounddown) |
 | [ceil](#ceil) | [isNegative](#isnegative) | [modulo](#modulo) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
-| [divide](#divide) | [isPositive](#ispositive) | [ordinal](#ordinal) | [value](#value) |
-| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [floor](#floor) | [magnitude](#magnitude) | [padRight](#padright) |  |
+| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [sqrt](#sqrt) |
+| [divide](#divide) | [isPositive](#ispositive) | [ordinal](#ordinal) | [type](#type) |
+| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | [value](#value) |
+| [floor](#floor) | [magnitude](#magnitude) | [padRight](#padright) | [withOrdinal](#withordinal) |
 
 ### abs
 > Returns `Utility`
@@ -235,6 +235,15 @@ echo (new Utility(4.5))->roundUp()->value();
 // 5
 echo (new Utility(4.2345))->roundUp(3)->value();
 // 4.235
+```
+
+### sqrt
+> Returns `Utility`
+
+Get the square root of the number. Throws `InvalidNumberException` for negative numbers.
+```php
+echo (new Utility(9))->sqrt()->value();
+// 3
 ```
 
 ### type

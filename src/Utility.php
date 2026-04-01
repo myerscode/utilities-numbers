@@ -332,6 +332,21 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the square root of the number
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function sqrt(): self
+    {
+        if ($this->number < 0) {
+            throw new InvalidNumberException('Cannot calculate square root of a negative number');
+        }
+
+        return new self(sqrt($this->number));
+    }
+
+    /**
      * The numbers type
      */
     public function type(): string
