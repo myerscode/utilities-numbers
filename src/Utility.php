@@ -142,6 +142,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is even
+     */
+    public function isEven(): bool
+    {
+        return is_int($this->number) && $this->number % 2 === 0;
+    }
+
+    /**
      * Is the number negative
      *
      * @throws IsZeroException

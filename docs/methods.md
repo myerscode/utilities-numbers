@@ -6,12 +6,12 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [factors](#factors) | [minus](#minus) | [power](#power) |
-| [add](#add) | [floor](#floor) | [multiply](#multiply) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [roundUp](#roundup) |
-| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [type](#type) |
-| [make](#make) | [isZero](#iszero) | [padRight](#padright) | [value](#value) |
-|  | [magnitude](#magnitude) | [withOrdinal](#withordinal) |  |
+| [abs](#abs) | [floor](#floor) | [minus](#minus) | [roundDown](#rounddown) |
+| [add](#add) | [isEven](#iseven) | [multiply](#multiply) | [roundUp](#roundup) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [type](#type) |
+| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
+| [factors](#factors) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
+|  | [magnitude](#magnitude) | [power](#power) |  |
 
 ### abs
 > Returns `Utility`
@@ -65,6 +65,15 @@ Round down the value using floor.
 ```php
 echo (new Utility(4.3))->floor()->value();
 // 4
+```
+
+### isEven
+> Returns `bool`
+
+Check if the number is an even integer. Returns false for floats.
+```php
+(new Utility(4))->isEven();
+// true
 ```
 
 ### isNegative
