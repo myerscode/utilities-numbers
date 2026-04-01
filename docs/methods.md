@@ -9,10 +9,10 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [abs](#abs) | [floor](#floor) | [minus](#minus) | [roundDown](#rounddown) |
 | [add](#add) | [isEven](#iseven) | [modulo](#modulo) | [roundUp](#roundup) |
 | [ceil](#ceil) | [isNegative](#isnegative) | [multiply](#multiply) | [type](#type) |
-| [divide](#divide) | [isOdd](#isodd) | [ordinal](#ordinal) | [value](#value) |
-| [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [make](#make) | [isZero](#iszero) | [padRight](#padright) |  |
-|  | [magnitude](#magnitude) | [power](#power) |  |
+| [clamp](#clamp) | [isOdd](#isodd) | [ordinal](#ordinal) | [value](#value) |
+| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
+| [factors](#factors) | [isZero](#iszero) | [padRight](#padright) |  |
+| [make](#make) | [magnitude](#magnitude) | [power](#power) |  |
 
 ### abs
 > Returns `Utility`
@@ -39,6 +39,17 @@ Round up the number using ceil.
 ```php
 echo (new Utility(4.3))->ceil()->value();
 // 5
+```
+
+### clamp
+> Returns `Utility`
+
+Constrain the number between a minimum and maximum value.
+```php
+echo (new Utility(15))->clamp(1, 10)->value();
+// 10
+echo (new Utility(-5))->clamp(0, 100)->value();
+// 0
 ```
 
 ### divide

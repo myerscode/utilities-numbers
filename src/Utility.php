@@ -84,6 +84,19 @@ class Utility implements Stringable
     }
 
     /**
+     * Clamp the number between a minimum and maximum
+     *
+     * @throws NonNumericValueException
+     */
+    public function clamp(int|float|string|Utility $min, int|float|string|Utility $max): self
+    {
+        $minValue = $this->resolve($min);
+        $maxValue = $this->resolve($max);
+
+        return new self(max($minValue, min($maxValue, $this->number)));
+    }
+
+    /**
      * Divide the number by the given value
      *
      * @throws DivisionByZeroError
