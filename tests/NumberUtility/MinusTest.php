@@ -1,26 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use Tests\BaseNumberSuite;
 
-class MinusTest extends BaseNumberSuite
+final class MinusTest extends BaseNumberSuite
 {
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            [0, 5, 5],
-            [0.999, 1, 0.001],
-            [0, 0, 0],
-            [-2, -1, 1],
-            [2, 1, -1],
-        ];
+        yield [0, 5, 5];
+        yield [0.999, 1, 0.001];
+        yield [0, 0, 0];
+        yield [-2, -1, 1];
+        yield [2, 1, -1];
     }
 
     /**
      * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number, $minus): void
+    public function testExpectedResults(int|float $expected, int $number, int|float $minus): void
     {
         $this->assertEquals($expected, $this->utility($number)->minus($minus)->value());
     }

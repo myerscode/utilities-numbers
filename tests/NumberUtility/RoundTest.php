@@ -1,61 +1,58 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use ReflectionClass;
 use Tests\BaseNumberSuite;
 
 
-class RoundTest extends BaseNumberSuite
+final class RoundTest extends BaseNumberSuite
 {
 
-    public function __invalidData(): array
+    public function __invalidData(): Iterator
     {
-        return [
-            [10, 9.5, -1, PHP_ROUND_HALF_UP],
-        ];
+        yield [10, 9.5, -1, PHP_ROUND_HALF_UP];
     }
 
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            [10, 9.5, 0, PHP_ROUND_HALF_UP],
-            [9, 9.5, 0, PHP_ROUND_HALF_DOWN],
-            [10, 9.5, 0, PHP_ROUND_HALF_EVEN],
-            [9, 9.5, 0, PHP_ROUND_HALF_ODD],
-            [9, 8.5, 0, PHP_ROUND_HALF_UP],
-            [8, 8.5, 0, PHP_ROUND_HALF_DOWN],
-            [8, 8.5, 0, PHP_ROUND_HALF_EVEN],
-            [9, 8.5, 0, PHP_ROUND_HALF_ODD],
-        ];
+        yield [10, 9.5, 0, PHP_ROUND_HALF_UP];
+        yield [9, 9.5, 0, PHP_ROUND_HALF_DOWN];
+        yield [10, 9.5, 0, PHP_ROUND_HALF_EVEN];
+        yield [9, 9.5, 0, PHP_ROUND_HALF_ODD];
+        yield [9, 8.5, 0, PHP_ROUND_HALF_UP];
+        yield [8, 8.5, 0, PHP_ROUND_HALF_DOWN];
+        yield [8, 8.5, 0, PHP_ROUND_HALF_EVEN];
+        yield [9, 8.5, 0, PHP_ROUND_HALF_ODD];
     }
 
     /**
      * @dataProvider __invalidData
      */
-    public function testExpectedInvalidNumberException($expected, $number, $precision, $mode): void
+    public function testExpectedInvalidNumberException(int $expected, float $number, int $precision, int $mode): void
     {
         $this->expectException(InvalidNumberException::class);
-        $class = $this->utility($number);
-        $reflectionClass = new ReflectionClass($class::class);
-        $method = $reflectionClass->getMethod('round');
-        $method->setAccessible(true);
-        $method->invokeArgs($class, [$number, $precision, $mode]);
-        $this->assertEquals($expected, $class->value());
+        $utility = $this->utility($number);
+        $reflectionClass = new ReflectionClass($utility::class);
+        $reflectionMethod = $reflectionClass->getMethod('round');
+        $reflectionMethod->invokeArgs($utility, [$number, $precision, $mode]);
+        $this->assertEquals($expected, $utility->value());
     }
 
     /**
      * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number, $precision, $mode): void
+    public function testExpectedResults(int $expected, float $number, int $precision, int $mode): void
     {
-        $class = $this->utility($number);
-        $reflectionClass = new ReflectionClass($class::class);
-        $method = $reflectionClass->getMethod('round');
-        $method->setAccessible(true);
+        $utility = $this->utility($number);
+        $reflectionClass = new ReflectionClass($utility::class);
+        $reflectionMethod = $reflectionClass->getMethod('round');
 
-        $newNumber = $method->invokeArgs($class, [$number, $precision, $mode]);
+        $newNumber = $reflectionMethod->invokeArgs($utility, [$number, $precision, $mode]);
 
         $this->assertEquals($expected, $newNumber->value());
     }

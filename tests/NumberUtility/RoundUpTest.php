@@ -1,34 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Tests\BaseNumberSuite;
 
-class RoundUpTest extends BaseNumberSuite
+final class RoundUpTest extends BaseNumberSuite
 {
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            [4, 4.3],
-            [5, 4.5],
-            [10, 9.999],
-            [-3, -3.14],
-            [0, 0],
-            [0, 0.00000000001],
-        ];
+        yield [4, 4.3];
+        yield [5, 4.5];
+        yield [10, 9.999];
+        yield [-3, -3.14];
+        yield [0, 0];
+        yield [0, 0.00000000001];
     }
 
-    public function __validPrecisionData(): array
+    public function __validPrecisionData(): Iterator
     {
-        return [
-            [4, 4.2345, 0],
-            [4.2, 4.2345, 1],
-            [4.23, 4.2345, 2],
-            [4.235, 4.2345, 3],
-            [4.2345, 4.2345, 4],
-            [4.2345, 4.2345, 6],
-        ];
+        yield [4, 4.2345, 0];
+        yield [4.2, 4.2345, 1];
+        yield [4.23, 4.2345, 2];
+        yield [4.235, 4.2345, 3];
+        yield [4.2345, 4.2345, 4];
+        yield [4.2345, 4.2345, 6];
     }
 
     public function testExpectedInvalidPrecision(): void
@@ -40,7 +39,7 @@ class RoundUpTest extends BaseNumberSuite
     /**
      * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number): void
+    public function testExpectedResults(int $expected, float|int $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundUp()->value());
     }
@@ -48,7 +47,7 @@ class RoundUpTest extends BaseNumberSuite
     /**
      * @dataProvider __validPrecisionData
      */
-    public function testPrecisionExpectedResults($expected, $number, $precision): void
+    public function testPrecisionExpectedResults(int|float $expected, float $number, int $precision): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundUp($precision)->value());
     }

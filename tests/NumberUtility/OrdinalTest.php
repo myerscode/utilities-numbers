@@ -1,31 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use Tests\BaseNumberSuite;
 
 
-class OrdinalTest extends BaseNumberSuite
+final class OrdinalTest extends BaseNumberSuite
 {
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            ['st', 1],
-            ['nd', 2],
-            ['rd', 3],
-            ['th', 4],
-            ['th', 20],
-            ['st', 31],
-            ['nd', 42],
-            ['rd', 53],
-        ];
+        yield ['st', 1];
+        yield ['nd', 2];
+        yield ['rd', 3];
+        yield ['th', 4];
+        yield ['th', 20];
+        yield ['st', 31];
+        yield ['nd', 42];
+        yield ['rd', 53];
     }
 
     /**
      * @dataProvider __validData
      */
-    public function testGetNumbersOrdinalValue($expected, $number): void
+    public function testGetNumbersOrdinalValue(string $expected, int $number): void
     {
-        $this->assertEquals($expected, $this->utility($number)->ordinal());
+        $this->assertSame($expected, $this->utility($number)->ordinal());
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
 use Tests\BaseNumberSuite;
 
-class ImmutableTest extends BaseNumberSuite
+final class ImmutableTest extends BaseNumberSuite
 {
     public function testExpectedResults(): void
     {

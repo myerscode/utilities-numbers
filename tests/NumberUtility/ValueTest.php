@@ -1,29 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use Tests\BaseNumberSuite;
 
-class ValueTest extends BaseNumberSuite
+final class ValueTest extends BaseNumberSuite
 {
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            ['7', 7],
-            ['7', '7'],
-            ['0.77', 0.77],
-            ['-7', -7],
-            ['-7', '-7'],
-            ['-0.77', -0.77],
-        ];
+        yield ['7', 7];
+        yield ['7', '7'];
+        yield ['0.77', 0.77];
+        yield ['-7', -7];
+        yield ['-7', '-7'];
+        yield ['-0.77', -0.77];
     }
 
     /**
      * @dataProvider __validData
      */
-    public function testGetUtilityValue($expected, $number): void
+    public function testGetUtilityValue(string $expected, int|string|float $number): void
     {
-        $this->assertEquals($expected, (string)$this->utility($number)->value());
+        $this->assertSame($expected, (string)$this->utility($number)->value());
     }
 
     /**
@@ -31,6 +32,6 @@ class ValueTest extends BaseNumberSuite
      */
     public function testNumberConvertedToString(string $expected, float|int|string $number): void
     {
-        $this->assertEquals($expected, $this->utility($number)->__toString());
+        $this->assertSame($expected, $this->utility($number)->__toString());
     }
 }

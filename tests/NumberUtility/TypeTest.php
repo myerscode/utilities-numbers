@@ -1,24 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use Tests\BaseNumberSuite;
 
-class TypeTest extends BaseNumberSuite
+final class TypeTest extends BaseNumberSuite
 {
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            ['int', 1],
-            ['float', 1.0],
-        ];
+        yield ['int', 1];
+        yield ['float', 1.0];
     }
 
     /**
      * @dataProvider __validData
      */
-    public function testValidValueSetViaConstructor($expected, $number): void
+    public function testValidValueSetViaConstructor(string $expected, int|float $number): void
     {
-        $this->assertEquals($expected, $this->utility($number)->type());
+        $this->assertSame($expected, $this->utility($number)->type());
     }
 }

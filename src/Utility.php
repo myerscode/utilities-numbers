@@ -67,7 +67,7 @@ class Utility implements Stringable
      */
     public function add(int|float|string|Utility $number): Utility
     {
-        $number = $this->number + (new static($number))->value();
+        $number = $this->number + new static($number)->value();
 
         return static::make($number);
     }
@@ -91,13 +91,13 @@ class Utility implements Stringable
      */
     public function divide(int|float|string|Utility $number): Utility
     {
-        $static = static::make($number);
+        $utility = static::make($number);
 
-        if ($static->value() == 0 || $this->number == 0) {
+        if ($utility->value() == 0 || $this->number == 0) {
             throw new DivisionByZeroError();
         }
 
-        $value = $this->number / $static->value();
+        $value = $this->number / $utility->value();
 
         return static::make($value);
     }
@@ -122,9 +122,7 @@ class Utility implements Stringable
         for ($i = 1; $i <= $sqrx; ++$i) {
             if ($x % $i === 0) {
                 $factors[] = $i;
-                if ($i !== $sqrx) {
-                    $factors[] = $x / $i;
-                }
+                $factors[] = $x / $i;
             }
         }
 
@@ -265,7 +263,7 @@ class Utility implements Stringable
     {
         $type = gettype($this->number);
 
-        if ('double' == $type) {
+        if ('double' === $type) {
             return 'float';
         }
 

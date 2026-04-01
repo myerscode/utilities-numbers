@@ -1,32 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use ReflectionClass;
 use Tests\BaseNumberSuite;
 
 
-class PadTest extends BaseNumberSuite
+final class PadTest extends BaseNumberSuite
 {
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            [001, 3, 1, STR_PAD_LEFT],
-            [1, 0, 1, STR_PAD_LEFT],
-            [100, 3, 1, STR_PAD_RIGHT],
-            [1, 0, 1, STR_PAD_RIGHT],
-        ];
+        yield [001, 3, 1, STR_PAD_LEFT];
+        yield [1, 0, 1, STR_PAD_LEFT];
+        yield [100, 3, 1, STR_PAD_RIGHT];
+        yield [1, 0, 1, STR_PAD_RIGHT];
     }
 
     /**
      * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $padding, $number, $mode): void
+    public function testExpectedResults(int $expected, int $padding, int $number, int $mode): void
     {
         $utility = $this->utility($number);
         $reflectionClass = new ReflectionClass($utility::class);
         $reflectionMethod = $reflectionClass->getMethod('pad');
-        $reflectionMethod->setAccessible(true);
         $this->assertEquals($expected, $reflectionMethod->invokeArgs($utility, [$padding, $mode]));
     }
 }

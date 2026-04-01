@@ -1,33 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\NumberUtility;
 
+use Iterator;
 use DivisionByZeroError;
 use Tests\BaseNumberSuite;
 
-class DivideTest extends BaseNumberSuite
+final class DivideTest extends BaseNumberSuite
 {
 
-    public function __invalidData(): array
+    public function __invalidData(): Iterator
     {
-        return [
-            [0, 7],
-            [7, 0],
-        ];
+        yield [0, 7];
+        yield [7, 0];
     }
 
-    public function __validData(): array
+    public function __validData(): Iterator
     {
-        return [
-            [1, 7, 7],
-            [7, 49, 7],
-        ];
+        yield [1, 7, 7];
+        yield [7, 49, 7];
     }
 
     /**
      * @dataProvider __invalidData
      */
-    public function testExceptionResults($number, $division): void
+    public function testExceptionResults(int $number, int $division): void
     {
         $this->expectException(DivisionByZeroError::class);
         $this->utility($number)->divide($division)->value();
@@ -36,7 +35,7 @@ class DivideTest extends BaseNumberSuite
     /**
      * @dataProvider __validData
      */
-    public function testExpectedResults($expected, $number, $division): void
+    public function testExpectedResults(int $expected, int $number, int $division): void
     {
         $this->assertEquals($expected, $this->utility($number)->divide($division)->value());
     }
