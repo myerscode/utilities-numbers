@@ -6,6 +6,7 @@ namespace Tests\NumberUtility;
 
 use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
+use Myerscode\Utilities\Numbers\Utility;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
@@ -22,6 +23,20 @@ final class ConstructTest extends BaseNumberSuite
         yield [1, '1'];
         yield [0.123456, '0.123456'];
         yield [0, ''];
+    }
+
+    public function testAcceptsUtilityInstance(): void
+    {
+        $original = $this->utility(42);
+        $copy = $this->utility(0)->add($original);
+        $this->assertEquals(42, $copy->value());
+    }
+
+    public function testConstructorAcceptsUtilityInstance(): void
+    {
+        $original = $this->utility(99);
+        $wrapped = Utility::make($original);
+        $this->assertEquals(99, $wrapped->value());
     }
 
     #[DataProvider('__invalidData')]
