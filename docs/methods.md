@@ -9,8 +9,9 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [abs](#abs) | [factors](#factors) | [minus](#minus) | [power](#power) |
 | [add](#add) | [floor](#floor) | [multiply](#multiply) | [roundDown](#rounddown) |
 | [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [roundUp](#roundup) |
-| [divide](#divide) | [magnitude](#magnitude) | [padLeft](#padleft) | [type](#type) |
-| [make](#make) | [value](#value) | [padRight](#padright) | [withOrdinal](#withordinal) |
+| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [type](#type) |
+| [make](#make) | [magnitude](#magnitude) | [padRight](#padright) | [value](#value) |
+|  |  | [withOrdinal](#withordinal) |  |
 
 ### abs
 > Returns `Utility`
@@ -72,6 +73,15 @@ echo (new Utility(4.3))->floor()->value();
 Check if the number is negative. Throws `IsZeroException` for zero.
 ```php
 (new Utility(-5))->isNegative();
+// true
+```
+
+### isPositive
+> Returns `bool`
+
+Check if the number is positive. Throws `IsZeroException` for zero.
+```php
+(new Utility(5))->isPositive();
 // true
 ```
 

@@ -156,6 +156,20 @@ class Utility implements Stringable
     }
 
     /**
+     * Is the number positive
+     *
+     * @throws IsZeroException
+     */
+    public function isPositive(): bool
+    {
+        if ($this->number === 0) {
+            throw new IsZeroException('0 is neither positive or negative');
+        }
+
+        return $this->number > 0;
+    }
+
+    /**
      * Get the order of magnitude of the number
      *
      * @throws NonNumericValueException
