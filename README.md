@@ -3,9 +3,14 @@
 
 [![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-numbers/v/stable)](https://packagist.org/packages/myerscode/utilities-numbers)
 [![Total Downloads](https://poser.pugx.org/myerscode/utilities-numbers/downloads)](https://packagist.org/packages/myerscode/utilities-numbers)
-[![License](https://poser.pugx.org/myerscode/utilities-numbers/license)](https://packagist.org/packages/myerscode/utilities-numbers)
-![Tests](https://github.com/myerscode/utilities-numbers/workflows/tests/badge.svg?branch=main)
+[![PHP Version Require](http://poser.pugx.org/myerscode/utilities-numbers/require/php)](https://packagist.org/packages/myerscode/utilities-numbers)
+[![License](https://poser.pugx.org/myerscode/utilities-numbers/license)](https://github.com/myerscode/utilities-numbers/blob/main/LICENSE)
+[![Tests](https://github.com/myerscode/utilities-numbers/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/myerscode/utilities-numbers/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/myerscode/utilities-numbers/graph/badge.svg)](https://codecov.io/gh/myerscode/utilities-numbers)
 
+## Requirements
+
+- PHP >= 8.5
 
 ## Install
 

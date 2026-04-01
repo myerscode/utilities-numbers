@@ -1,119 +1,191 @@
-#  Methods
+# Methods
 
-### Add
-Add a number
+A fluent interface for interacting with numbers, providing immutable arithmetic, rounding, formatting, and inspection methods.
+
+## Available Methods
+
+| | | | |
+|---|---|---|---|
+| [add](#add) | [factors](#factors) | [minus](#minus) | [power](#power) |
+| [ceil](#ceil) | [floor](#floor) | [multiply](#multiply) | [roundDown](#rounddown) |
+| [divide](#divide) | [isNegative](#isnegative) | [ordinal](#ordinal) | [roundUp](#roundup) |
+| [make](#make) | [magnitude](#magnitude) | [padLeft](#padleft) | [type](#type) |
+| [value](#value) | [padRight](#padright) | [withOrdinal](#withordinal) | |
+
+### add
+> Returns `Utility`
+
+Add a number to the current value.
 ```php
-echo (new Utility(5))->add(10);
-// 20
+echo (new Utility(5))->add(10)->value();
+// 15
 ```
 
-### Ceil
-Round up the number using ceil
+### ceil
+> Returns `Utility`
+
+Round up the number using ceil.
 ```php
-echo (new Utility(4.3))->ceil();
+echo (new Utility(4.3))->ceil()->value();
 // 5
 ```
 
-### Divide
-Divide the original by the passed value
+### divide
+> Returns `Utility`
+
+Divide the current value by the given number.
 ```php
-echo (new Utility(25))->divide(5);
-// 1
+echo (new Utility(25))->divide(5)->value();
+// 5
 ```
 
-### Floor
-Round down the value using floor
-```php
-echo (new Utility(4.3))->floor();
-// 4
-```
+### factors
+> Returns `array`
 
-### Factors
-Get the factors that make up the current number
+Get the factors of the current number.
 ```php
-echo (new Utility(12))->factors();
+(new Utility(12))->factors();
 // [1, 2, 3, 4, 6, 12]
 ```
 
-### Magnitude
-Get the order of magnitude of the number
+### floor
+> Returns `Utility`
+
+Round down the value using floor.
 ```php
-echo (new Utility(1000))->magnitude();
+echo (new Utility(4.3))->floor()->value();
+// 4
+```
+
+### isNegative
+> Returns `bool`
+
+Check if the number is negative. Throws `IsZeroException` for zero.
+```php
+(new Utility(-5))->isNegative();
+// true
+```
+
+### magnitude
+> Returns `Utility`
+
+Get the order of magnitude of the number.
+```php
+echo (new Utility(1000))->magnitude()->value();
 // 3
 ```
 
-### Minus
-Minus a value from the number
+### make
+> Returns `Utility`
+
+Static factory method to create a new Utility instance.
 ```php
-echo (new Utility(14))->minus(7);
+$n = Utility::make(42);
+```
+
+### minus
+> Returns `Utility`
+
+Subtract a value from the number.
+```php
+echo (new Utility(14))->minus(7)->value();
 // 7
 ```
 
-### Multiply
-Multiply the number
+### multiply
+> Returns `Utility`
+
+Multiply the number by the given value.
 ```php
-echo (new Utility(7))->multiply(7);
+echo (new Utility(7))->multiply(7)->value();
 // 49
 ```
 
-### Ordinal
-Get the ordinal version of a number (st, nd, nd, th)
+### ordinal
+> Returns `string`
+
+Get the ordinal suffix of a number (st, nd, rd, th).
 ```php
-echo (new Utility(1))->ordinal(); 
+echo (new Utility(1))->ordinal();
 // st
 ```
 
-### Power
-Power the number by a given exponent
+### padLeft
+> Returns `string`
+
+Pad the number on the left to a given length.
 ```php
-echo (new Utility(125))->ordinal(3); 
+echo (new Utility(1))->padLeft(3);
+// 001
+```
+
+### padRight
+> Returns `string`
+
+Pad the number on the right to a given length.
+```php
+echo (new Utility(1))->padRight(3);
+// 100
+```
+
+### power
+> Returns `Utility`
+
+Raise the number to a given exponent.
+```php
+echo (new Utility(5))->power(3)->value();
 // 125
 ```
 
-### Round Down
-Round down the number to a given precision
+### roundDown
+> Returns `Utility`
+
+Round down the number to a given precision.
 ```php
-$n = new Utility(4.3);
-echo $n->roundDown(); 
+echo (new Utility(4.5))->roundDown()->value();
 // 4
-$n = new Utility(9.99);
-echo $n->roundDown(); 
-// 10
-$n = new Utility(4.2345);
-echo $n->roundDown(2); 
+echo (new Utility(4.2345))->roundDown(2)->value();
 // 4.23
 ```
 
-### Round Up
-Round up the number to a given precision
+### roundUp
+> Returns `Utility`
+
+Round up the number to a given precision.
 ```php
-$n = new Utility(4.3);
-echo $n->roundUp(); 
-// 4
-$n = new Utility(4.5);
-echo $n->roundUp(); 
+echo (new Utility(4.5))->roundUp()->value();
 // 5
-$n = new Utility(4.2345);
-echo $n->roundUp(3); 
+echo (new Utility(4.2345))->roundUp(3)->value();
 // 4.235
 ```
 
-### Type
-Get the type name of the current value
+### type
+> Returns `string`
+
+Get the type name of the current value.
 ```php
-echo (new Utility(7))->type(); 
+echo (new Utility(7))->type();
 // int
-echo (new Utility(4.9))->type(); 
+echo (new Utility(4.9))->type();
 // float
 ```
 
-### With Ordinal
-Get the number with its ordinal (st, nd, nd, th)
+### value
+> Returns `int|float`
+
+Get the current numeric value.
 ```php
-$n = new Utility(1);
-echo $n->withOrdinal(); 
+echo (new Utility(42))->value();
+// 42
+```
+
+### withOrdinal
+> Returns `string`
+
+Get the number with its ordinal suffix.
+```php
+echo (new Utility(1))->withOrdinal();
 // 1st
-$n = new Utility(2);
-echo $n->withOrdinal(' '); 
+echo (new Utility(2))->withOrdinal(' ');
 // 2 nd
 ```
