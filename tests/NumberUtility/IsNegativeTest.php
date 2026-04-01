@@ -11,7 +11,6 @@ use Tests\BaseNumberSuite;
 
 final class IsNegativeTest extends BaseNumberSuite
 {
-
     public static function __invalidData(): Iterator
     {
         yield 'minus zero' => [-0];

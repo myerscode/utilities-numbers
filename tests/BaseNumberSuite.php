@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 abstract class BaseNumberSuite extends TestCase
 {
-
     /**
      * Utility class name
      *

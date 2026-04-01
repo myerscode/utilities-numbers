@@ -11,7 +11,6 @@ use Tests\BaseNumberSuite;
 
 final class DivideTest extends BaseNumberSuite
 {
-
     public static function __invalidData(): Iterator
     {
         yield [0, 7];

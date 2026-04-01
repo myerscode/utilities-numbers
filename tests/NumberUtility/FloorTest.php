@@ -10,7 +10,6 @@ use Tests\BaseNumberSuite;
 
 final class FloorTest extends BaseNumberSuite
 {
-
     public static function __validData(): Iterator
     {
         yield [4, 4.3];

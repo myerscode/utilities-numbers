@@ -8,7 +8,6 @@ use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
-
 final class OrdinalTest extends BaseNumberSuite
 {
     public static function __validData(): Iterator

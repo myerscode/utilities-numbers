@@ -9,7 +9,6 @@ use ReflectionClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
-
 final class PadTest extends BaseNumberSuite
 {
     public static function __validData(): Iterator

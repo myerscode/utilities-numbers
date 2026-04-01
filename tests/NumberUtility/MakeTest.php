@@ -7,7 +7,6 @@ namespace Tests\NumberUtility;
 use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 use Myerscode\Utilities\Numbers\Utility;
-use stdClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 

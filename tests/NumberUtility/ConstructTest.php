@@ -11,7 +11,6 @@ use Tests\BaseNumberSuite;
 
 final class ConstructTest extends BaseNumberSuite
 {
-
     public static function __invalidData(): Iterator
     {
         yield ['fred'];

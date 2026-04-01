@@ -10,7 +10,6 @@ use Tests\BaseNumberSuite;
 
 final class CeilTest extends BaseNumberSuite
 {
-
     public static function __validData(): Iterator
     {
         yield [5, 4.3];

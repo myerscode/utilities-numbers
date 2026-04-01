@@ -10,7 +10,6 @@ use Tests\BaseNumberSuite;
 
 final class AddTest extends BaseNumberSuite
 {
-
     public static function __validData(): Iterator
     {
         yield [10, 5, 5];

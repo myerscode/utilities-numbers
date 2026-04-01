@@ -33,6 +33,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Return the value when casting to string
+     */
+    public function __toString(): string
+    {
+        return (string)$this->value();
+    }
+
+    /**
      * Create a new instance of the number utility
      *
      * @throws NonNumericValueException
@@ -40,14 +48,6 @@ class Utility implements Stringable
     public static function make(int|float|string|Utility $number): Utility
     {
         return new Utility($number);
-    }
-
-    /**
-     * Return the value when casting to string
-     */
-    public function __toString(): string
-    {
-        return (string)$this->value();
     }
 
     /**

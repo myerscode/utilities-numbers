@@ -10,10 +10,8 @@ use ReflectionClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
-
 final class RoundTest extends BaseNumberSuite
 {
-
     public static function __invalidData(): Iterator
     {
         yield [10, 9.5, -1, PHP_ROUND_HALF_UP];
