@@ -1,3 +1,6 @@
 vendor
 composer.lock
 logs
+coverage.xml
+coverage/
+.phpunit.cache
