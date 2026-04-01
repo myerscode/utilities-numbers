@@ -7,11 +7,12 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | | | | |
 |---|---|---|---|
 | [abs](#abs) | [floor](#floor) | [minus](#minus) | [roundDown](#rounddown) |
-| [add](#add) | [isEven](#iseven) | [multiply](#multiply) | [roundUp](#roundup) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [type](#type) |
-| [divide](#divide) | [isOdd](#isodd) | [padLeft](#padleft) | [value](#value) |
-| [factors](#factors) | [isPositive](#ispositive) | [padRight](#padright) | [withOrdinal](#withordinal) |
-| [make](#make) | [isZero](#iszero) | [power](#power) |  |
+| [add](#add) | [isEven](#iseven) | [modulo](#modulo) | [roundUp](#roundup) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [multiply](#multiply) | [type](#type) |
+| [divide](#divide) | [isOdd](#isodd) | [ordinal](#ordinal) | [value](#value) |
+| [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
+| [make](#make) | [isZero](#iszero) | [padRight](#padright) |  |
+|  | [magnitude](#magnitude) | [power](#power) |  |
 
 ### abs
 > Returns `Utility`
@@ -136,6 +137,15 @@ Subtract a value from the number.
 ```php
 echo (new Utility(14))->minus(7)->value();
 // 7
+```
+
+### modulo
+> Returns `Utility`
+
+Get the remainder after division. Throws `DivisionByZeroError` for zero divisor.
+```php
+echo (new Utility(10))->modulo(3)->value();
+// 1
 ```
 
 ### multiply

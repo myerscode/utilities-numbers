@@ -216,6 +216,23 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the modulus of the number
+     *
+     * @throws DivisionByZeroError
+     * @throws NonNumericValueException
+     */
+    public function modulo(int|float|string|Utility $number): self
+    {
+        $divisor = $this->resolve($number);
+
+        if ($divisor == 0) {
+            throw new DivisionByZeroError();
+        }
+
+        return new self(fmod($this->number, $divisor));
+    }
+
+    /**
      * Multiply a number
      *
      * @throws NonNumericValueException
