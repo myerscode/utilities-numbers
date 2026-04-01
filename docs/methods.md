@@ -10,8 +10,8 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [add](#add) | [floor](#floor) | [multiply](#multiply) | [roundDown](#rounddown) |
 | [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [roundUp](#roundup) |
 | [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [type](#type) |
-| [make](#make) | [magnitude](#magnitude) | [padRight](#padright) | [value](#value) |
-|  |  | [withOrdinal](#withordinal) |  |
+| [make](#make) | [isZero](#iszero) | [padRight](#padright) | [value](#value) |
+|  | [magnitude](#magnitude) | [withOrdinal](#withordinal) |  |
 
 ### abs
 > Returns `Utility`
@@ -82,6 +82,15 @@ Check if the number is negative. Throws `IsZeroException` for zero.
 Check if the number is positive. Throws `IsZeroException` for zero.
 ```php
 (new Utility(5))->isPositive();
+// true
+```
+
+### isZero
+> Returns `bool`
+
+Check if the number is zero.
+```php
+(new Utility(0))->isZero();
 // true
 ```
 

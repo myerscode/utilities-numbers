@@ -170,6 +170,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is zero
+     */
+    public function isZero(): bool
+    {
+        return $this->number == 0;
+    }
+
+    /**
      * Get the order of magnitude of the number
      *
      * @throws NonNumericValueException
