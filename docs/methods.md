@@ -9,9 +9,9 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [abs](#abs) | [floor](#floor) | [minus](#minus) | [roundDown](#rounddown) |
 | [add](#add) | [isEven](#iseven) | [multiply](#multiply) | [roundUp](#roundup) |
 | [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [type](#type) |
-| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
-| [factors](#factors) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
-|  | [magnitude](#magnitude) | [power](#power) |  |
+| [divide](#divide) | [isOdd](#isodd) | [padLeft](#padleft) | [value](#value) |
+| [factors](#factors) | [isPositive](#ispositive) | [padRight](#padright) | [withOrdinal](#withordinal) |
+| [make](#make) | [isZero](#iszero) | [power](#power) |  |
 
 ### abs
 > Returns `Utility`
@@ -82,6 +82,15 @@ Check if the number is an even integer. Returns false for floats.
 Check if the number is negative. Throws `IsZeroException` for zero.
 ```php
 (new Utility(-5))->isNegative();
+// true
+```
+
+### isOdd
+> Returns `bool`
+
+Check if the number is an odd integer. Returns false for floats.
+```php
+(new Utility(3))->isOdd();
 // true
 ```
 

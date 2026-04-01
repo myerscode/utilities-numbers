@@ -164,6 +164,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is odd
+     */
+    public function isOdd(): bool
+    {
+        return is_int($this->number) && $this->number % 2 !== 0;
+    }
+
+    /**
      * Is the number positive
      *
      * @throws IsZeroException
