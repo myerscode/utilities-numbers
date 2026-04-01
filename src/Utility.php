@@ -6,6 +6,7 @@ use DivisionByZeroError;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
+use RoundingMode;
 use Stringable;
 
 class Utility implements Stringable
@@ -57,7 +58,7 @@ class Utility implements Stringable
      */
     public function add(int|float|string|Utility $number): Utility
     {
-        $number = $this->number + (new static($number))->value();
+        $number = $this->number + (new self($number))->value();
 
         return static::make($number);
     }
@@ -232,7 +233,7 @@ class Utility implements Stringable
      */
     public function roundDown(int $precision = 0): Utility
     {
-        return $this->round($this->number, $precision, PHP_ROUND_HALF_DOWN);
+        return $this->round($this->number, $precision, RoundingMode::HalfTowardsZero);
     }
 
     /**
@@ -243,7 +244,7 @@ class Utility implements Stringable
      */
     public function roundUp(int $precision = 0): Utility
     {
-        return $this->round($this->number, $precision, PHP_ROUND_HALF_UP);
+        return $this->round($this->number, $precision, RoundingMode::HalfAwayFromZero);
     }
 
     /**
@@ -287,7 +288,7 @@ class Utility implements Stringable
      * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
-    private function round(float|int $number, int $precision, int $mode): Utility
+    private function round(float|int $number, int $precision, RoundingMode $mode): Utility
     {
         if ($precision < 0) {
             throw new InvalidNumberException('Precision value should be greater or equal to zero');
