@@ -7,18 +7,19 @@ namespace Tests\NumberUtility;
 use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use ReflectionClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 
 final class RoundTest extends BaseNumberSuite
 {
 
-    public function __invalidData(): Iterator
+    public static function __invalidData(): Iterator
     {
         yield [10, 9.5, -1, PHP_ROUND_HALF_UP];
     }
 
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield [10, 9.5, 0, PHP_ROUND_HALF_UP];
         yield [9, 9.5, 0, PHP_ROUND_HALF_DOWN];
@@ -30,9 +31,7 @@ final class RoundTest extends BaseNumberSuite
         yield [9, 8.5, 0, PHP_ROUND_HALF_ODD];
     }
 
-    /**
-     * @dataProvider __invalidData
-     */
+    #[DataProvider('__invalidData')]
     public function testExpectedInvalidNumberException(int $expected, float $number, int $precision, int $mode): void
     {
         $this->expectException(InvalidNumberException::class);
@@ -43,9 +42,7 @@ final class RoundTest extends BaseNumberSuite
         $this->assertEquals($expected, $utility->value());
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testExpectedResults(int $expected, float $number, int $precision, int $mode): void
     {
         $utility = $this->utility($number);

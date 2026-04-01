@@ -6,12 +6,13 @@ namespace Tests\NumberUtility;
 
 use Iterator;
 use ReflectionClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 
 final class PadTest extends BaseNumberSuite
 {
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield [001, 3, 1, STR_PAD_LEFT];
         yield [1, 0, 1, STR_PAD_LEFT];
@@ -19,9 +20,7 @@ final class PadTest extends BaseNumberSuite
         yield [1, 0, 1, STR_PAD_RIGHT];
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testExpectedResults(int $expected, int $padding, int $number, int $mode): void
     {
         $utility = $this->utility($number);

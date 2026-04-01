@@ -6,17 +6,18 @@ namespace Tests\NumberUtility;
 
 use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 final class ConstructTest extends BaseNumberSuite
 {
 
-    public function __invalidData(): Iterator
+    public static function __invalidData(): Iterator
     {
         yield ['fred'];
     }
 
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield [1, 1];
         yield [1, '1'];
@@ -24,18 +25,14 @@ final class ConstructTest extends BaseNumberSuite
         yield [0, ''];
     }
 
-    /**
-     * @dataProvider __invalidData
-     */
+    #[DataProvider('__invalidData')]
     public function testInvalidValueSetViaConstructor(string $number): void
     {
         $this->expectException(NonNumericValueException::class);
         $this->utility($number);
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testValidValueSetViaConstructor(int|float $expected, int|string $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->value());

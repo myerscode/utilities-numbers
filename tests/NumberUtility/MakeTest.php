@@ -8,16 +8,17 @@ use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 use Myerscode\Utilities\Numbers\Utility;
 use stdClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 final class MakeTest extends BaseNumberSuite
 {
-    public function __invalidData(): Iterator
+    public static function __invalidData(): Iterator
     {
         yield ['fred'];
     }
 
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield [1, 1];
         yield [1, '1'];
@@ -25,18 +26,14 @@ final class MakeTest extends BaseNumberSuite
         yield [0, ''];
     }
 
-    /**
-     * @dataProvider __invalidData
-     */
+    #[DataProvider('__invalidData')]
     public function testInvalidValueSetViaConstructor(string $number): void
     {
         $this->expectException(NonNumericValueException::class);
         Utility::make($number);
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testValidValueSetViaConstructor(int|float $expected, int|string $number): void
     {
         $this->assertEquals($expected, Utility::make($number)->value());

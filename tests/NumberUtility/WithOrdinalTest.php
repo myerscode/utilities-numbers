@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\NumberUtility;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 final class WithOrdinalTest extends BaseNumberSuite
 {
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield ['1st', 1];
         yield ['2nd', 2];
@@ -21,9 +22,7 @@ final class WithOrdinalTest extends BaseNumberSuite
         yield ['53rd', 53];
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testAppendedExpectedResults(string $expected, int $number): void
     {
         $this->assertSame($expected, $this->utility($number)->withOrdinal());

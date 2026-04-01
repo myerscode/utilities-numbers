@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\NumberUtility;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 final class MagnitudeTest extends BaseNumberSuite
 {
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield [0, 0];
         yield [1, 11.235523];
@@ -20,9 +21,7 @@ final class MagnitudeTest extends BaseNumberSuite
         yield [-2, 0.01];
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testExpectedResults(int $expected, int|float $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->magnitude()->value());

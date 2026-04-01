@@ -6,11 +6,12 @@ namespace Tests\NumberUtility;
 
 use Iterator;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 final class RoundUpTest extends BaseNumberSuite
 {
-    public function __validData(): Iterator
+    public static function __validData(): Iterator
     {
         yield [4, 4.3];
         yield [5, 4.5];
@@ -20,7 +21,7 @@ final class RoundUpTest extends BaseNumberSuite
         yield [0, 0.00000000001];
     }
 
-    public function __validPrecisionData(): Iterator
+    public static function __validPrecisionData(): Iterator
     {
         yield [4, 4.2345, 0];
         yield [4.2, 4.2345, 1];
@@ -36,17 +37,13 @@ final class RoundUpTest extends BaseNumberSuite
         $this->utility(12.3456)->roundUp(-1)->value();
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[DataProvider('__validData')]
     public function testExpectedResults(int $expected, float|int $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundUp()->value());
     }
 
-    /**
-     * @dataProvider __validPrecisionData
-     */
+    #[DataProvider('__validPrecisionData')]
     public function testPrecisionExpectedResults(int|float $expected, float $number, int $precision): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundUp($precision)->value());
