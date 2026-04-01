@@ -155,6 +155,19 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is between two values (inclusive)
+     *
+     * @throws NonNumericValueException
+     */
+    public function isBetween(int|float|string|Utility $min, int|float|string|Utility $max): bool
+    {
+        $minValue = $this->resolve($min);
+        $maxValue = $this->resolve($max);
+
+        return $this->number >= $minValue && $this->number <= $maxValue;
+    }
+
+    /**
      * Check if the number is even
      */
     public function isEven(): bool

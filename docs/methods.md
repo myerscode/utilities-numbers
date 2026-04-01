@@ -6,13 +6,13 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [floor](#floor) | [minus](#minus) | [roundDown](#rounddown) |
-| [add](#add) | [isEven](#iseven) | [modulo](#modulo) | [roundUp](#roundup) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [multiply](#multiply) | [type](#type) |
-| [clamp](#clamp) | [isOdd](#isodd) | [ordinal](#ordinal) | [value](#value) |
-| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [factors](#factors) | [isZero](#iszero) | [padRight](#padright) |  |
-| [make](#make) | [magnitude](#magnitude) | [power](#power) |  |
+| [abs](#abs) | [isBetween](#isbetween) | [make](#make) | [power](#power) |
+| [add](#add) | [isEven](#iseven) | [minus](#minus) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [modulo](#modulo) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
+| [divide](#divide) | [isPositive](#ispositive) | [ordinal](#ordinal) | [value](#value) |
+| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
+| [floor](#floor) | [magnitude](#magnitude) | [padRight](#padright) |  |
 
 ### abs
 > Returns `Utility`
@@ -77,6 +77,17 @@ Round down the value using floor.
 ```php
 echo (new Utility(4.3))->floor()->value();
 // 4
+```
+
+### isBetween
+> Returns `bool`
+
+Check if the number is between two values (inclusive).
+```php
+(new Utility(5))->isBetween(1, 10);
+// true
+(new Utility(11))->isBetween(1, 10);
+// false
 ```
 
 ### isEven
