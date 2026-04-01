@@ -54,6 +54,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the absolute value
+     *
+     * @throws NonNumericValueException
+     */
+    public function abs(): self
+    {
+        return new self(abs($this->number));
+    }
+
+    /**
      * Add a number to current number
      *
      * @throws NonNumericValueException

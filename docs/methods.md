@@ -6,11 +6,20 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [add](#add) | [factors](#factors) | [minus](#minus) | [power](#power) |
-| [ceil](#ceil) | [floor](#floor) | [multiply](#multiply) | [roundDown](#rounddown) |
-| [divide](#divide) | [isNegative](#isnegative) | [ordinal](#ordinal) | [roundUp](#roundup) |
-| [make](#make) | [magnitude](#magnitude) | [padLeft](#padleft) | [type](#type) |
-| [value](#value) | [padRight](#padright) | [withOrdinal](#withordinal) | |
+| [abs](#abs) | [factors](#factors) | [minus](#minus) | [power](#power) |
+| [add](#add) | [floor](#floor) | [multiply](#multiply) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [ordinal](#ordinal) | [roundUp](#roundup) |
+| [divide](#divide) | [magnitude](#magnitude) | [padLeft](#padleft) | [type](#type) |
+| [make](#make) | [value](#value) | [padRight](#padright) | [withOrdinal](#withordinal) |
+
+### abs
+> Returns `Utility`
+
+Get the absolute value of the number.
+```php
+echo (new Utility(-5))->abs()->value();
+// 5
+```
 
 ### add
 > Returns `Utility`
