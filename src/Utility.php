@@ -8,19 +8,9 @@ use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 use Stringable;
 
-/**
- * Class Utility
- *
- * @package Myerscode\Utilities\Numbers
- */
 class Utility implements Stringable
 {
-    /**
-     * The value this model is representing
-     *
-     * @var  mixed  number
-     */
-    private readonly mixed $number;
+    private readonly int|float $number;
 
     /**
      * Utility constructor.
@@ -67,7 +57,7 @@ class Utility implements Stringable
      */
     public function add(int|float|string|Utility $number): Utility
     {
-        $number = $this->number + new static($number)->value();
+        $number = $this->number + (new static($number))->value();
 
         return static::make($number);
     }
@@ -154,7 +144,7 @@ class Utility implements Stringable
             throw new IsZeroException('0 is neither positive or negative');
         }
 
-        return (!is_int($this->number) && $this->number < 0 || $this->number < 0);
+        return $this->number < 0;
     }
 
     /**
@@ -270,12 +260,7 @@ class Utility implements Stringable
         return 'int';
     }
 
-    /**
-     * Get the current value of the number
-     *
-     * @return int|float
-     */
-    public function value(): mixed
+    public function value(): int|float
     {
         return $this->number;
     }
@@ -293,7 +278,7 @@ class Utility implements Stringable
      */
     private function pad(int $padding = 1, int $direction = STR_PAD_BOTH): string
     {
-        return str_pad($this->number, $padding, 0, $direction);
+        return str_pad((string) $this->number, $padding, '0', $direction);
     }
 
     /**
