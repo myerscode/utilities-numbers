@@ -385,6 +385,24 @@ class Utility implements Stringable
     }
 
     /**
+     * Normalise the number to a fraction of the range between a minimum and maximum (inverse of lerp)
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function normalize(int|float|string|Utility $min, int|float|string|Utility $max): self
+    {
+        $minValue = $this->resolve($min);
+        $maxValue = $this->resolve($max);
+
+        if ($minValue == $maxValue) {
+            throw new InvalidNumberException('The minimum and maximum cannot be equal');
+        }
+
+        return new self(($this->number - $minValue) / ($maxValue - $minValue));
+    }
+
+    /**
      * Returns the ordinal version of a number (appends th, st, nd, rd).
      */
     public function ordinal(): string

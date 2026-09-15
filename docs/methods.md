@@ -6,16 +6,16 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isEven](#iseven) | [lerp](#lerp) | [power](#power) |
-| [add](#add) | [isFloat](#isfloat) | [magnitude](#magnitude) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isInteger](#isinteger) | [make](#make) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
-| [divide](#divide) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
-| [factorial](#factorial) | [isPositive](#ispositive) | [multiply](#multiply) | [type](#type) |
+| [abs](#abs) | [isEven](#iseven) | [magnitude](#magnitude) | [power](#power) |
+| [add](#add) | [isFloat](#isfloat) | [make](#make) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isInteger](#isinteger) | [minus](#minus) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isNegative](#isnegative) | [modulo](#modulo) | [sign](#sign) |
+| [divide](#divide) | [isOdd](#isodd) | [multiply](#multiply) | [sqrt](#sqrt) |
+| [factorial](#factorial) | [isPositive](#ispositive) | [normalize](#normalize) | [type](#type) |
 | [factors](#factors) | [isPrime](#isprime) | [ordinal](#ordinal) | [value](#value) |
 | [floor](#floor) | [isZero](#iszero) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
 | [gcd](#gcd) | [lcm](#lcm) | [padRight](#padright) | [wrap](#wrap) |
-| [isBetween](#isbetween) | | | |
+| [isBetween](#isbetween) | [lerp](#lerp) | | |
 
 ### abs
 > Returns `Utility`
@@ -257,6 +257,17 @@ Multiply the number by the given value.
 ```php
 echo (new Utility(7))->multiply(7)->value();
 // 49
+```
+
+### normalize
+> Returns `Utility`
+
+Normalise the number to a fraction of the range between a minimum and maximum (the inverse of `lerp`). Throws `InvalidNumberException` if the minimum and maximum are equal.
+```php
+echo (new Utility(50))->normalize(0, 100)->value();
+// 0.5
+echo (new Utility(15))->normalize(10, 20)->value();
+// 0.5
 ```
 
 ### ordinal
