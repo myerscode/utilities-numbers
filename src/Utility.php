@@ -484,6 +484,31 @@ class Utility implements Stringable
     }
 
     /**
+     * Wrap the number around a half-open range [min, max)
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function wrap(int|float|string|Utility $min, int|float|string|Utility $max): self
+    {
+        $minValue = $this->resolve($min);
+        $maxValue = $this->resolve($max);
+
+        if ($minValue >= $maxValue) {
+            throw new InvalidNumberException('The minimum must be less than the maximum');
+        }
+
+        $range = $maxValue - $minValue;
+        $wrapped = $minValue + fmod(fmod($this->number - $minValue, $range) + $range, $range);
+
+        if (is_int($this->number) && is_int($minValue) && is_int($maxValue)) {
+            return new self((int) $wrapped);
+        }
+
+        return new self($wrapped);
+    }
+
+    /**
      * Calculate the greatest common divisor of two integers using the Euclidean algorithm
      */
     private function greatestCommonDivisor(int $a, int $b): int

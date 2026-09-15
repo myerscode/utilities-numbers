@@ -14,7 +14,7 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [factorial](#factorial) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
 | [factors](#factors) | [isPositive](#ispositive) | [ordinal](#ordinal) | [value](#value) |
 | [floor](#floor) | [isPrime](#isprime) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [gcd](#gcd) | [isZero](#iszero) | [padRight](#padright) | |
+| [gcd](#gcd) | [isZero](#iszero) | [padRight](#padright) | [wrap](#wrap) |
 
 ### abs
 > Returns `Utility`
@@ -356,4 +356,16 @@ echo (new Utility(1))->withOrdinal();
 // 1st
 echo (new Utility(2))->withOrdinal(' ');
 // 2 nd
+```
+### wrap
+> Returns `Utility`
+
+Wrap the number around a half-open range `[min, max)`. Values that fall outside the range wrap around to the other side; a value equal to `max` wraps back to `min`. Throws `InvalidNumberException` if `min` is not less than `max`.
+```php
+echo (new Utility(105))->wrap(0, 100)->value();
+// 5
+echo (new Utility(-5))->wrap(0, 100)->value();
+// 95
+echo (new Utility(100))->wrap(0, 100)->value();
+// 0
 ```
