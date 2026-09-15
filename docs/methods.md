@@ -6,15 +6,16 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isBetween](#isbetween) | [lcm](#lcm) | [power](#power) |
-| [add](#add) | [isEven](#iseven) | [magnitude](#magnitude) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isFloat](#isfloat) | [make](#make) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isInteger](#isinteger) | [minus](#minus) | [sign](#sign) |
-| [divide](#divide) | [isNegative](#isnegative) | [modulo](#modulo) | [sqrt](#sqrt) |
-| [factorial](#factorial) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
-| [factors](#factors) | [isPositive](#ispositive) | [ordinal](#ordinal) | [value](#value) |
-| [floor](#floor) | [isPrime](#isprime) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [gcd](#gcd) | [isZero](#iszero) | [padRight](#padright) | [wrap](#wrap) |
+| [abs](#abs) | [isEven](#iseven) | [lerp](#lerp) | [power](#power) |
+| [add](#add) | [isFloat](#isfloat) | [magnitude](#magnitude) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isInteger](#isinteger) | [make](#make) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
+| [divide](#divide) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
+| [factorial](#factorial) | [isPositive](#ispositive) | [multiply](#multiply) | [type](#type) |
+| [factors](#factors) | [isPrime](#isprime) | [ordinal](#ordinal) | [value](#value) |
+| [floor](#floor) | [isZero](#iszero) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
+| [gcd](#gcd) | [lcm](#lcm) | [padRight](#padright) | [wrap](#wrap) |
+| [isBetween](#isbetween) | | | |
 
 ### abs
 > Returns `Utility`
@@ -201,6 +202,17 @@ echo (new Utility(4))->lcm(6)->value();
 // 12
 echo (new Utility(21))->lcm(6)->value();
 // 42
+```
+
+### lerp
+> Returns `Utility`
+
+Linearly interpolate between a minimum and maximum, using the number as the interpolation factor (typically between `0` and `1`). Values outside that range extrapolate beyond the bounds.
+```php
+echo (new Utility(0.5))->lerp(0, 100)->value();
+// 50
+echo (new Utility(0.25))->lerp(10, 20)->value();
+// 12.5
 ```
 
 ### magnitude

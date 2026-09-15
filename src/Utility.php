@@ -323,6 +323,19 @@ class Utility implements Stringable
     }
 
     /**
+     * Linearly interpolate between a minimum and maximum, using the number as the interpolation factor
+     *
+     * @throws NonNumericValueException
+     */
+    public function lerp(int|float|string|Utility $min, int|float|string|Utility $max): self
+    {
+        $minValue = $this->resolve($min);
+        $maxValue = $this->resolve($max);
+
+        return new self($minValue + (($maxValue - $minValue) * $this->number));
+    }
+
+    /**
      * Get the order of magnitude of the number
      *
      * @throws NonNumericValueException
