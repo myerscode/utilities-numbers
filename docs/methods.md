@@ -6,15 +6,15 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) |
-| [add](#add) | [isEven](#iseven) | [make](#make) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isFloat](#isfloat) | [minus](#minus) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isInteger](#isinteger) | [modulo](#modulo) | [sign](#sign) |
-| [divide](#divide) | [isNegative](#isnegative) | [multiply](#multiply) | [sqrt](#sqrt) |
-| [factorial](#factorial) | [isOdd](#isodd) | [ordinal](#ordinal) | [type](#type) |
-| [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
-| [floor](#floor) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
-| [gcd](#gcd) | [lcm](#lcm) | | |
+| [abs](#abs) | [isBetween](#isbetween) | [lcm](#lcm) | [power](#power) |
+| [add](#add) | [isEven](#iseven) | [magnitude](#magnitude) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isFloat](#isfloat) | [make](#make) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isInteger](#isinteger) | [minus](#minus) | [sign](#sign) |
+| [divide](#divide) | [isNegative](#isnegative) | [modulo](#modulo) | [sqrt](#sqrt) |
+| [factorial](#factorial) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
+| [factors](#factors) | [isPositive](#ispositive) | [ordinal](#ordinal) | [value](#value) |
+| [floor](#floor) | [isPrime](#isprime) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
+| [gcd](#gcd) | [isZero](#iszero) | [padRight](#padright) | |
 
 ### abs
 > Returns `Utility`
@@ -170,6 +170,17 @@ Check if the number is positive. Throws `IsZeroException` for zero.
 ```php
 (new Utility(5))->isPositive();
 // true
+```
+
+### isPrime
+> Returns `bool`
+
+Check if the number is a prime number. Returns false for non-integers and values below 2.
+```php
+(new Utility(7))->isPrime();
+// true
+(new Utility(9))->isPrime();
+// false
 ```
 
 ### isZero

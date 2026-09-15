@@ -265,6 +265,33 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is a prime number
+     */
+    public function isPrime(): bool
+    {
+        if (!is_int($this->number) || $this->number < 2) {
+            return false;
+        }
+
+        if ($this->number < 4) {
+            return true;
+        }
+
+        if ($this->number % 2 === 0) {
+            return false;
+        }
+
+        $limit = (int) floor(sqrt($this->number));
+        for ($i = 3; $i <= $limit; $i += 2) {
+            if ($this->number % $i === 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Check if the number is zero
      */
     public function isZero(): bool
