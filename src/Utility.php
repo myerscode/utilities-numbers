@@ -176,6 +176,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is an integer
+     */
+    public function isInteger(): bool
+    {
+        return is_int($this->number);
+    }
+
+    /**
      * Is the number negative
      *
      * @throws IsZeroException

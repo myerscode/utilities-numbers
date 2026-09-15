@@ -6,14 +6,14 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) |
-| [add](#add) | [isEven](#iseven) | [make](#make) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [minus](#minus) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isOdd](#isodd) | [modulo](#modulo) | [sign](#sign) |
-| [divide](#divide) | [isPositive](#ispositive) | [multiply](#multiply) | [sqrt](#sqrt) |
-| [factors](#factors) | [isZero](#iszero) | [ordinal](#ordinal) | [type](#type) |
-| [floor](#floor) | [padLeft](#padleft) | [padRight](#padright) | [value](#value) |
-| | | | [withOrdinal](#withordinal) |
+| [abs](#abs) | [isEven](#iseven) | [minus](#minus) | [roundUp](#roundup) |
+| [add](#add) | [isInteger](#isinteger) | [modulo](#modulo) | [sign](#sign) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [multiply](#multiply) | [sqrt](#sqrt) |
+| [clamp](#clamp) | [isOdd](#isodd) | [ordinal](#ordinal) | [type](#type) |
+| [divide](#divide) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
+| [factors](#factors) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
+| [floor](#floor) | [magnitude](#magnitude) | [power](#power) | |
+| [isBetween](#isbetween) | [make](#make) | [roundDown](#rounddown) | |
 
 ### abs
 > Returns `Utility`
@@ -98,6 +98,17 @@ Check if the number is an even integer. Returns false for floats.
 ```php
 (new Utility(4))->isEven();
 // true
+```
+
+### isInteger
+> Returns `bool`
+
+Check if the number is an integer.
+```php
+(new Utility(5))->isInteger();
+// true
+(new Utility(5.5))->isInteger();
+// false
 ```
 
 ### isNegative
