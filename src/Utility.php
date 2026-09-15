@@ -332,6 +332,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the sign of the number (-1 for negative, 0 for zero, 1 for positive)
+     *
+     * @throws NonNumericValueException
+     */
+    public function sign(): self
+    {
+        return new self($this->number <=> 0);
+    }
+
+    /**
      * Get the square root of the number
      *
      * @throws InvalidNumberException

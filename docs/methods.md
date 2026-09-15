@@ -6,13 +6,14 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isBetween](#isbetween) | [make](#make) | [power](#power) |
-| [add](#add) | [isEven](#iseven) | [minus](#minus) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [modulo](#modulo) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [sqrt](#sqrt) |
-| [divide](#divide) | [isPositive](#ispositive) | [ordinal](#ordinal) | [type](#type) |
-| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | [value](#value) |
-| [floor](#floor) | [magnitude](#magnitude) | [padRight](#padright) | [withOrdinal](#withordinal) |
+| [abs](#abs) | [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) |
+| [add](#add) | [isEven](#iseven) | [make](#make) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [minus](#minus) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isOdd](#isodd) | [modulo](#modulo) | [sign](#sign) |
+| [divide](#divide) | [isPositive](#ispositive) | [multiply](#multiply) | [sqrt](#sqrt) |
+| [factors](#factors) | [isZero](#iszero) | [ordinal](#ordinal) | [type](#type) |
+| [floor](#floor) | [padLeft](#padleft) | [padRight](#padright) | [value](#value) |
+| | | | [withOrdinal](#withordinal) |
 
 ### abs
 > Returns `Utility`
@@ -235,6 +236,19 @@ echo (new Utility(4.5))->roundUp()->value();
 // 5
 echo (new Utility(4.2345))->roundUp(3)->value();
 // 4.235
+```
+
+### sign
+> Returns `Utility`
+
+Get the sign of the number: `-1` if negative, `0` if zero, `1` if positive.
+```php
+echo (new Utility(5))->sign()->value();
+// 1
+echo (new Utility(-5))->sign()->value();
+// -1
+echo (new Utility(0))->sign()->value();
+// 0
 ```
 
 ### sqrt
