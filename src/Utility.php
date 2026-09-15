@@ -176,6 +176,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the number is a float
+     */
+    public function isFloat(): bool
+    {
+        return is_float($this->number);
+    }
+
+    /**
      * Check if the number is an integer
      */
     public function isInteger(): bool
