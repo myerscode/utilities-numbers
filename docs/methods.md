@@ -14,7 +14,7 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [factorial](#factorial) | [isOdd](#isodd) | [ordinal](#ordinal) | [type](#type) |
 | [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
 | [floor](#floor) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
-| [gcd](#gcd) | | | |
+| [gcd](#gcd) | [lcm](#lcm) | | |
 
 ### abs
 > Returns `Utility`
@@ -179,6 +179,17 @@ Check if the number is zero.
 ```php
 (new Utility(0))->isZero();
 // true
+```
+
+### lcm
+> Returns `Utility`
+
+Get the least common multiple of the number and the given value. Returns `0` if either value is zero. Throws `InvalidNumberException` if either value is not an integer.
+```php
+echo (new Utility(4))->lcm(6)->value();
+// 12
+echo (new Utility(21))->lcm(6)->value();
+// 42
 ```
 
 ### magnitude

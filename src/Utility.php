@@ -188,14 +188,7 @@ class Utility implements Stringable
             throw new InvalidNumberException('The greatest common divisor is only defined for integers');
         }
 
-        $a = abs($this->number);
-        $b = abs($other);
-
-        while ($b !== 0) {
-            [$a, $b] = [$b, $a % $b];
-        }
-
-        return new self($a);
+        return new self($this->greatestCommonDivisor($this->number, $other));
     }
 
     /**
@@ -277,6 +270,29 @@ class Utility implements Stringable
     public function isZero(): bool
     {
         return $this->number == 0;
+    }
+
+    /**
+     * Get the least common multiple of the number and the given value
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function lcm(int|float|string|Utility $number): self
+    {
+        $other = $this->resolve($number);
+
+        if (!is_int($this->number) || !is_int($other)) {
+            throw new InvalidNumberException('The least common multiple is only defined for integers');
+        }
+
+        if ($this->number === 0 || $other === 0) {
+            return new self(0);
+        }
+
+        $gcd = $this->greatestCommonDivisor($this->number, $other);
+
+        return new self(abs(intdiv($this->number, $gcd) * $other));
     }
 
     /**
@@ -438,6 +454,21 @@ class Utility implements Stringable
     public function withOrdinal(string $spacer = ''): string
     {
         return $this->number . $spacer . $this->ordinal();
+    }
+
+    /**
+     * Calculate the greatest common divisor of two integers using the Euclidean algorithm
+     */
+    private function greatestCommonDivisor(int $a, int $b): int
+    {
+        $a = abs($a);
+        $b = abs($b);
+
+        while ($b !== 0) {
+            [$a, $b] = [$b, $a % $b];
+        }
+
+        return $a;
     }
 
     /**
