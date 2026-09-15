@@ -348,6 +348,32 @@ class Utility implements Stringable
     }
 
     /**
+     * Remap the number from one range to another
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function mapRange(
+        int|float|string|Utility $inMin,
+        int|float|string|Utility $inMax,
+        int|float|string|Utility $outMin,
+        int|float|string|Utility $outMax,
+    ): self {
+        $inMinValue = $this->resolve($inMin);
+        $inMaxValue = $this->resolve($inMax);
+        $outMinValue = $this->resolve($outMin);
+        $outMaxValue = $this->resolve($outMax);
+
+        if ($inMinValue == $inMaxValue) {
+            throw new InvalidNumberException('The input minimum and maximum cannot be equal');
+        }
+
+        $ratio = ($this->number - $inMinValue) / ($inMaxValue - $inMinValue);
+
+        return new self($outMinValue + ($ratio * ($outMaxValue - $outMinValue)));
+    }
+
+    /**
      * Minus a number
      *
      * @throws NonNumericValueException

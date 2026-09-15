@@ -8,14 +8,14 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 |---|---|---|---|
 | [abs](#abs) | [isEven](#iseven) | [magnitude](#magnitude) | [power](#power) |
 | [add](#add) | [isFloat](#isfloat) | [make](#make) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isInteger](#isinteger) | [minus](#minus) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isNegative](#isnegative) | [modulo](#modulo) | [sign](#sign) |
-| [divide](#divide) | [isOdd](#isodd) | [multiply](#multiply) | [sqrt](#sqrt) |
-| [factorial](#factorial) | [isPositive](#ispositive) | [normalize](#normalize) | [type](#type) |
-| [factors](#factors) | [isPrime](#isprime) | [ordinal](#ordinal) | [value](#value) |
-| [floor](#floor) | [isZero](#iszero) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [gcd](#gcd) | [lcm](#lcm) | [padRight](#padright) | [wrap](#wrap) |
-| [isBetween](#isbetween) | [lerp](#lerp) | | |
+| [ceil](#ceil) | [isInteger](#isinteger) | [mapRange](#maprange) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
+| [divide](#divide) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
+| [factorial](#factorial) | [isPositive](#ispositive) | [multiply](#multiply) | [type](#type) |
+| [factors](#factors) | [isPrime](#isprime) | [normalize](#normalize) | [value](#value) |
+| [floor](#floor) | [isZero](#iszero) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
+| [gcd](#gcd) | [lcm](#lcm) | [padLeft](#padleft) | [wrap](#wrap) |
+| [isBetween](#isbetween) | [lerp](#lerp) | [padRight](#padright) | |
 
 ### abs
 > Returns `Utility`
@@ -230,6 +230,17 @@ echo (new Utility(1000))->magnitude()->value();
 Static factory method to create a new Utility instance.
 ```php
 $n = Utility::make(42);
+```
+
+### mapRange
+> Returns `Utility`
+
+Remap the number from one range to another. Throws `InvalidNumberException` if the input minimum and maximum are equal.
+```php
+echo (new Utility(5))->mapRange(0, 10, 0, 100)->value();
+// 50
+echo (new Utility(25))->mapRange(0, 100, 0, 10)->value();
+// 2.5
 ```
 
 ### minus
