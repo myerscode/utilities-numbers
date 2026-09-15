@@ -6,15 +6,14 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isEven](#iseven) | [make](#make) | [roundUp](#roundup) |
-| [add](#add) | [isFloat](#isfloat) | [minus](#minus) | [sign](#sign) |
-| [ceil](#ceil) | [isInteger](#isinteger) | [modulo](#modulo) | [sqrt](#sqrt) |
-| [clamp](#clamp) | [isNegative](#isnegative) | [multiply](#multiply) | [type](#type) |
-| [divide](#divide) | [isOdd](#isodd) | [ordinal](#ordinal) | [value](#value) |
-| [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [withOrdinal](#withordinal) |
-| [floor](#floor) | [isZero](#iszero) | [padRight](#padright) | |
-| [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) | |
-| | | [roundDown](#rounddown) | |
+| [abs](#abs) | [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) |
+| [add](#add) | [isEven](#iseven) | [make](#make) | [roundDown](#rounddown) |
+| [ceil](#ceil) | [isFloat](#isfloat) | [minus](#minus) | [roundUp](#roundup) |
+| [clamp](#clamp) | [isInteger](#isinteger) | [modulo](#modulo) | [sign](#sign) |
+| [divide](#divide) | [isNegative](#isnegative) | [multiply](#multiply) | [sqrt](#sqrt) |
+| [factorial](#factorial) | [isOdd](#isodd) | [ordinal](#ordinal) | [type](#type) |
+| [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
+| [floor](#floor) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
 
 ### abs
 > Returns `Utility`
@@ -61,6 +60,17 @@ Divide the current value by the given number.
 ```php
 echo (new Utility(25))->divide(5)->value();
 // 5
+```
+
+### factorial
+> Returns `Utility`
+
+Get the factorial of the number. Throws `InvalidNumberException` for negative or non-integer values.
+```php
+echo (new Utility(5))->factorial()->value();
+// 120
+echo (new Utility(0))->factorial()->value();
+// 1
 ```
 
 ### factors

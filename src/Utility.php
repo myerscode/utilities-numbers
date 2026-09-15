@@ -114,6 +114,26 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the factorial of the number
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function factorial(): self
+    {
+        if (!is_int($this->number) || $this->number < 0) {
+            throw new InvalidNumberException('Factorial is only defined for non-negative integers');
+        }
+
+        $result = 1;
+        for ($i = 2; $i <= $this->number; ++$i) {
+            $result *= $i;
+        }
+
+        return new self($result);
+    }
+
+    /**
      * Get the factors for the number
      *
      * @throws InvalidNumberException
