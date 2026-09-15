@@ -14,6 +14,7 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [factorial](#factorial) | [isOdd](#isodd) | [ordinal](#ordinal) | [type](#type) |
 | [factors](#factors) | [isPositive](#ispositive) | [padLeft](#padleft) | [value](#value) |
 | [floor](#floor) | [isZero](#iszero) | [padRight](#padright) | [withOrdinal](#withordinal) |
+| [gcd](#gcd) | | | |
 
 ### abs
 > Returns `Utility`
@@ -89,6 +90,17 @@ Round down the value using floor.
 ```php
 echo (new Utility(4.3))->floor()->value();
 // 4
+```
+
+### gcd
+> Returns `Utility`
+
+Get the greatest common divisor of the number and the given value. Throws `InvalidNumberException` if either value is not an integer.
+```php
+echo (new Utility(12))->gcd(8)->value();
+// 4
+echo (new Utility(54))->gcd(24)->value();
+// 6
 ```
 
 ### isBetween

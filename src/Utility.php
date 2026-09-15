@@ -175,6 +175,30 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the greatest common divisor of the number and the given value
+     *
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function gcd(int|float|string|Utility $number): self
+    {
+        $other = $this->resolve($number);
+
+        if (!is_int($this->number) || !is_int($other)) {
+            throw new InvalidNumberException('The greatest common divisor is only defined for integers');
+        }
+
+        $a = abs($this->number);
+        $b = abs($other);
+
+        while ($b !== 0) {
+            [$a, $b] = [$b, $a % $b];
+        }
+
+        return new self($a);
+    }
+
+    /**
      * Check if the number is between two values (inclusive)
      *
      * @throws NonNumericValueException
