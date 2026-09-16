@@ -6,17 +6,17 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isBetween](#isbetween) | [lerp](#lerp) | [padRight](#padright) |
-| [add](#add) | [isEven](#iseven) | [magnitude](#magnitude) | [power](#power) |
-| [asAbbreviated](#asabbreviated) | [isFloat](#isfloat) | [make](#make) | [roundDown](#rounddown) |
-| [asFileSize](#asfilesize) | [isInteger](#isinteger) | [mapRange](#maprange) | [roundUp](#roundup) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
-| [clamp](#clamp) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
-| [divide](#divide) | [isPositive](#ispositive) | [multiply](#multiply) | [type](#type) |
-| [factorial](#factorial) | [isPrime](#isprime) | [normalize](#normalize) | [value](#value) |
-| [factors](#factors) | [isZero](#iszero) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
-| [floor](#floor) | [lcm](#lcm) | [padLeft](#padleft) | [wrap](#wrap) |
-| [gcd](#gcd) | | | |
+| [abs](#abs) | [gcd](#gcd) | [lerp](#lerp) | [padRight](#padright) |
+| [add](#add) | [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) |
+| [asAbbreviated](#asabbreviated) | [isEven](#iseven) | [make](#make) | [roundDown](#rounddown) |
+| [asFileSize](#asfilesize) | [isFloat](#isfloat) | [mapRange](#maprange) | [roundUp](#roundup) |
+| [asPercentage](#aspercentage) | [isInteger](#isinteger) | [minus](#minus) | [sign](#sign) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [modulo](#modulo) | [sqrt](#sqrt) |
+| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
+| [divide](#divide) | [isPositive](#ispositive) | [normalize](#normalize) | [value](#value) |
+| [factorial](#factorial) | [isPrime](#isprime) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
+| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | [wrap](#wrap) |
+| [floor](#floor) | [lcm](#lcm) | | |
 
 ### abs
 > Returns `Utility`
@@ -58,6 +58,19 @@ echo (new Utility(1536))->asFileSize();
 // 1.50 KB
 echo (new Utility(1048576))->asFileSize(FileSizeUnit::MB);
 // 1.00 MB
+```
+
+### asPercentage
+> Returns `string`
+
+Format the number as a locale aware percentage. By default the number is treated as a percentage out of 100, but passing `of` calculates what percentage the number is of that value. Throws `DivisionByZeroError` if `of` is zero.
+```php
+echo (new Utility(25))->asPercentage();
+// 25%
+echo (new Utility(50))->asPercentage(200);
+// 25%
+echo (new Utility(100))->asPercentage(300, 2);
+// 33.33%
 ```
 
 ### ceil

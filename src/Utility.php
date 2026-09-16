@@ -7,6 +7,7 @@ use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
+use Myerscode\Utilities\Numbers\Support\NumberFormatting;
 use RoundingMode;
 use Stringable;
 
@@ -107,6 +108,24 @@ class Utility implements Stringable
         $value = $this->number / $unit->bytes();
 
         return number_format($value, $precision) . ' ' . $unit->suffix();
+    }
+
+    /**
+     * Format the number as a locale aware percentage of a given value (defaults to a percentage out of 100)
+     *
+     * @throws DivisionByZeroError
+     * @throws InvalidNumberException
+     * @throws NonNumericValueException
+     */
+    public function asPercentage(int|float|string|Utility $of = 100, int $precision = 0, string $locale = 'en'): string
+    {
+        $of = $this->resolve($of);
+
+        if ($of == 0) {
+            throw new DivisionByZeroError();
+        }
+
+        return (new NumberFormatting())->percentage($this->number / $of, $precision, $locale);
     }
 
     /**
