@@ -11,6 +11,7 @@
 ## Requirements
 
 - PHP >= 8.5
+- ext-intl
 
 ## Install
 
