@@ -6,17 +6,17 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [gcd](#gcd) | [lerp](#lerp) | [padRight](#padright) |
-| [add](#add) | [isBetween](#isbetween) | [magnitude](#magnitude) | [power](#power) |
-| [asAbbreviated](#asabbreviated) | [isEven](#iseven) | [make](#make) | [roundDown](#rounddown) |
-| [asFileSize](#asfilesize) | [isFloat](#isfloat) | [mapRange](#maprange) | [roundUp](#roundup) |
-| [asPercentage](#aspercentage) | [isInteger](#isinteger) | [minus](#minus) | [sign](#sign) |
-| [ceil](#ceil) | [isNegative](#isnegative) | [modulo](#modulo) | [sqrt](#sqrt) |
-| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [type](#type) |
-| [divide](#divide) | [isPositive](#ispositive) | [normalize](#normalize) | [value](#value) |
-| [factorial](#factorial) | [isPrime](#isprime) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
-| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | [wrap](#wrap) |
-| [floor](#floor) | [lcm](#lcm) | | |
+| [abs](#abs) | [floor](#floor) | [lcm](#lcm) | [padRight](#padright) |
+| [add](#add) | [gcd](#gcd) | [lerp](#lerp) | [power](#power) |
+| [asAbbreviated](#asabbreviated) | [isBetween](#isbetween) | [magnitude](#magnitude) | [roundDown](#rounddown) |
+| [asFileSize](#asfilesize) | [isEven](#iseven) | [make](#make) | [roundUp](#roundup) |
+| [asPercentage](#aspercentage) | [isFloat](#isfloat) | [mapRange](#maprange) | [sign](#sign) |
+| [asWords](#aswords) | [isInteger](#isinteger) | [minus](#minus) | [sqrt](#sqrt) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [modulo](#modulo) | [type](#type) |
+| [clamp](#clamp) | [isOdd](#isodd) | [multiply](#multiply) | [value](#value) |
+| [divide](#divide) | [isPositive](#ispositive) | [normalize](#normalize) | [withOrdinal](#withordinal) |
+| [factorial](#factorial) | [isPrime](#isprime) | [ordinal](#ordinal) | [wrap](#wrap) |
+| [factors](#factors) | [isZero](#iszero) | [padLeft](#padleft) | |
 
 ### abs
 > Returns `Utility`
@@ -71,6 +71,19 @@ echo (new Utility(50))->asPercentage(200);
 // 25%
 echo (new Utility(100))->asPercentage(300, 2);
 // 33.33%
+```
+
+### asWords
+> Returns `string`
+
+Spell out the number in words for the given locale (defaults to `en`). Handles integers and decimals.
+```php
+echo (new Utility(42))->asWords();
+// forty-two
+echo (new Utility(42))->asWords('fr');
+// quarante-deux
+echo (new Utility(3.5))->asWords();
+// three point five
 ```
 
 ### ceil

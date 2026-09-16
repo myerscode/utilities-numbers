@@ -129,6 +129,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Spell out the number in words for the given locale
+     *
+     * @throws InvalidNumberException
+     */
+    public function asWords(string $locale = 'en'): string
+    {
+        return (new NumberFormatting())->spellOut($this->number, $locale);
+    }
+
+    /**
      * Ceil the number
      *
      * @throws NonNumericValueException
