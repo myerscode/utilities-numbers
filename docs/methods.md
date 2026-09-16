@@ -6,8 +6,9 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 
 | | | | |
 |---|---|---|---|
-| [abs](#abs) | [isEven](#iseven) | [magnitude](#magnitude) | [power](#power) |
-| [add](#add) | [isFloat](#isfloat) | [make](#make) | [roundDown](#rounddown) |
+| [abs](#abs) | [isBetween](#isbetween) | [lerp](#lerp) | [padRight](#padright) |
+| [add](#add) | [isEven](#iseven) | [magnitude](#magnitude) | [power](#power) |
+| [asAbbreviated](#asabbreviated) | [isFloat](#isfloat) | [make](#make) | [roundDown](#rounddown) |
 | [ceil](#ceil) | [isInteger](#isinteger) | [mapRange](#maprange) | [roundUp](#roundup) |
 | [clamp](#clamp) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
 | [divide](#divide) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
@@ -15,7 +16,6 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [factors](#factors) | [isPrime](#isprime) | [normalize](#normalize) | [value](#value) |
 | [floor](#floor) | [isZero](#iszero) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
 | [gcd](#gcd) | [lcm](#lcm) | [padLeft](#padleft) | [wrap](#wrap) |
-| [isBetween](#isbetween) | [lerp](#lerp) | [padRight](#padright) | |
 
 ### abs
 > Returns `Utility`
@@ -33,6 +33,17 @@ Add a number to the current value.
 ```php
 echo (new Utility(5))->add(10)->value();
 // 15
+```
+
+### asAbbreviated
+> Returns `string`
+
+Format the number in a compact, human readable form using `K`, `M`, `B`, and `T` suffixes. Trailing zeros are trimmed. Values below 1000 are returned unchanged.
+```php
+echo (new Utility(1500))->asAbbreviated();
+// 1.5K
+echo (new Utility(1000000))->asAbbreviated();
+// 1M
 ```
 
 ### ceil

@@ -74,6 +74,31 @@ class Utility implements Stringable
     }
 
     /**
+     * Format the number in a compact, human readable form (e.g. 1500 becomes 1.5K)
+     */
+    public function asAbbreviated(int $precision = 1): string
+    {
+        $suffixes = ['', 'K', 'M', 'B', 'T'];
+
+        $magnitude = abs($this->number);
+
+        if ($magnitude < 1000) {
+            return (string) $this->number;
+        }
+
+        $power = min((int) floor(log($magnitude, 1000)), count($suffixes) - 1);
+        $scaled = $this->number / (1000 ** $power);
+
+        $formatted = number_format($scaled, $precision);
+
+        if (str_contains($formatted, '.')) {
+            $formatted = rtrim(rtrim($formatted, '0'), '.');
+        }
+
+        return $formatted . $suffixes[$power];
+    }
+
+    /**
      * Ceil the number
      *
      * @throws NonNumericValueException
