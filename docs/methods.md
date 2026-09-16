@@ -9,13 +9,14 @@ A fluent interface for interacting with numbers, providing immutable arithmetic,
 | [abs](#abs) | [isBetween](#isbetween) | [lerp](#lerp) | [padRight](#padright) |
 | [add](#add) | [isEven](#iseven) | [magnitude](#magnitude) | [power](#power) |
 | [asAbbreviated](#asabbreviated) | [isFloat](#isfloat) | [make](#make) | [roundDown](#rounddown) |
-| [ceil](#ceil) | [isInteger](#isinteger) | [mapRange](#maprange) | [roundUp](#roundup) |
-| [clamp](#clamp) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
-| [divide](#divide) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
-| [factorial](#factorial) | [isPositive](#ispositive) | [multiply](#multiply) | [type](#type) |
-| [factors](#factors) | [isPrime](#isprime) | [normalize](#normalize) | [value](#value) |
-| [floor](#floor) | [isZero](#iszero) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
-| [gcd](#gcd) | [lcm](#lcm) | [padLeft](#padleft) | [wrap](#wrap) |
+| [asFileSize](#asfilesize) | [isInteger](#isinteger) | [mapRange](#maprange) | [roundUp](#roundup) |
+| [ceil](#ceil) | [isNegative](#isnegative) | [minus](#minus) | [sign](#sign) |
+| [clamp](#clamp) | [isOdd](#isodd) | [modulo](#modulo) | [sqrt](#sqrt) |
+| [divide](#divide) | [isPositive](#ispositive) | [multiply](#multiply) | [type](#type) |
+| [factorial](#factorial) | [isPrime](#isprime) | [normalize](#normalize) | [value](#value) |
+| [factors](#factors) | [isZero](#iszero) | [ordinal](#ordinal) | [withOrdinal](#withordinal) |
+| [floor](#floor) | [lcm](#lcm) | [padLeft](#padleft) | [wrap](#wrap) |
+| [gcd](#gcd) | | | |
 
 ### abs
 > Returns `Utility`
@@ -44,6 +45,19 @@ echo (new Utility(1500))->asAbbreviated();
 // 1.5K
 echo (new Utility(1000000))->asAbbreviated();
 // 1M
+```
+
+### asFileSize
+> Returns `string`
+
+Format the number, treated as a value in bytes, as a human readable file size. The unit is chosen with the `FileSizeUnit` enum (defaulting to `KB`) and uses base 1024.
+```php
+use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
+
+echo (new Utility(1536))->asFileSize();
+// 1.50 KB
+echo (new Utility(1048576))->asFileSize(FileSizeUnit::MB);
+// 1.00 MB
 ```
 
 ### ceil

@@ -3,6 +3,7 @@
 namespace Myerscode\Utilities\Numbers;
 
 use DivisionByZeroError;
+use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
@@ -96,6 +97,16 @@ class Utility implements Stringable
         }
 
         return $formatted . $suffixes[$power];
+    }
+
+    /**
+     * Format the number (in bytes) as a human readable file size
+     */
+    public function asFileSize(FileSizeUnit $unit = FileSizeUnit::KB, int $precision = 2): string
+    {
+        $value = $this->number / $unit->bytes();
+
+        return number_format($value, $precision) . ' ' . $unit->suffix();
     }
 
     /**
