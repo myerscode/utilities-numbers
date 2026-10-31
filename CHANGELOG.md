@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Calendar Versioning](https://calver.org/).
 
+## [2026.0.1] - 2026-10-31
+### New Features
+- [`5b64b4d`](https://github.com/myerscode/utilities-numbers/commit/5b64b4db834a5490005eeb7c20f15169e94f79bb) - add sign() method *(commit by [@oniice](https://github.com/oniice))*
+- [`5c2eac7`](https://github.com/myerscode/utilities-numbers/commit/5c2eac7dba431fedb04a4448a2130a128db25f0f) - add isInteger() method *(commit by [@oniice](https://github.com/oniice))*
+- [`5a760dc`](https://github.com/myerscode/utilities-numbers/commit/5a760dc5366184bf4a69509041de06838974e2e2) - add isFloat() method *(commit by [@oniice](https://github.com/oniice))*
+- [`972bf07`](https://github.com/myerscode/utilities-numbers/commit/972bf07b005e0bd42c536002779ef6975610063f) - add factorial() method *(commit by [@oniice](https://github.com/oniice))*
+- [`84bf003`](https://github.com/myerscode/utilities-numbers/commit/84bf00346a3522711b278a8fed8a2d5855fa5fb5) - add gcd() method *(commit by [@oniice](https://github.com/oniice))*
+- [`6f14679`](https://github.com/myerscode/utilities-numbers/commit/6f146792fe67e7f37fa8257b035eb5914ace52c9) - add lcm() method *(commit by [@oniice](https://github.com/oniice))*
+- [`80e905d`](https://github.com/myerscode/utilities-numbers/commit/80e905d40a81d93823d34c536d98b69d7d053f7d) - add isPrime() method *(commit by [@oniice](https://github.com/oniice))*
+- [`810780b`](https://github.com/myerscode/utilities-numbers/commit/810780b5d74dcfb7918ddd407af1826801fbeef2) - add wrap() method *(commit by [@oniice](https://github.com/oniice))*
+- [`b7ba4e9`](https://github.com/myerscode/utilities-numbers/commit/b7ba4e94ecd83e512912e7f849c3372037d16a3d) - add lerp() method *(commit by [@oniice](https://github.com/oniice))*
+- [`539fb85`](https://github.com/myerscode/utilities-numbers/commit/539fb854a4f8ece2a26657020ce66920a4666c95) - add normalize() method *(commit by [@oniice](https://github.com/oniice))*
+- [`2ce3c7f`](https://github.com/myerscode/utilities-numbers/commit/2ce3c7f549cacf96fd0b7f20008ce90e6ebd409a) - add mapRange() method *(commit by [@oniice](https://github.com/oniice))*
+- [`8a75cb0`](https://github.com/myerscode/utilities-numbers/commit/8a75cb0e0077defacb4804b0491efbdc482cc8cb) - add ext-intl dependency, FileSizeUnit enum and NumberFormatting helper *(commit by [@oniice](https://github.com/oniice))*
+- [`f71f9d1`](https://github.com/myerscode/utilities-numbers/commit/f71f9d112f175f77734f5617308f86e7ade869bc) - add asAbbreviated() method *(commit by [@oniice](https://github.com/oniice))*
+- [`82a520c`](https://github.com/myerscode/utilities-numbers/commit/82a520c871cbf9e67b9c46b434ac177e0f431a6b) - add asFileSize() method *(commit by [@oniice](https://github.com/oniice))*
+- [`caa1543`](https://github.com/myerscode/utilities-numbers/commit/caa1543448a13be4ebc2d492dc18bbb7e1aeef04) - add asPercentage() method *(commit by [@oniice](https://github.com/oniice))*
+- [`78dfe53`](https://github.com/myerscode/utilities-numbers/commit/78dfe5399c5acd5ace18c8a51a188dc50704aa93) - add asWords() method *(commit by [@oniice](https://github.com/oniice))*
+- [`c67392e`](https://github.com/myerscode/utilities-numbers/commit/c67392eb07ce9877869d8602c79ed2fd8a039ed9) - **ci**: add shared dependabot auto-merge *(PR [#4](https://github.com/myerscode/utilities-numbers/pull/4) by [@oniice](https://github.com/oniice))*
+
+
 ## [2026.0.0] - 2026-04-01
 ### New Features
 - [`36670ca`](https://github.com/myerscode/utilities-numbers/commit/36670ca695de3fa0825e93aa7af2cfc0c62aeded) - add abs() method *(commit by [@oniice](https://github.com/oniice))*
@@ -28,3 +49,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [`b0f272d`](https://github.com/myerscode/utilities-numbers/commit/b0f272df8ddde6ae9c7eb097219f19beaf918534) - add coverage for Utility instance input *(commit by [@oniice](https://github.com/oniice))*
 
 [2026.0.0]: https://github.com/myerscode/utilities-numbers/compare/2.0.0...2026.0.0
+[2026.0.1]: https://github.com/myerscode/utilities-numbers/compare/2026.0.0...2026.0.1
