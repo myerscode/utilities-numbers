@@ -39,10 +39,12 @@ echo (new Utility(5))->add(10)->value();
 ### asAbbreviated
 > Returns `string`
 
-Format the number in a compact, human readable form using `K`, `M`, `B`, and `T` suffixes. Trailing zeros are trimmed. Values below 1000 are returned unchanged.
+Format the number in a compact, human readable form using `K`, `M`, `B`, and `T` suffixes. Trailing zeros are trimmed. Values below 1000 are returned unchanged. Pass a `locale` as the second argument to use that locale's separators (requires `ext-intl`); without it the output uses `.` for decimals. An invalid locale throws `InvalidNumberException`.
 ```php
 echo (new Utility(1500))->asAbbreviated();
 // 1.5K
+echo (new Utility(1500))->asAbbreviated(1, 'de');
+// 1,5K
 echo (new Utility(1000000))->asAbbreviated();
 // 1M
 ```
@@ -50,7 +52,7 @@ echo (new Utility(1000000))->asAbbreviated();
 ### asFileSize
 > Returns `string`
 
-Format the number, treated as a value in bytes, as a human readable file size. The unit is chosen with the `FileSizeUnit` enum (defaulting to `KB`) and uses base 1024.
+Format the number, treated as a value in bytes, as a human readable file size. The unit is chosen with the `FileSizeUnit` enum (defaulting to `KB`) and uses base 1024. Pass a `locale` as the third argument to use that locale's separators (requires `ext-intl`); without it the output uses `,` for thousands and `.` for decimals. An invalid locale throws `InvalidNumberException`.
 ```php
 use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
 
@@ -58,6 +60,8 @@ echo (new Utility(1536))->asFileSize();
 // 1.50 KB
 echo (new Utility(1048576))->asFileSize(FileSizeUnit::MB);
 // 1.00 MB
+echo (new Utility(1536))->asFileSize(FileSizeUnit::KB, 2, 'de');
+// 1,50 KB
 ```
 
 ### asPercentage
@@ -89,10 +93,16 @@ echo (new Utility(3.5))->asWords();
 ### ceil
 > Returns `Utility`
 
-Round up the number using ceil.
+Round the number up (towards positive infinity) to a given precision. A negative precision rounds to tens, hundreds and so on.
 ```php
 echo (new Utility(4.3))->ceil()->value();
 // 5
+echo (new Utility(-3.14))->ceil()->value();
+// -3
+echo (new Utility(4.2345))->ceil(3)->value();
+// 4.235
+echo (new Utility(1234))->ceil(-2)->value();
+// 1300
 ```
 
 ### clamp
@@ -118,7 +128,7 @@ echo (new Utility(25))->divide(5)->value();
 ### factorial
 > Returns `Utility`
 
-Get the factorial of the number. Throws `InvalidNumberException` for negative or non-integer values.
+Get the factorial of the number. Throws `InvalidNumberException` for negative or non-integer values, and for values above `20` (the largest factorial that fits in an integer).
 ```php
 echo (new Utility(5))->factorial()->value();
 // 120
@@ -138,10 +148,16 @@ Get the factors of the current number.
 ### floor
 > Returns `Utility`
 
-Round down the value using floor.
+Round the number down (towards negative infinity) to a given precision. A negative precision rounds to tens, hundreds and so on.
 ```php
 echo (new Utility(4.3))->floor()->value();
 // 4
+echo (new Utility(-3.14))->floor()->value();
+// -4
+echo (new Utility(4.2345))->floor(2)->value();
+// 4.23
+echo (new Utility(1234))->floor(-2)->value();
+// 1200
 ```
 
 ### gcd
@@ -158,12 +174,14 @@ echo (new Utility(54))->gcd(24)->value();
 ### isBetween
 > Returns `bool`
 
-Check if the number is between two values (inclusive).
+Check if the number is between two values (inclusive). An optional `epsilon` (default `0.0`, exact) widens both bounds by that amount to absorb float error. Throws `InvalidNumberException` for a negative `epsilon`.
 ```php
 (new Utility(5))->isBetween(1, 10);
 // true
 (new Utility(11))->isBetween(1, 10);
 // false
+(new Utility(0.1 + 0.2))->isBetween(0.0, 0.3, 1e-9);
+// true
 ```
 
 ### isEven
@@ -200,7 +218,7 @@ Check if the number is an integer.
 ### isNegative
 > Returns `bool`
 
-Check if the number is negative. Throws `IsZeroException` for zero.
+Check if the number is negative. Returns `false` for zero (`0`, `0.0` and `-0.0`).
 ```php
 (new Utility(-5))->isNegative();
 // true
@@ -218,7 +236,7 @@ Check if the number is an odd integer. Returns false for floats.
 ### isPositive
 > Returns `bool`
 
-Check if the number is positive. Throws `IsZeroException` for zero.
+Check if the number is positive. Returns `false` for zero (`0`, `0.0` and `-0.0`).
 ```php
 (new Utility(5))->isPositive();
 // true
@@ -238,9 +256,11 @@ Check if the number is a prime number. Returns false for non-integers and values
 ### isZero
 > Returns `bool`
 
-Check if the number is zero.
+Check if the number is zero. An optional `epsilon` (default `0.0`, exact) treats values within that distance of zero as zero. Throws `InvalidNumberException` for a negative `epsilon`.
 ```php
 (new Utility(0))->isZero();
+// true
+(new Utility(0.1 + 0.2 - 0.3))->isZero(1e-9);
 // true
 ```
 
@@ -278,7 +298,7 @@ echo (new Utility(1000))->magnitude()->value();
 ### make
 > Returns `Utility`
 
-Static factory method to create a new Utility instance.
+Static factory method to create a new Utility instance. Accepts an `int`, `float`, numeric string or another `Utility`. Throws `NonNumericValueException` for non-numeric strings, and `InvalidNumberException` for an empty or whitespace-only string, or a non-finite float.
 ```php
 $n = Utility::make(42);
 ```
@@ -306,10 +326,16 @@ echo (new Utility(14))->minus(7)->value();
 ### modulo
 > Returns `Utility`
 
-Get the remainder after division. Throws `DivisionByZeroError` for zero divisor.
+Get the remainder after division. Two integers use `%` and return an `int`; if either value is a float it uses `fmod` and returns a `float`. The result takes the sign of the number being divided (the dividend), not the divisor. Throws `DivisionByZeroError` for zero divisor.
 ```php
 echo (new Utility(10))->modulo(3)->value();
 // 1
+echo (new Utility(-10))->modulo(3)->value();
+// -1
+echo (new Utility(10))->modulo(-3)->value();
+// 1
+echo (new Utility(7.5))->modulo(5)->value();
+// 2.5
 ```
 
 ### multiply
@@ -371,23 +397,33 @@ echo (new Utility(5))->power(3)->value();
 ### roundDown
 > Returns `Utility`
 
-Round down the number to a given precision.
+An alias of [floor](#floor). Rounds the number down (towards negative infinity) to a given precision.
 ```php
 echo (new Utility(4.5))->roundDown()->value();
 // 4
+echo (new Utility(9.999))->roundDown()->value();
+// 9
+echo (new Utility(-3.14))->roundDown()->value();
+// -4
 echo (new Utility(4.2345))->roundDown(2)->value();
 // 4.23
+echo (new Utility(1234))->roundDown(-2)->value();
+// 1200
 ```
 
 ### roundUp
 > Returns `Utility`
 
-Round up the number to a given precision.
+An alias of [ceil](#ceil). Rounds the number up (towards positive infinity) to a given precision.
 ```php
-echo (new Utility(4.5))->roundUp()->value();
+echo (new Utility(4.3))->roundUp()->value();
 // 5
+echo (new Utility(-3.14))->roundUp()->value();
+// -3
 echo (new Utility(4.2345))->roundUp(3)->value();
 // 4.235
+echo (new Utility(1234))->roundUp(-2)->value();
+// 1300
 ```
 
 ### sign

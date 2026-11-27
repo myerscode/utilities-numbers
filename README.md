@@ -11,7 +11,9 @@
 ## Requirements
 
 - PHP >= 8.5
-- ext-intl
+- ext-intl (locale aware formatting: `asAbbreviated`, `asFileSize`, `asPercentage`, `asWords`)
+
+Integer arithmetic that overflows throws `InvalidNumberException` instead of silently becoming a float, and `factorial` is capped at 20. See the [usage guide](./docs/usage.md) for details.
 
 ## Install
 

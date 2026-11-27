@@ -13,12 +13,12 @@ final class DivideTest extends BaseNumberSuite
 {
     public static function __invalidData(): Iterator
     {
-        yield [0, 7];
         yield [7, 0];
     }
 
     public static function __validData(): Iterator
     {
+        yield [0, 0, 7];
         yield [1, 7, 7];
         yield [7, 49, 7];
     }

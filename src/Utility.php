@@ -5,7 +5,6 @@ namespace Myerscode\Utilities\Numbers;
 use DivisionByZeroError;
 use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
-use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 use Myerscode\Utilities\Numbers\Support\NumberFormatting;
 use RoundingMode;
@@ -19,6 +18,7 @@ class Utility implements Stringable
      * Utility constructor.
      *
      * @throws NonNumericValueException
+     * @throws InvalidNumberException
      */
     public function __construct(int|float|string|Utility $number)
     {
@@ -26,8 +26,12 @@ class Utility implements Stringable
             $number = $number->value();
         } elseif (is_numeric($number)) {
             $number += 0;
-        } elseif ($number === '') {
-            $number = 0;
+
+            if (is_float($number) && !is_finite($number)) {
+                throw new InvalidNumberException('Number must be finite');
+            }
+        } elseif (trim($number) === '') {
+            throw new InvalidNumberException('Number cannot be empty');
         } else {
             throw new NonNumericValueException(
                 gettype($number) . ' cannot be cast to a valid number',
@@ -62,7 +66,7 @@ class Utility implements Stringable
      */
     public function abs(): self
     {
-        return new self(abs($this->number));
+        return new self($this->exact(abs($this->number), $this->number));
     }
 
     /**
@@ -72,13 +76,19 @@ class Utility implements Stringable
      */
     public function add(int|float|string|Utility $number): self
     {
-        return new self($this->number + $this->resolve($number));
+        $other = $this->resolve($number);
+
+        return new self($this->exact($this->number + $other, $this->number, $other));
     }
 
     /**
      * Format the number in a compact, human readable form (e.g. 1500 becomes 1.5K)
+     *
+     * @param string|null $locale format the separators for this locale, null keeps the default "1,234.5" style
+     *
+     * @throws InvalidNumberException
      */
-    public function asAbbreviated(int $precision = 1): string
+    public function asAbbreviated(int $precision = 1, ?string $locale = null): string
     {
         $suffixes = ['', 'K', 'M', 'B', 'T'];
 
@@ -88,8 +98,19 @@ class Utility implements Stringable
             return (string) $this->number;
         }
 
-        $power = min((int) floor(log($magnitude, 1000)), count($suffixes) - 1);
+        $max = count($suffixes) - 1;
+        $power = min((int) floor(log($magnitude, 1000)), $max);
         $scaled = $this->number / (1000 ** $power);
+
+        // rounding can carry into the next unit (999999 -> 1000K), so promote it (capped at the largest suffix)
+        if ($power < $max && abs(round($scaled, $precision)) >= 1000) {
+            ++$power;
+            $scaled = $this->number / (1000 ** $power);
+        }
+
+        if ($locale !== null) {
+            return (new NumberFormatting())->decimal($scaled, 0, $precision, $locale) . $suffixes[$power];
+        }
 
         $formatted = number_format($scaled, $precision);
 
@@ -102,12 +123,20 @@ class Utility implements Stringable
 
     /**
      * Format the number (in bytes) as a human readable file size
+     *
+     * @param string|null $locale format the separators for this locale, null keeps the default "1,234.50" style
+     *
+     * @throws InvalidNumberException
      */
-    public function asFileSize(FileSizeUnit $unit = FileSizeUnit::KB, int $precision = 2): string
+    public function asFileSize(FileSizeUnit $unit = FileSizeUnit::KB, int $precision = 2, ?string $locale = null): string
     {
         $value = $this->number / $unit->bytes();
 
-        return number_format($value, $precision) . ' ' . $unit->suffix();
+        $formatted = $locale === null
+            ? number_format($value, $precision)
+            : (new NumberFormatting())->decimal($value, $precision, $precision, $locale);
+
+        return $formatted . ' ' . $unit->suffix();
     }
 
     /**
@@ -139,13 +168,13 @@ class Utility implements Stringable
     }
 
     /**
-     * Ceil the number
+     * Ceil the number (towards positive infinity) to a given precision, a negative precision rounds to tens, hundreds etc
      *
      * @throws NonNumericValueException
      */
-    public function ceil(): self
+    public function ceil(int $precision = 0): self
     {
-        return new self(ceil($this->number));
+        return $this->round($precision, RoundingMode::PositiveInfinity);
     }
 
     /**
@@ -171,7 +200,7 @@ class Utility implements Stringable
     {
         $divisor = $this->resolve($number);
 
-        if ($divisor == 0 || $this->number == 0) {
+        if ($divisor == 0) {
             throw new DivisionByZeroError();
         }
 
@@ -188,6 +217,11 @@ class Utility implements Stringable
     {
         if (!is_int($this->number) || $this->number < 0) {
             throw new InvalidNumberException('Factorial is only defined for non-negative integers');
+        }
+
+        // 20! is the largest factorial that fits in a 64-bit int
+        if ($this->number > 20) {
+            throw new InvalidNumberException('Factorial is only supported up to 20');
         }
 
         $result = 1;
@@ -230,13 +264,13 @@ class Utility implements Stringable
     }
 
     /**
-     * Floor the number
+     * Floor the number (towards negative infinity) to a given precision, a negative precision rounds to tens, hundreds etc
      *
      * @throws NonNumericValueException
      */
-    public function floor(): self
+    public function floor(int $precision = 0): self
     {
-        return new self(floor($this->number));
+        return $this->round($precision, RoundingMode::NegativeInfinity);
     }
 
     /**
@@ -257,16 +291,19 @@ class Utility implements Stringable
     }
 
     /**
-     * Check if the number is between two values (inclusive)
+     * Check if the number is between two values (inclusive), allowing the bounds to be missed by up to epsilon
      *
+     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
-    public function isBetween(int|float|string|Utility $min, int|float|string|Utility $max): bool
+    public function isBetween(int|float|string|Utility $min, int|float|string|Utility $max, float $epsilon = 0.0): bool
     {
+        $this->guardEpsilon($epsilon);
+
         $minValue = $this->resolve($min);
         $maxValue = $this->resolve($max);
 
-        return $this->number >= $minValue && $this->number <= $maxValue;
+        return $this->number >= $minValue - $epsilon && $this->number <= $maxValue + $epsilon;
     }
 
     /**
@@ -294,16 +331,10 @@ class Utility implements Stringable
     }
 
     /**
-     * Is the number negative
-     *
-     * @throws IsZeroException
+     * Is the number negative (zero is neither, so it returns false)
      */
     public function isNegative(): bool
     {
-        if ($this->number === 0) {
-            throw new IsZeroException('0 is neither positive or negative');
-        }
-
         return $this->number < 0;
     }
 
@@ -316,16 +347,10 @@ class Utility implements Stringable
     }
 
     /**
-     * Is the number positive
-     *
-     * @throws IsZeroException
+     * Is the number positive (zero is neither, so it returns false)
      */
     public function isPositive(): bool
     {
-        if ($this->number === 0) {
-            throw new IsZeroException('0 is neither positive or negative');
-        }
-
         return $this->number > 0;
     }
 
@@ -347,8 +372,12 @@ class Utility implements Stringable
         }
 
         $limit = (int) floor(sqrt($this->number));
-        for ($i = 3; $i <= $limit; $i += 2) {
-            if ($this->number % $i === 0) {
+        if ($this->number % 3 === 0) {
+            return false;
+        }
+
+        for ($i = 5; $i <= $limit; $i += 6) {
+            if ($this->number % $i === 0 || $this->number % ($i + 2) === 0) {
                 return false;
             }
         }
@@ -357,11 +386,15 @@ class Utility implements Stringable
     }
 
     /**
-     * Check if the number is zero
+     * Check if the number is zero, or within epsilon of zero
+     *
+     * @throws InvalidNumberException
      */
-    public function isZero(): bool
+    public function isZero(float $epsilon = 0.0): bool
     {
-        return $this->number == 0;
+        $this->guardEpsilon($epsilon);
+
+        return abs($this->number) <= $epsilon;
     }
 
     /**
@@ -384,7 +417,7 @@ class Utility implements Stringable
 
         $gcd = $this->greatestCommonDivisor($this->number, $other);
 
-        return new self(abs(intdiv($this->number, $gcd) * $other));
+        return new self($this->exact(abs(intdiv($this->number, $gcd) * $other), $this->number, $other));
     }
 
     /**
@@ -445,11 +478,13 @@ class Utility implements Stringable
      */
     public function minus(int|float|string|Utility $number): self
     {
-        return new self($this->number - $this->resolve($number));
+        $other = $this->resolve($number);
+
+        return new self($this->exact($this->number - $other, $this->number, $other));
     }
 
     /**
-     * Get the modulus of the number
+     * Get the remainder after division, which takes the sign of the dividend. Integers give an int, otherwise a float
      *
      * @throws DivisionByZeroError
      * @throws NonNumericValueException
@@ -462,7 +497,7 @@ class Utility implements Stringable
             throw new DivisionByZeroError();
         }
 
-        return new self(fmod($this->number, $divisor));
+        return new self(is_int($this->number) && is_int($divisor) ? $this->number % $divisor : fmod($this->number, $divisor));
     }
 
     /**
@@ -472,7 +507,9 @@ class Utility implements Stringable
      */
     public function multiply(int|float|string|Utility $number): self
     {
-        return new self($this->number * $this->resolve($number));
+        $other = $this->resolve($number);
+
+        return new self($this->exact($this->number * $other, $this->number, $other));
     }
 
     /**
@@ -498,7 +535,14 @@ class Utility implements Stringable
      */
     public function ordinal(): string
     {
-        $abs = abs($this->number);
+        $abs = fmod(abs($this->number), 100);
+
+        // fractions have no ordinal position, so use the default suffix
+        if ($abs !== floor($abs)) {
+            return 'th';
+        }
+
+        $abs = (int) $abs;
 
         return match ($abs % 10) {
             1 => ($abs % 100 === 11) ? 'th' : 'st',
@@ -531,29 +575,30 @@ class Utility implements Stringable
      */
     public function power(int $exponent): self
     {
-        return new self($this->number ** $exponent);
+        $result = $this->number ** $exponent;
+
+        // a negative exponent legitimately yields a float
+        return new self($exponent < 0 ? $result : $this->exact($result, $this->number));
     }
 
     /**
-     * Round down the number
+     * Round down to a given precision, an alias of floor()
      *
-     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
     public function roundDown(int $precision = 0): self
     {
-        return $this->round($precision, RoundingMode::HalfTowardsZero);
+        return $this->floor($precision);
     }
 
     /**
-     * Round up the number
+     * Round up to a given precision, an alias of ceil()
      *
-     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
     public function roundUp(int $precision = 0): self
     {
-        return $this->round($precision, RoundingMode::HalfAwayFromZero);
+        return $this->ceil($precision);
     }
 
     /**
@@ -631,6 +676,20 @@ class Utility implements Stringable
     }
 
     /**
+     * Guard against integer arithmetic silently overflowing into a float
+     *
+     * @throws InvalidNumberException
+     */
+    private function exact(int|float $result, int|float ...$operands): int|float
+    {
+        if (is_float($result) && array_all($operands, static fn (int|float $o): bool => is_int($o))) {
+            throw new InvalidNumberException('Integer overflow: the result exceeds the integer range');
+        }
+
+        return $result;
+    }
+
+    /**
      * Calculate the greatest common divisor of two integers using the Euclidean algorithm
      */
     private function greatestCommonDivisor(int $a, int $b): int
@@ -643,6 +702,16 @@ class Utility implements Stringable
         }
 
         return $a;
+    }
+
+    /**
+     * @throws InvalidNumberException
+     */
+    private function guardEpsilon(float $epsilon): void
+    {
+        if ($epsilon < 0 || is_nan($epsilon)) {
+            throw new InvalidNumberException('Epsilon must be zero or greater');
+        }
     }
 
     /**
@@ -670,15 +739,10 @@ class Utility implements Stringable
     /**
      * Round a number
      *
-     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
     private function round(int $precision, RoundingMode $mode): self
     {
-        if ($precision < 0) {
-            throw new InvalidNumberException('Precision value should be greater or equal to zero');
-        }
-
         return new self(round($this->number, $precision, $mode));
     }
 }

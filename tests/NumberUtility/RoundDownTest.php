@@ -5,17 +5,25 @@ declare(strict_types=1);
 namespace Tests\NumberUtility;
 
 use Iterator;
-use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
 final class RoundDownTest extends BaseNumberSuite
 {
+    public static function __negativePrecisionData(): Iterator
+    {
+        yield [10, 12.3456, -1];
+        yield [0, 12.3456, -2];
+        yield [1200, 1234, -2];
+        yield [-20, -12.3456, -1];
+    }
     public static function __validData(): Iterator
     {
         yield [4, 4.3];
-        yield [10, 9.999];
-        yield [-3, -3.14];
+        yield [4, 4.9];
+        yield [9, 9.999];
+        yield [-4, -3.14];
+        yield [-4, -3.9];
         yield [0, 0];
         yield [0, 0.00000000001];
     }
@@ -30,16 +38,16 @@ final class RoundDownTest extends BaseNumberSuite
         yield [4.2345, 4.2345, 6];
     }
 
-    public function testExpectedInvalidPrecision(): void
-    {
-        $this->expectException(InvalidNumberException::class);
-        $this->utility(12.3456)->roundDown(-1)->value();
-    }
-
     #[DataProvider('__validData')]
     public function testExpectedResults(int $expected, float|int $number): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundDown()->value());
+    }
+
+    #[DataProvider('__negativePrecisionData')]
+    public function testNegativePrecisionRoundsToTensAndHundreds(int $expected, float|int $number, int $precision): void
+    {
+        $this->assertEquals($expected, $this->utility($number)->roundDown($precision)->value());
     }
 
     #[DataProvider('__validPrecisionData')]

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\NumberUtility;
 
 use Iterator;
+use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 use Myerscode\Utilities\Numbers\Utility;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -12,9 +13,21 @@ use Tests\BaseNumberSuite;
 
 final class ConstructTest extends BaseNumberSuite
 {
+    public static function __emptyData(): Iterator
+    {
+        yield 'empty' => [''];
+        yield 'space' => [' '];
+        yield 'whitespace' => [" \t\n"];
+    }
+
     public static function __invalidData(): Iterator
     {
         yield ['fred'];
+    }
+    public static function __overflowData(): Iterator
+    {
+        yield 'positive' => ['1e999'];
+        yield 'negative' => ['-1e999'];
     }
 
     public static function __validData(): Iterator
@@ -22,7 +35,6 @@ final class ConstructTest extends BaseNumberSuite
         yield [1, 1];
         yield [1, '1'];
         yield [0.123456, '0.123456'];
-        yield [0, ''];
     }
 
     public function testAcceptsUtilityInstance(): void
@@ -39,10 +51,24 @@ final class ConstructTest extends BaseNumberSuite
         $this->assertEquals(99, $wrapped->value());
     }
 
+    #[DataProvider('__emptyData')]
+    public function testEmptyStringThrows(string $number): void
+    {
+        $this->expectException(InvalidNumberException::class);
+        $this->utility($number);
+    }
+
     #[DataProvider('__invalidData')]
     public function testInvalidValueSetViaConstructor(string $number): void
     {
         $this->expectException(NonNumericValueException::class);
+        $this->utility($number);
+    }
+
+    #[DataProvider('__overflowData')]
+    public function testNumericStringOverflowingToInfinityThrows(string $number): void
+    {
+        $this->expectException(InvalidNumberException::class);
         $this->utility($number);
     }
 

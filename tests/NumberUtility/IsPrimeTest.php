@@ -24,6 +24,9 @@ final class IsPrimeTest extends BaseNumberSuite
         yield [false, 4];
         yield [false, 9];
         yield [false, 100];
+        yield [false, 25];
+        yield [false, 35];
+        yield [false, 49];
         yield [false, -7];
         yield [false, -1];
         yield [false, 7.0];

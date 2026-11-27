@@ -20,7 +20,6 @@ final class IsFloatTest extends BaseNumberSuite
         yield [false, -5];
         yield [true, '10.5'];
         yield [false, '10'];
-        yield [false, ''];
     }
 
     #[DataProvider('__validData')]

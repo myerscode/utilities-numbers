@@ -20,7 +20,6 @@ final class IsIntegerTest extends BaseNumberSuite
         yield [false, -5.5];
         yield [true, '10'];
         yield [false, '10.5'];
-        yield [true, ''];
     }
 
     #[DataProvider('__validData')]

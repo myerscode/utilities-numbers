@@ -10,6 +10,14 @@ use Tests\BaseNumberSuite;
 
 final class OrdinalTest extends BaseNumberSuite
 {
+    public static function __fractionData(): Iterator
+    {
+        yield [1.5];
+        yield [2.5];
+        yield [-3.5];
+        yield [11.5];
+    }
+
     public static function __validData(): Iterator
     {
         yield ['st', 1];
@@ -20,6 +28,12 @@ final class OrdinalTest extends BaseNumberSuite
         yield ['st', 31];
         yield ['nd', 42];
         yield ['rd', 53];
+    }
+
+    #[DataProvider('__fractionData')]
+    public function testFractionsUseDefaultSuffix(float $number): void
+    {
+        $this->assertSame('th', $this->utility($number)->ordinal());
     }
 
     #[DataProvider('__validData')]
