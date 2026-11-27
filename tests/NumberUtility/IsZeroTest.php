@@ -21,18 +21,18 @@ final class IsZeroTest extends BaseNumberSuite
         yield [false, -0.001];
     }
 
-    #[DataProvider('__validData')]
-    public function testExpectedResults(bool $expected, int|float $number): void
-    {
-        $this->assertSame($expected, $this->utility($number)->isZero());
-    }
-
     public function testEpsilonAllowsTolerance(): void
     {
         $this->assertFalse($this->utility(0.1 + 0.2 - 0.3)->isZero());
         $this->assertTrue($this->utility(0.1 + 0.2 - 0.3)->isZero(1e-9));
         $this->assertTrue($this->utility(-0.001)->isZero(0.001));
         $this->assertFalse($this->utility(0.002)->isZero(0.001));
+    }
+
+    #[DataProvider('__validData')]
+    public function testExpectedResults(bool $expected, int|float $number): void
+    {
+        $this->assertSame($expected, $this->utility($number)->isZero());
     }
 
     public function testNegativeEpsilonThrows(): void

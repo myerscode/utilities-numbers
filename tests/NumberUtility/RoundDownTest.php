@@ -10,6 +10,13 @@ use Tests\BaseNumberSuite;
 
 final class RoundDownTest extends BaseNumberSuite
 {
+    public static function __negativePrecisionData(): Iterator
+    {
+        yield [10, 12.3456, -1];
+        yield [0, 12.3456, -2];
+        yield [1200, 1234, -2];
+        yield [-20, -12.3456, -1];
+    }
     public static function __validData(): Iterator
     {
         yield [4, 4.3];
@@ -31,24 +38,16 @@ final class RoundDownTest extends BaseNumberSuite
         yield [4.2345, 4.2345, 6];
     }
 
-    public static function __negativePrecisionData(): Iterator
+    #[DataProvider('__validData')]
+    public function testExpectedResults(int $expected, float|int $number): void
     {
-        yield [10, 12.3456, -1];
-        yield [0, 12.3456, -2];
-        yield [1200, 1234, -2];
-        yield [-20, -12.3456, -1];
+        $this->assertEquals($expected, $this->utility($number)->roundDown()->value());
     }
 
     #[DataProvider('__negativePrecisionData')]
     public function testNegativePrecisionRoundsToTensAndHundreds(int $expected, float|int $number, int $precision): void
     {
         $this->assertEquals($expected, $this->utility($number)->roundDown($precision)->value());
-    }
-
-    #[DataProvider('__validData')]
-    public function testExpectedResults(int $expected, float|int $number): void
-    {
-        $this->assertEquals($expected, $this->utility($number)->roundDown()->value());
     }
 
     #[DataProvider('__validPrecisionData')]

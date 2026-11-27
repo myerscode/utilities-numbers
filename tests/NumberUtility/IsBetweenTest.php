@@ -24,18 +24,18 @@ final class IsBetweenTest extends BaseNumberSuite
         yield [false, 4.9, 5.0, 6.0];
     }
 
-    #[DataProvider('__validData')]
-    public function testExpectedResults(bool $expected, int|float $number, int|float $min, int|float $max): void
-    {
-        $this->assertSame($expected, $this->utility($number)->isBetween($min, $max));
-    }
-
     public function testEpsilonAllowsTolerance(): void
     {
         $this->assertFalse($this->utility(0.1 + 0.2)->isBetween(0.0, 0.3));
         $this->assertTrue($this->utility(0.1 + 0.2)->isBetween(0.0, 0.3, 1e-9));
         $this->assertTrue($this->utility(0.9)->isBetween(1, 2, 0.1));
         $this->assertFalse($this->utility(0.8)->isBetween(1, 2, 0.1));
+    }
+
+    #[DataProvider('__validData')]
+    public function testExpectedResults(bool $expected, int|float $number, int|float $min, int|float $max): void
+    {
+        $this->assertSame($expected, $this->utility($number)->isBetween($min, $max));
     }
 
     public function testNegativeEpsilonThrows(): void

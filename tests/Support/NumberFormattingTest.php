@@ -32,16 +32,13 @@ final class NumberFormattingTest extends TestCase
         yield ['one hundred', 100, 'en'];
     }
 
-    #[DataProvider('__percentageData')]
-    public function testPercentage(string $expected, int|float $fraction, int $precision, string $locale): void
+    public function testCachedFormatterDoesNotLeakPrecision(): void
     {
-        $this->assertSame($expected, (new NumberFormatting())->percentage($fraction, $precision, $locale));
-    }
-
-    #[DataProvider('__spellOutData')]
-    public function testSpellOut(string $expected, int|float $number, string $locale): void
-    {
-        $this->assertSame($expected, (new NumberFormatting())->spellOut($number, $locale));
+        $formatting = new NumberFormatting();
+        $this->assertSame('25.00%', $formatting->percentage(0.25, 2));
+        $this->assertSame('25%', $formatting->percentage(0.25, 0));
+        $this->assertSame('1.50', $formatting->decimal(1.5, 2, 2, 'en'));
+        $this->assertSame('1.5', $formatting->decimal(1.5, 0, 2, 'en'));
     }
 
     public function testDecimal(): void
@@ -62,12 +59,15 @@ final class NumberFormattingTest extends TestCase
         $this->assertNotSame($formatter->invoke($formatting, 'en', NumberFormatter::DECIMAL), $formatter->invoke($formatting, 'en', NumberFormatter::PERCENT));
     }
 
-    public function testCachedFormatterDoesNotLeakPrecision(): void
+    #[DataProvider('__percentageData')]
+    public function testPercentage(string $expected, int|float $fraction, int $precision, string $locale): void
     {
-        $formatting = new NumberFormatting();
-        $this->assertSame('25.00%', $formatting->percentage(0.25, 2));
-        $this->assertSame('25%', $formatting->percentage(0.25, 0));
-        $this->assertSame('1.50', $formatting->decimal(1.5, 2, 2, 'en'));
-        $this->assertSame('1.5', $formatting->decimal(1.5, 0, 2, 'en'));
+        $this->assertSame($expected, (new NumberFormatting())->percentage($fraction, $precision, $locale));
+    }
+
+    #[DataProvider('__spellOutData')]
+    public function testSpellOut(string $expected, int|float $number, string $locale): void
+    {
+        $this->assertSame($expected, (new NumberFormatting())->spellOut($number, $locale));
     }
 }

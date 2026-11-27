@@ -46,6 +46,11 @@ final class AsFileSizeTest extends BaseNumberSuite
         $this->assertSame($expected, $this->utility($number)->asFileSize($unit));
     }
 
+    public function testNullLocaleKeepsDefaultOutput(): void
+    {
+        $this->assertSame('1,234.00 KB', $this->utility(1234 * 1024)->asFileSize());
+    }
+
     #[DataProvider('__precisionData')]
     public function testRespectsPrecision(string $expected, int|float $number, FileSizeUnit $unit, int $precision): void
     {
@@ -57,10 +62,5 @@ final class AsFileSizeTest extends BaseNumberSuite
         $this->assertSame('1,50 KB', $this->utility(1536)->asFileSize(FileSizeUnit::KB, 2, 'de'));
         $this->assertSame('1.234,00 KB', $this->utility(1234 * 1024)->asFileSize(FileSizeUnit::KB, 2, 'de'));
         $this->assertSame('1,234.00 KB', $this->utility(1234 * 1024)->asFileSize(FileSizeUnit::KB, 2, 'en'));
-    }
-
-    public function testNullLocaleKeepsDefaultOutput(): void
-    {
-        $this->assertSame('1,234.00 KB', $this->utility(1234 * 1024)->asFileSize());
     }
 }

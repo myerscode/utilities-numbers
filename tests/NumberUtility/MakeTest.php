@@ -13,16 +13,15 @@ use Tests\BaseNumberSuite;
 
 final class MakeTest extends BaseNumberSuite
 {
-    public static function __invalidData(): Iterator
-    {
-        yield ['fred'];
-    }
-
     public static function __emptyData(): Iterator
     {
         yield 'empty' => [''];
         yield 'space' => [' '];
         yield 'whitespace' => [" \t\n"];
+    }
+    public static function __invalidData(): Iterator
+    {
+        yield ['fred'];
     }
 
     public static function __validData(): Iterator
@@ -32,17 +31,17 @@ final class MakeTest extends BaseNumberSuite
         yield [0.123456, '0.123456'];
     }
 
-    #[DataProvider('__invalidData')]
-    public function testInvalidValueSetViaConstructor(string $number): void
-    {
-        $this->expectException(NonNumericValueException::class);
-        Utility::make($number);
-    }
-
     #[DataProvider('__emptyData')]
     public function testEmptyStringThrows(string $number): void
     {
         $this->expectException(InvalidNumberException::class);
+        Utility::make($number);
+    }
+
+    #[DataProvider('__invalidData')]
+    public function testInvalidValueSetViaConstructor(string $number): void
+    {
+        $this->expectException(NonNumericValueException::class);
         Utility::make($number);
     }
 

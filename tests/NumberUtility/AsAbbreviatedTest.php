@@ -40,18 +40,10 @@ final class AsAbbreviatedTest extends BaseNumberSuite
         $this->assertSame($expected, $this->utility($number)->asAbbreviated());
     }
 
-    #[DataProvider('__precisionData')]
-    public function testRespectsPrecision(string $expected, int|float $number, int $precision): void
+    public function testInvalidLocaleThrows(): void
     {
-        $this->assertSame($expected, $this->utility($number)->asAbbreviated($precision));
-    }
-
-    public function testUsesLocaleSeparators(): void
-    {
-        $this->assertSame('1,5K', $this->utility(1500)->asAbbreviated(1, 'de'));
-        $this->assertSame('1,2M', $this->utility(1234567)->asAbbreviated(1, 'fr'));
-        $this->assertSame('1.5K', $this->utility(1500)->asAbbreviated(1, 'en'));
-        $this->assertSame('999', $this->utility(999)->asAbbreviated(1, 'de'));
+        $this->expectException(InvalidNumberException::class);
+        $this->utility(1500)->asAbbreviated(1, 'not a locale');
     }
 
     public function testLocaleRoundsHalfUpAndTrimsZeros(): void
@@ -65,9 +57,17 @@ final class AsAbbreviatedTest extends BaseNumberSuite
         $this->assertSame($this->utility(1500)->asAbbreviated(), $this->utility(1500)->asAbbreviated(1, null));
     }
 
-    public function testInvalidLocaleThrows(): void
+    #[DataProvider('__precisionData')]
+    public function testRespectsPrecision(string $expected, int|float $number, int $precision): void
     {
-        $this->expectException(InvalidNumberException::class);
-        $this->utility(1500)->asAbbreviated(1, 'not a locale');
+        $this->assertSame($expected, $this->utility($number)->asAbbreviated($precision));
+    }
+
+    public function testUsesLocaleSeparators(): void
+    {
+        $this->assertSame('1,5K', $this->utility(1500)->asAbbreviated(1, 'de'));
+        $this->assertSame('1,2M', $this->utility(1234567)->asAbbreviated(1, 'fr'));
+        $this->assertSame('1.5K', $this->utility(1500)->asAbbreviated(1, 'en'));
+        $this->assertSame('999', $this->utility(999)->asAbbreviated(1, 'de'));
     }
 }

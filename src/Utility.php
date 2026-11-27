@@ -676,6 +676,20 @@ class Utility implements Stringable
     }
 
     /**
+     * Guard against integer arithmetic silently overflowing into a float
+     *
+     * @throws InvalidNumberException
+     */
+    private function exact(int|float $result, int|float ...$operands): int|float
+    {
+        if (is_float($result) && array_all($operands, static fn (int|float $o): bool => is_int($o))) {
+            throw new InvalidNumberException('Integer overflow: the result exceeds the integer range');
+        }
+
+        return $result;
+    }
+
+    /**
      * Calculate the greatest common divisor of two integers using the Euclidean algorithm
      */
     private function greatestCommonDivisor(int $a, int $b): int
@@ -688,20 +702,6 @@ class Utility implements Stringable
         }
 
         return $a;
-    }
-
-    /**
-     * Guard against integer arithmetic silently overflowing into a float
-     *
-     * @throws InvalidNumberException
-     */
-    private function exact(int|float $result, int|float ...$operands): int|float
-    {
-        if (is_float($result) && array_all($operands, static fn (int|float $o): bool => is_int($o))) {
-            throw new InvalidNumberException('Integer overflow: the result exceeds the integer range');
-        }
-
-        return $result;
     }
 
     /**
