@@ -286,7 +286,7 @@ echo (new Utility(1000))->magnitude()->value();
 ### make
 > Returns `Utility`
 
-Static factory method to create a new Utility instance.
+Static factory method to create a new Utility instance. Accepts an `int`, `float`, numeric string or another `Utility`. Throws `NonNumericValueException` for non-numeric strings, and `InvalidNumberException` for an empty or whitespace-only string, or a non-finite float.
 ```php
 $n = Utility::make(42);
 ```

@@ -30,8 +30,8 @@ class Utility implements Stringable
             if (is_float($number) && !is_finite($number)) {
                 throw new InvalidNumberException('Number must be finite');
             }
-        } elseif ($number === '') {
-            $number = 0;
+        } elseif (is_string($number) && trim($number) === '') {
+            throw new InvalidNumberException('Number cannot be empty');
         } else {
             throw new NonNumericValueException(
                 gettype($number) . ' cannot be cast to a valid number',
