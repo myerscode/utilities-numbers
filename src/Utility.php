@@ -67,7 +67,7 @@ class Utility implements Stringable
      */
     public function abs(): self
     {
-        return new self(abs($this->number));
+        return new self($this->exact(abs($this->number), $this->number));
     }
 
     /**
@@ -77,7 +77,9 @@ class Utility implements Stringable
      */
     public function add(int|float|string|Utility $number): self
     {
-        return new self($this->number + $this->resolve($number));
+        $other = $this->resolve($number);
+
+        return new self($this->exact($this->number + $other, $this->number, $other));
     }
 
     /**
@@ -398,7 +400,7 @@ class Utility implements Stringable
 
         $gcd = $this->greatestCommonDivisor($this->number, $other);
 
-        return new self(abs(intdiv($this->number, $gcd) * $other));
+        return new self($this->exact(abs(intdiv($this->number, $gcd) * $other), $this->number, $other));
     }
 
     /**
@@ -459,7 +461,9 @@ class Utility implements Stringable
      */
     public function minus(int|float|string|Utility $number): self
     {
-        return new self($this->number - $this->resolve($number));
+        $other = $this->resolve($number);
+
+        return new self($this->exact($this->number - $other, $this->number, $other));
     }
 
     /**
@@ -486,7 +490,9 @@ class Utility implements Stringable
      */
     public function multiply(int|float|string|Utility $number): self
     {
-        return new self($this->number * $this->resolve($number));
+        $other = $this->resolve($number);
+
+        return new self($this->exact($this->number * $other, $this->number, $other));
     }
 
     /**
@@ -545,7 +551,10 @@ class Utility implements Stringable
      */
     public function power(int $exponent): self
     {
-        return new self($this->number ** $exponent);
+        $result = $this->number ** $exponent;
+
+        // a negative exponent legitimately yields a float
+        return new self($exponent < 0 ? $result : $this->exact($result, $this->number));
     }
 
     /**
@@ -657,6 +666,20 @@ class Utility implements Stringable
         }
 
         return $a;
+    }
+
+    /**
+     * Guard against integer arithmetic silently overflowing into a float
+     *
+     * @throws InvalidNumberException
+     */
+    private function exact(int|float $result, int|float ...$operands): int|float
+    {
+        if (is_float($result) && array_all($operands, static fn (int|float $o): bool => is_int($o))) {
+            throw new InvalidNumberException('Integer overflow: the result exceeds the integer range');
+        }
+
+        return $result;
     }
 
     /**
