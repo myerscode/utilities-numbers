@@ -518,7 +518,14 @@ class Utility implements Stringable
      */
     public function ordinal(): string
     {
-        $abs = abs($this->number);
+        $abs = fmod(abs($this->number), 100);
+
+        // fractions have no ordinal position, so use the default suffix
+        if ($abs !== floor($abs)) {
+            return 'th';
+        }
+
+        $abs = (int) $abs;
 
         return match ($abs % 10) {
             1 => ($abs % 100 === 11) ? 'th' : 'st',
