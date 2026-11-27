@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Calendar Versioning](https://calver.org/).
 
+## [2026.1.0] - 2026-11-27
+### Bug Fixes
+- [`e1d54f7`](https://github.com/myerscode/utilities-numbers/commit/e1d54f7c06d10613284b63c05a541ea869435335) - validate input, fix rounding and zero checks *(PR [#11](https://github.com/myerscode/utilities-numbers/pull/11) by [@oniice](https://github.com/oniice))*
+
+
 ## [2026.0.1] - 2026-10-31
 ### New Features
 - [`5b64b4d`](https://github.com/myerscode/utilities-numbers/commit/5b64b4db834a5490005eeb7c20f15169e94f79bb) - add sign() method *(commit by [@oniice](https://github.com/oniice))*
@@ -50,3 +55,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 [2026.0.0]: https://github.com/myerscode/utilities-numbers/compare/2.0.0...2026.0.0
 [2026.0.1]: https://github.com/myerscode/utilities-numbers/compare/2026.0.0...2026.0.1
+[2026.1.0]: https://github.com/myerscode/utilities-numbers/compare/2026.0.1...2026.1.0
