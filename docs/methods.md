@@ -314,10 +314,16 @@ echo (new Utility(14))->minus(7)->value();
 ### modulo
 > Returns `Utility`
 
-Get the remainder after division. Throws `DivisionByZeroError` for zero divisor.
+Get the remainder after division. Two integers use `%` and return an `int`; if either value is a float it uses `fmod` and returns a `float`. The result takes the sign of the number being divided (the dividend), not the divisor. Throws `DivisionByZeroError` for zero divisor.
 ```php
 echo (new Utility(10))->modulo(3)->value();
 // 1
+echo (new Utility(-10))->modulo(3)->value();
+// -1
+echo (new Utility(10))->modulo(-3)->value();
+// 1
+echo (new Utility(7.5))->modulo(5)->value();
+// 2.5
 ```
 
 ### multiply

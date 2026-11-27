@@ -497,7 +497,7 @@ class Utility implements Stringable
     }
 
     /**
-     * Get the modulus of the number
+     * Get the remainder after division, which takes the sign of the dividend. Integers give an int, otherwise a float
      *
      * @throws DivisionByZeroError
      * @throws NonNumericValueException
@@ -510,7 +510,7 @@ class Utility implements Stringable
             throw new DivisionByZeroError();
         }
 
-        return new self(fmod($this->number, $divisor));
+        return new self(is_int($this->number) && is_int($divisor) ? $this->number % $divisor : fmod($this->number, $divisor));
     }
 
     /**

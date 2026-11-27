@@ -36,4 +36,29 @@ final class ModuloTest extends BaseNumberSuite
     {
         $this->assertEquals($expected, $this->utility($number)->modulo($divisor)->value());
     }
+
+    public function testIntegersReturnInt(): void
+    {
+        $this->assertSame(1, $this->utility(10)->modulo(3)->value());
+        $this->assertSame(0, $this->utility(PHP_INT_MIN)->modulo(-1)->value());
+    }
+
+    public function testFloatsReturnFloat(): void
+    {
+        $this->assertSame(2.5, $this->utility(7.5)->modulo(5)->value());
+        $this->assertSame(1.0, $this->utility(10)->modulo(3.0)->value());
+    }
+
+    #[DataProvider('__signData')]
+    public function testResultTakesSignOfDividend(int $expected, int $number, int $divisor): void
+    {
+        $this->assertSame($expected, $this->utility($number)->modulo($divisor)->value());
+    }
+
+    public static function __signData(): Iterator
+    {
+        yield [-1, -10, 3];
+        yield [1, 10, -3];
+        yield [-1, -10, -3];
+    }
 }
