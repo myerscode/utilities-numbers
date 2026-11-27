@@ -95,8 +95,15 @@ class Utility implements Stringable
             return (string) $this->number;
         }
 
-        $power = min((int) floor(log($magnitude, 1000)), count($suffixes) - 1);
+        $max = count($suffixes) - 1;
+        $power = min((int) floor(log($magnitude, 1000)), $max);
         $scaled = $this->number / (1000 ** $power);
+
+        // rounding can carry into the next unit (999999 -> 1000K), so promote it (capped at the largest suffix)
+        if ($power < $max && abs(round($scaled, $precision)) >= 1000) {
+            ++$power;
+            $scaled = $this->number / (1000 ** $power);
+        }
 
         $formatted = number_format($scaled, $precision);
 
