@@ -7,7 +7,9 @@ namespace Tests\Support;
 use Iterator;
 use Myerscode\Utilities\Numbers\Support\NumberFormatting;
 use PHPUnit\Framework\Attributes\DataProvider;
+use NumberFormatter;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 
 final class NumberFormattingTest extends TestCase
 {
@@ -48,5 +50,24 @@ final class NumberFormattingTest extends TestCase
         $this->assertSame('1.234,50', $formatting->decimal(1234.5, 2, 2, 'de'));
         $this->assertSame('1,234.5', $formatting->decimal(1234.5, 0, 2, 'en'));
         $this->assertSame('3', $formatting->decimal(2.5, 0, 0, 'en'));
+    }
+
+    public function testFormatterIsCachedPerLocaleAndStyle(): void
+    {
+        $formatter = new ReflectionMethod(NumberFormatting::class, 'formatter');
+        $formatting = new NumberFormatting();
+
+        $this->assertSame($formatter->invoke($formatting, 'en', NumberFormatter::DECIMAL), $formatter->invoke(new NumberFormatting(), 'en', NumberFormatter::DECIMAL));
+        $this->assertNotSame($formatter->invoke($formatting, 'en', NumberFormatter::DECIMAL), $formatter->invoke($formatting, 'de', NumberFormatter::DECIMAL));
+        $this->assertNotSame($formatter->invoke($formatting, 'en', NumberFormatter::DECIMAL), $formatter->invoke($formatting, 'en', NumberFormatter::PERCENT));
+    }
+
+    public function testCachedFormatterDoesNotLeakPrecision(): void
+    {
+        $formatting = new NumberFormatting();
+        $this->assertSame('25.00%', $formatting->percentage(0.25, 2));
+        $this->assertSame('25%', $formatting->percentage(0.25, 0));
+        $this->assertSame('1.50', $formatting->decimal(1.5, 2, 2, 'en'));
+        $this->assertSame('1.5', $formatting->decimal(1.5, 0, 2, 'en'));
     }
 }

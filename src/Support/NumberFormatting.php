@@ -20,6 +20,13 @@ use ValueError;
 class NumberFormatting
 {
     /**
+     * Formatters shared across instances, keyed by locale and style. Callers must set the attributes they rely on.
+     *
+     * @var array<string, NumberFormatter>
+     */
+    private static array $formatters = [];
+
+    /**
      * Format a number with locale aware separators, rounding half away from zero (as number_format does)
      *
      * @throws InvalidNumberException
@@ -82,8 +89,10 @@ class NumberFormatting
      */
     private function formatter(string $locale, int $style): NumberFormatter
     {
+        $key = $locale . '|' . $style;
+
         try {
-            return new NumberFormatter($locale, $style);
+            return self::$formatters[$key] ??= new NumberFormatter($locale, $style);
         } catch (IntlException|ValueError $e) {
             throw new InvalidNumberException('Invalid locale: ' . $locale, 0, $e);
         }
