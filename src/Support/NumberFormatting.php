@@ -3,7 +3,9 @@
 namespace Myerscode\Utilities\Numbers\Support;
 
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
+use IntlException;
 use NumberFormatter;
+use ValueError;
 
 /**
  * A stateless wrapper around the intl NumberFormatter.
@@ -24,7 +26,7 @@ class NumberFormatting
      */
     public function percentage(int|float $fraction, int $precision = 0, string $locale = 'en'): string
     {
-        $formatter = new NumberFormatter($locale, NumberFormatter::PERCENT);
+        $formatter = $this->formatter($locale, NumberFormatter::PERCENT);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
 
         $formatted = $formatter->format($fraction);
@@ -43,7 +45,7 @@ class NumberFormatting
      */
     public function spellOut(int|float $number, string $locale = 'en'): string
     {
-        $formatter = new NumberFormatter($locale, NumberFormatter::SPELLOUT);
+        $formatter = $this->formatter($locale, NumberFormatter::SPELLOUT);
 
         $formatted = $formatter->format($number);
 
@@ -52,5 +54,17 @@ class NumberFormatting
         }
 
         return $formatted;
+    }
+
+    /**
+     * @throws InvalidNumberException
+     */
+    private function formatter(string $locale, int $style): NumberFormatter
+    {
+        try {
+            return new NumberFormatter($locale, $style);
+        } catch (IntlException|ValueError $e) {
+            throw new InvalidNumberException('Invalid locale: ' . $locale, 0, $e);
+        }
     }
 }

@@ -19,6 +19,7 @@ class Utility implements Stringable
      * Utility constructor.
      *
      * @throws NonNumericValueException
+     * @throws InvalidNumberException
      */
     public function __construct(int|float|string|Utility $number)
     {
@@ -26,6 +27,10 @@ class Utility implements Stringable
             $number = $number->value();
         } elseif (is_numeric($number)) {
             $number += 0;
+
+            if (is_float($number) && !is_finite($number)) {
+                throw new InvalidNumberException('Number must be finite');
+            }
         } elseif ($number === '') {
             $number = 0;
         } else {
@@ -171,7 +176,7 @@ class Utility implements Stringable
     {
         $divisor = $this->resolve($number);
 
-        if ($divisor == 0 || $this->number == 0) {
+        if ($divisor == 0) {
             throw new DivisionByZeroError();
         }
 
@@ -188,6 +193,11 @@ class Utility implements Stringable
     {
         if (!is_int($this->number) || $this->number < 0) {
             throw new InvalidNumberException('Factorial is only defined for non-negative integers');
+        }
+
+        // 20! is the largest factorial that fits in a 64-bit int
+        if ($this->number > 20) {
+            throw new InvalidNumberException('Factorial is only supported up to 20');
         }
 
         $result = 1;
@@ -347,8 +357,12 @@ class Utility implements Stringable
         }
 
         $limit = (int) floor(sqrt($this->number));
-        for ($i = 3; $i <= $limit; $i += 2) {
-            if ($this->number % $i === 0) {
+        if ($this->number % 3 === 0) {
+            return false;
+        }
+
+        for ($i = 5; $i <= $limit; $i += 6) {
+            if ($this->number % $i === 0 || $this->number % ($i + 2) === 0) {
                 return false;
             }
         }
