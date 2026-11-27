@@ -168,13 +168,13 @@ class Utility implements Stringable
     }
 
     /**
-     * Ceil the number
+     * Ceil the number (towards positive infinity) to a given precision, a negative precision rounds to tens, hundreds etc
      *
      * @throws NonNumericValueException
      */
-    public function ceil(): self
+    public function ceil(int $precision = 0): self
     {
-        return new self(ceil($this->number));
+        return $this->round($precision, RoundingMode::PositiveInfinity);
     }
 
     /**
@@ -264,13 +264,13 @@ class Utility implements Stringable
     }
 
     /**
-     * Floor the number
+     * Floor the number (towards negative infinity) to a given precision, a negative precision rounds to tens, hundreds etc
      *
      * @throws NonNumericValueException
      */
-    public function floor(): self
+    public function floor(int $precision = 0): self
     {
-        return new self(floor($this->number));
+        return $this->round($precision, RoundingMode::NegativeInfinity);
     }
 
     /**
@@ -582,23 +582,23 @@ class Utility implements Stringable
     }
 
     /**
-     * Round down (towards negative infinity) to a given precision, a negative precision rounds to tens, hundreds etc
+     * Round down to a given precision, an alias of floor()
      *
      * @throws NonNumericValueException
      */
     public function roundDown(int $precision = 0): self
     {
-        return $this->round($precision, RoundingMode::NegativeInfinity);
+        return $this->floor($precision);
     }
 
     /**
-     * Round up (towards positive infinity) to a given precision, a negative precision rounds to tens, hundreds etc
+     * Round up to a given precision, an alias of ceil()
      *
      * @throws NonNumericValueException
      */
     public function roundUp(int $precision = 0): self
     {
-        return $this->round($precision, RoundingMode::PositiveInfinity);
+        return $this->ceil($precision);
     }
 
     /**

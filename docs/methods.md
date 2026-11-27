@@ -93,10 +93,16 @@ echo (new Utility(3.5))->asWords();
 ### ceil
 > Returns `Utility`
 
-Round up the number using ceil.
+Round the number up (towards positive infinity) to a given precision. A negative precision rounds to tens, hundreds and so on.
 ```php
 echo (new Utility(4.3))->ceil()->value();
 // 5
+echo (new Utility(-3.14))->ceil()->value();
+// -3
+echo (new Utility(4.2345))->ceil(3)->value();
+// 4.235
+echo (new Utility(1234))->ceil(-2)->value();
+// 1300
 ```
 
 ### clamp
@@ -142,10 +148,16 @@ Get the factors of the current number.
 ### floor
 > Returns `Utility`
 
-Round down the value using floor.
+Round the number down (towards negative infinity) to a given precision. A negative precision rounds to tens, hundreds and so on.
 ```php
 echo (new Utility(4.3))->floor()->value();
 // 4
+echo (new Utility(-3.14))->floor()->value();
+// -4
+echo (new Utility(4.2345))->floor(2)->value();
+// 4.23
+echo (new Utility(1234))->floor(-2)->value();
+// 1200
 ```
 
 ### gcd
@@ -385,7 +397,7 @@ echo (new Utility(5))->power(3)->value();
 ### roundDown
 > Returns `Utility`
 
-Round the number down (towards negative infinity, like `floor`) to a given precision. A negative precision rounds to tens, hundreds and so on.
+An alias of [floor](#floor). Rounds the number down (towards negative infinity) to a given precision.
 ```php
 echo (new Utility(4.5))->roundDown()->value();
 // 4
@@ -402,7 +414,7 @@ echo (new Utility(1234))->roundDown(-2)->value();
 ### roundUp
 > Returns `Utility`
 
-Round the number up (towards positive infinity, like `ceil`) to a given precision. A negative precision rounds to tens, hundreds and so on.
+An alias of [ceil](#ceil). Rounds the number up (towards positive infinity) to a given precision.
 ```php
 echo (new Utility(4.3))->roundUp()->value();
 // 5
