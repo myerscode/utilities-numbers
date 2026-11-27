@@ -572,25 +572,23 @@ class Utility implements Stringable
     }
 
     /**
-     * Round down the number
+     * Round down (towards negative infinity) to a given precision, a negative precision rounds to tens, hundreds etc
      *
-     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
     public function roundDown(int $precision = 0): self
     {
-        return $this->round($precision, RoundingMode::HalfTowardsZero);
+        return $this->round($precision, RoundingMode::NegativeInfinity);
     }
 
     /**
-     * Round up the number
+     * Round up (towards positive infinity) to a given precision, a negative precision rounds to tens, hundreds etc
      *
-     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
     public function roundUp(int $precision = 0): self
     {
-        return $this->round($precision, RoundingMode::HalfAwayFromZero);
+        return $this->round($precision, RoundingMode::PositiveInfinity);
     }
 
     /**
@@ -721,15 +719,10 @@ class Utility implements Stringable
     /**
      * Round a number
      *
-     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
     private function round(int $precision, RoundingMode $mode): self
     {
-        if ($precision < 0) {
-            throw new InvalidNumberException('Precision value should be greater or equal to zero');
-        }
-
         return new self(round($this->number, $precision, $mode));
     }
 }

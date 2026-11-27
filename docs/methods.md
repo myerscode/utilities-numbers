@@ -371,23 +371,33 @@ echo (new Utility(5))->power(3)->value();
 ### roundDown
 > Returns `Utility`
 
-Round down the number to a given precision.
+Round the number down (towards negative infinity, like `floor`) to a given precision. A negative precision rounds to tens, hundreds and so on.
 ```php
 echo (new Utility(4.5))->roundDown()->value();
 // 4
+echo (new Utility(9.999))->roundDown()->value();
+// 9
+echo (new Utility(-3.14))->roundDown()->value();
+// -4
 echo (new Utility(4.2345))->roundDown(2)->value();
 // 4.23
+echo (new Utility(1234))->roundDown(-2)->value();
+// 1200
 ```
 
 ### roundUp
 > Returns `Utility`
 
-Round up the number to a given precision.
+Round the number up (towards positive infinity, like `ceil`) to a given precision. A negative precision rounds to tens, hundreds and so on.
 ```php
-echo (new Utility(4.5))->roundUp()->value();
+echo (new Utility(4.3))->roundUp()->value();
 // 5
+echo (new Utility(-3.14))->roundUp()->value();
+// -3
 echo (new Utility(4.2345))->roundUp(3)->value();
 // 4.235
+echo (new Utility(1234))->roundUp(-2)->value();
+// 1300
 ```
 
 ### sign
