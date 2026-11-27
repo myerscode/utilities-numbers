@@ -122,7 +122,7 @@ echo (new Utility(25))->divide(5)->value();
 ### factorial
 > Returns `Utility`
 
-Get the factorial of the number. Throws `InvalidNumberException` for negative or non-integer values.
+Get the factorial of the number. Throws `InvalidNumberException` for negative or non-integer values, and for values above `20` (the largest factorial that fits in an integer).
 ```php
 echo (new Utility(5))->factorial()->value();
 // 120
