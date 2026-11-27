@@ -5,7 +5,6 @@ namespace Myerscode\Utilities\Numbers;
 use DivisionByZeroError;
 use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
 use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
-use Myerscode\Utilities\Numbers\Exceptions\IsZeroException;
 use Myerscode\Utilities\Numbers\Exceptions\NonNumericValueException;
 use Myerscode\Utilities\Numbers\Support\NumberFormatting;
 use RoundingMode;
@@ -332,16 +331,10 @@ class Utility implements Stringable
     }
 
     /**
-     * Is the number negative
-     *
-     * @throws IsZeroException
+     * Is the number negative (zero is neither, so it returns false)
      */
     public function isNegative(): bool
     {
-        if ($this->number === 0) {
-            throw new IsZeroException('0 is neither positive or negative');
-        }
-
         return $this->number < 0;
     }
 
@@ -354,16 +347,10 @@ class Utility implements Stringable
     }
 
     /**
-     * Is the number positive
-     *
-     * @throws IsZeroException
+     * Is the number positive (zero is neither, so it returns false)
      */
     public function isPositive(): bool
     {
-        if ($this->number === 0) {
-            throw new IsZeroException('0 is neither positive or negative');
-        }
-
         return $this->number > 0;
     }
 

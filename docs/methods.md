@@ -206,7 +206,7 @@ Check if the number is an integer.
 ### isNegative
 > Returns `bool`
 
-Check if the number is negative. Throws `IsZeroException` for zero.
+Check if the number is negative. Returns `false` for zero (`0`, `0.0` and `-0.0`).
 ```php
 (new Utility(-5))->isNegative();
 // true
@@ -224,7 +224,7 @@ Check if the number is an odd integer. Returns false for floats.
 ### isPositive
 > Returns `bool`
 
-Check if the number is positive. Throws `IsZeroException` for zero.
+Check if the number is positive. Returns `false` for zero (`0`, `0.0` and `-0.0`).
 ```php
 (new Utility(5))->isPositive();
 // true
