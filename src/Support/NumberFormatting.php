@@ -41,7 +41,10 @@ class NumberFormatting
         $formatted = $formatter->format($number);
 
         if ($formatted === false) {
+            // NumberFormatter::format() only returns false on internal intl errors, unreachable for int|float input
+            // @codeCoverageIgnoreStart
             throw new InvalidNumberException('The number could not be formatted');
+            // @codeCoverageIgnoreEnd
         }
 
         return $formatted;
@@ -60,7 +63,10 @@ class NumberFormatting
         $formatted = $formatter->format($fraction);
 
         if ($formatted === false) {
+            // NumberFormatter::format() only returns false on internal intl errors, unreachable for int|float input
+            // @codeCoverageIgnoreStart
             throw new InvalidNumberException('The number could not be formatted as a percentage');
+            // @codeCoverageIgnoreEnd
         }
 
         return $formatted;
@@ -78,7 +84,10 @@ class NumberFormatting
         $formatted = $formatter->format($number);
 
         if ($formatted === false) {
+            // NumberFormatter::format() only returns false on internal intl errors, unreachable for int|float input
+            // @codeCoverageIgnoreStart
             throw new InvalidNumberException('The number could not be spelled out');
+            // @codeCoverageIgnoreEnd
         }
 
         return $formatted;
