@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\NumberUtility;
 
 use Iterator;
+use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
@@ -27,5 +28,19 @@ final class IsBetweenTest extends BaseNumberSuite
     public function testExpectedResults(bool $expected, int|float $number, int|float $min, int|float $max): void
     {
         $this->assertSame($expected, $this->utility($number)->isBetween($min, $max));
+    }
+
+    public function testEpsilonAllowsTolerance(): void
+    {
+        $this->assertFalse($this->utility(0.1 + 0.2)->isBetween(0.0, 0.3));
+        $this->assertTrue($this->utility(0.1 + 0.2)->isBetween(0.0, 0.3, 1e-9));
+        $this->assertTrue($this->utility(0.9)->isBetween(1, 2, 0.1));
+        $this->assertFalse($this->utility(0.8)->isBetween(1, 2, 0.1));
+    }
+
+    public function testNegativeEpsilonThrows(): void
+    {
+        $this->expectException(InvalidNumberException::class);
+        $this->utility(1)->isBetween(0, 2, -0.1);
     }
 }

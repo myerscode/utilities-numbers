@@ -292,16 +292,19 @@ class Utility implements Stringable
     }
 
     /**
-     * Check if the number is between two values (inclusive)
+     * Check if the number is between two values (inclusive), allowing the bounds to be missed by up to epsilon
      *
+     * @throws InvalidNumberException
      * @throws NonNumericValueException
      */
-    public function isBetween(int|float|string|Utility $min, int|float|string|Utility $max): bool
+    public function isBetween(int|float|string|Utility $min, int|float|string|Utility $max, float $epsilon = 0.0): bool
     {
+        $this->guardEpsilon($epsilon);
+
         $minValue = $this->resolve($min);
         $maxValue = $this->resolve($max);
 
-        return $this->number >= $minValue && $this->number <= $maxValue;
+        return $this->number >= $minValue - $epsilon && $this->number <= $maxValue + $epsilon;
     }
 
     /**
@@ -396,11 +399,15 @@ class Utility implements Stringable
     }
 
     /**
-     * Check if the number is zero
+     * Check if the number is zero, or within epsilon of zero
+     *
+     * @throws InvalidNumberException
      */
-    public function isZero(): bool
+    public function isZero(float $epsilon = 0.0): bool
     {
-        return $this->number == 0;
+        $this->guardEpsilon($epsilon);
+
+        return abs($this->number) <= $epsilon;
     }
 
     /**
@@ -708,6 +715,16 @@ class Utility implements Stringable
         }
 
         return $result;
+    }
+
+    /**
+     * @throws InvalidNumberException
+     */
+    private function guardEpsilon(float $epsilon): void
+    {
+        if ($epsilon < 0 || is_nan($epsilon)) {
+            throw new InvalidNumberException('Epsilon must be zero or greater');
+        }
     }
 
     /**

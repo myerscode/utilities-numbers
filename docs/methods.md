@@ -162,12 +162,14 @@ echo (new Utility(54))->gcd(24)->value();
 ### isBetween
 > Returns `bool`
 
-Check if the number is between two values (inclusive).
+Check if the number is between two values (inclusive). An optional `epsilon` (default `0.0`, exact) widens both bounds by that amount to absorb float error. Throws `InvalidNumberException` for a negative `epsilon`.
 ```php
 (new Utility(5))->isBetween(1, 10);
 // true
 (new Utility(11))->isBetween(1, 10);
 // false
+(new Utility(0.1 + 0.2))->isBetween(0.0, 0.3, 1e-9);
+// true
 ```
 
 ### isEven
@@ -242,9 +244,11 @@ Check if the number is a prime number. Returns false for non-integers and values
 ### isZero
 > Returns `bool`
 
-Check if the number is zero.
+Check if the number is zero. An optional `epsilon` (default `0.0`, exact) treats values within that distance of zero as zero. Throws `InvalidNumberException` for a negative `epsilon`.
 ```php
 (new Utility(0))->isZero();
+// true
+(new Utility(0.1 + 0.2 - 0.3))->isZero(1e-9);
 // true
 ```
 
