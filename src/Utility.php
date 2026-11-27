@@ -30,7 +30,7 @@ class Utility implements Stringable
             if (is_float($number) && !is_finite($number)) {
                 throw new InvalidNumberException('Number must be finite');
             }
-        } elseif (is_string($number) && trim($number) === '') {
+        } elseif (trim($number) === '') {
             throw new InvalidNumberException('Number cannot be empty');
         } else {
             throw new NonNumericValueException(
