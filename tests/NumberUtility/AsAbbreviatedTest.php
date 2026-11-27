@@ -32,6 +32,8 @@ final class AsAbbreviatedTest extends BaseNumberSuite
         yield ['-1.5K', -1500];
         yield ['-1M', -1000000];
         yield ['1.2K', 1200];
+        yield ['1M', 999999];
+        yield ['-1M', -999999];
     }
 
     #[DataProvider('__validData')]

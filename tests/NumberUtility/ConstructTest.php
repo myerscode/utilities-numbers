@@ -19,9 +19,15 @@ final class ConstructTest extends BaseNumberSuite
         yield 'space' => [' '];
         yield 'whitespace' => [" \t\n"];
     }
+
     public static function __invalidData(): Iterator
     {
         yield ['fred'];
+    }
+    public static function __overflowData(): Iterator
+    {
+        yield 'positive' => ['1e999'];
+        yield 'negative' => ['-1e999'];
     }
 
     public static function __validData(): Iterator
@@ -56,6 +62,13 @@ final class ConstructTest extends BaseNumberSuite
     public function testInvalidValueSetViaConstructor(string $number): void
     {
         $this->expectException(NonNumericValueException::class);
+        $this->utility($number);
+    }
+
+    #[DataProvider('__overflowData')]
+    public function testNumericStringOverflowingToInfinityThrows(string $number): void
+    {
+        $this->expectException(InvalidNumberException::class);
         $this->utility($number);
     }
 

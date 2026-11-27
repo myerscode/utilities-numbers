@@ -16,6 +16,7 @@ final class FactorialTest extends BaseNumberSuite
         yield [-1];
         yield [-5];
         yield [5.5];
+        yield [21];
         yield [3.0];
     }
 
