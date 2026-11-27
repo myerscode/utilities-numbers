@@ -84,8 +84,12 @@ class Utility implements Stringable
 
     /**
      * Format the number in a compact, human readable form (e.g. 1500 becomes 1.5K)
+     *
+     * @param string|null $locale format the separators for this locale, null keeps the default "1,234.5" style
+     *
+     * @throws InvalidNumberException
      */
-    public function asAbbreviated(int $precision = 1): string
+    public function asAbbreviated(int $precision = 1, ?string $locale = null): string
     {
         $suffixes = ['', 'K', 'M', 'B', 'T'];
 
@@ -105,6 +109,10 @@ class Utility implements Stringable
             $scaled = $this->number / (1000 ** $power);
         }
 
+        if ($locale !== null) {
+            return (new NumberFormatting())->decimal($scaled, 0, $precision, $locale) . $suffixes[$power];
+        }
+
         $formatted = number_format($scaled, $precision);
 
         if (str_contains($formatted, '.')) {
@@ -116,12 +124,20 @@ class Utility implements Stringable
 
     /**
      * Format the number (in bytes) as a human readable file size
+     *
+     * @param string|null $locale format the separators for this locale, null keeps the default "1,234.50" style
+     *
+     * @throws InvalidNumberException
      */
-    public function asFileSize(FileSizeUnit $unit = FileSizeUnit::KB, int $precision = 2): string
+    public function asFileSize(FileSizeUnit $unit = FileSizeUnit::KB, int $precision = 2, ?string $locale = null): string
     {
         $value = $this->number / $unit->bytes();
 
-        return number_format($value, $precision) . ' ' . $unit->suffix();
+        $formatted = $locale === null
+            ? number_format($value, $precision)
+            : (new NumberFormatting())->decimal($value, $precision, $precision, $locale);
+
+        return $formatted . ' ' . $unit->suffix();
     }
 
     /**

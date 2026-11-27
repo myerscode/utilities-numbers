@@ -20,6 +20,27 @@ use ValueError;
 class NumberFormatting
 {
     /**
+     * Format a number with locale aware separators, rounding half away from zero (as number_format does)
+     *
+     * @throws InvalidNumberException
+     */
+    public function decimal(int|float $number, int $minFractionDigits, int $maxFractionDigits, string $locale): string
+    {
+        $formatter = $this->formatter($locale, NumberFormatter::DECIMAL);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, $minFractionDigits);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $maxFractionDigits);
+        $formatter->setAttribute(NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_HALFUP);
+
+        $formatted = $formatter->format($number);
+
+        if ($formatted === false) {
+            throw new InvalidNumberException('The number could not be formatted');
+        }
+
+        return $formatted;
+    }
+
+    /**
      * Format a fraction as a locale aware percentage
      *
      * @throws InvalidNumberException

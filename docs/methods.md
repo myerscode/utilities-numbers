@@ -39,10 +39,12 @@ echo (new Utility(5))->add(10)->value();
 ### asAbbreviated
 > Returns `string`
 
-Format the number in a compact, human readable form using `K`, `M`, `B`, and `T` suffixes. Trailing zeros are trimmed. Values below 1000 are returned unchanged.
+Format the number in a compact, human readable form using `K`, `M`, `B`, and `T` suffixes. Trailing zeros are trimmed. Values below 1000 are returned unchanged. Pass a `locale` as the second argument to use that locale's separators (requires `ext-intl`); without it the output uses `.` for decimals. An invalid locale throws `InvalidNumberException`.
 ```php
 echo (new Utility(1500))->asAbbreviated();
 // 1.5K
+echo (new Utility(1500))->asAbbreviated(1, 'de');
+// 1,5K
 echo (new Utility(1000000))->asAbbreviated();
 // 1M
 ```
@@ -50,7 +52,7 @@ echo (new Utility(1000000))->asAbbreviated();
 ### asFileSize
 > Returns `string`
 
-Format the number, treated as a value in bytes, as a human readable file size. The unit is chosen with the `FileSizeUnit` enum (defaulting to `KB`) and uses base 1024.
+Format the number, treated as a value in bytes, as a human readable file size. The unit is chosen with the `FileSizeUnit` enum (defaulting to `KB`) and uses base 1024. Pass a `locale` as the third argument to use that locale's separators (requires `ext-intl`); without it the output uses `,` for thousands and `.` for decimals. An invalid locale throws `InvalidNumberException`.
 ```php
 use Myerscode\Utilities\Numbers\Enums\FileSizeUnit;
 
@@ -58,6 +60,8 @@ echo (new Utility(1536))->asFileSize();
 // 1.50 KB
 echo (new Utility(1048576))->asFileSize(FileSizeUnit::MB);
 // 1.00 MB
+echo (new Utility(1536))->asFileSize(FileSizeUnit::KB, 2, 'de');
+// 1,50 KB
 ```
 
 ### asPercentage

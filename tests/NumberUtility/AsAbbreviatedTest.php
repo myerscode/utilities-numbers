@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\NumberUtility;
 
 use Iterator;
+use Myerscode\Utilities\Numbers\Exceptions\InvalidNumberException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\BaseNumberSuite;
 
@@ -43,5 +44,30 @@ final class AsAbbreviatedTest extends BaseNumberSuite
     public function testRespectsPrecision(string $expected, int|float $number, int $precision): void
     {
         $this->assertSame($expected, $this->utility($number)->asAbbreviated($precision));
+    }
+
+    public function testUsesLocaleSeparators(): void
+    {
+        $this->assertSame('1,5K', $this->utility(1500)->asAbbreviated(1, 'de'));
+        $this->assertSame('1,2M', $this->utility(1234567)->asAbbreviated(1, 'fr'));
+        $this->assertSame('1.5K', $this->utility(1500)->asAbbreviated(1, 'en'));
+        $this->assertSame('999', $this->utility(999)->asAbbreviated(1, 'de'));
+    }
+
+    public function testLocaleRoundsHalfUpAndTrimsZeros(): void
+    {
+        $this->assertSame('1K', $this->utility(1000)->asAbbreviated(1, 'de'));
+        $this->assertSame('1,3K', $this->utility(1250)->asAbbreviated(1, 'de'));
+    }
+
+    public function testNullLocaleKeepsDefaultOutput(): void
+    {
+        $this->assertSame($this->utility(1500)->asAbbreviated(), $this->utility(1500)->asAbbreviated(1, null));
+    }
+
+    public function testInvalidLocaleThrows(): void
+    {
+        $this->expectException(InvalidNumberException::class);
+        $this->utility(1500)->asAbbreviated(1, 'not a locale');
     }
 }

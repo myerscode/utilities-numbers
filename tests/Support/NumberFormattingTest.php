@@ -41,4 +41,12 @@ final class NumberFormattingTest extends TestCase
     {
         $this->assertSame($expected, (new NumberFormatting())->spellOut($number, $locale));
     }
+
+    public function testDecimal(): void
+    {
+        $formatting = new NumberFormatting();
+        $this->assertSame('1.234,50', $formatting->decimal(1234.5, 2, 2, 'de'));
+        $this->assertSame('1,234.5', $formatting->decimal(1234.5, 0, 2, 'en'));
+        $this->assertSame('3', $formatting->decimal(2.5, 0, 0, 'en'));
+    }
 }
